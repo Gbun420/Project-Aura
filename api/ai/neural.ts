@@ -1,9 +1,16 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { getJsonBody } from "../_lib/body";
+import { requireUser } from "../_lib/auth";
 
 export default async function handler(req: any, res: any) {
   if (req.method !== "POST") {
     return res.status(405).json({ error: "METHOD_NOT_ALLOWED" });
+  }
+
+  // AUTH GUARD: Prevent unauthenticated access to paid AI API
+  const auth = await requireUser(req);
+  if (auth.error) {
+    return res.status(auth.error.status).json({ error: auth.error.message });
   }
 
   const apiKey = process.env.GEMINI_API_KEY;

@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "npm run build --prefix client && rm -rf public && cp -r client/dist public",
-    "postinstall": "prisma generate --schema server/prisma/schema.prisma",
+    "postinstall": "npm install --prefix client && prisma generate --schema server/prisma/schema.prisma",
     "test": "echo \"Error: no test specified\" && exit 1",
     "db:reset": "npm run seed --prefix server",
     "demo:ignite": "npm run db:reset && npm start --prefix server",

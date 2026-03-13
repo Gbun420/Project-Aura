@@ -217,6 +217,34 @@ export default async function handler(req: any, res: any) {
       return res.status(400).json({ error: "MISSING_STATUS_DATA" });
     }
 
+    // SECURITY: Whitelist allowed status transitions
+    const allowedStatuses = ['reviewing', 'shortlisted', 'rejected', 'interview', 'hired'];
+    if (!allowedStatuses.includes(newStatus)) {
+      return res.status(400).json({ error: "INVALID_STATUS_VALUE" });
+    }
+
+    // SECURITY: Verify employer owns the job linked to this application
+    const { data: appCheck } = await supabase
+      .from("applications")
+      .select("job_id")
+      .eq("id", applicationId)
+      .single();
+
+    if (!appCheck) {
+      return res.status(404).json({ error: "APPLICATION_NOT_FOUND" });
+    }
+
+    const { data: jobCheck } = await supabase
+      .from("vacancies")
+      .select("id")
+      .eq("id", appCheck.job_id)
+      .eq("employer_id", auth.user.id)
+      .single();
+
+    if (!jobCheck) {
+      return res.status(403).json({ error: "UNAUTHORIZED_STATUS_CHANGE" });
+    }
+
     const { data, error } = await supabase
       .from("applications")
       .update({ status: newStatus, updated_at: new Date().toISOString() })
@@ -226,10 +254,6 @@ export default async function handler(req: any, res: any) {
 
     if (error) {
       return res.status(400).json({ error: "STATUS_UPDATE_FAILED", detail: error.message });
-    }
-
-    if (!data) {
-      return res.status(403).json({ error: "UNAUTHORIZED_STATUS_CHANGE" });
     }
 
     return res.status(200).json({ application: data });
@@ -251,6 +275,18 @@ export default async function handler(req: any, res: any) {
         .single();
 
       if (appError || !appData) {
+        return res.status(403).json({ error: "UNAUTHORIZED_LEDGER_COMMIT" });
+      }
+
+      // SECURITY: Verify employer actually owns this job
+      const { data: ownerCheck } = await supabase
+        .from("vacancies")
+        .select("id")
+        .eq("id", appData.job_id)
+        .eq("employer_id", auth.user.id)
+        .single();
+
+      if (!ownerCheck) {
         return res.status(403).json({ error: "UNAUTHORIZED_LEDGER_COMMIT" });
       }
 
@@ -293,41 +329,15 @@ export default async function handler(req: any, res: any) {
     }
   }
 
-  // ACTION: UPGRADE_SUBSCRIPTION (Nitro Consolidation)
+  // ACTION: UPGRADE_SUBSCRIPTION — DISABLED
+  // SECURITY: Self-service tier escalation removed. Subscription changes
+  // must only occur through verified Stripe webhook events.
   if (action === "UPGRADE_SUBSCRIPTION") {
-    const { tier = 'pulse_pro', metadata } = body;
-    
-    const { data, error } = await supabase
-      .from('profiles')
-      .update({ 
-        subscription_tier: tier,
-        subscription_expires_at: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
-        acquisition_source: metadata?.source || undefined,
-        campaign_id: metadata?.campaignId || undefined
-      })
-      .eq('id', auth.user.id)
-      .select()
-      .single();
-
-    if (error) {
-      return res.status(400).json({ error: "UPGRADE_FAILED", detail: error.message });
-    }
-
-    // Record the upgrade in the ledger
-    await supabase.from('ledger').insert({
-      application_id: '00000000-0000-0000-0000-000000000000', // System entry
-      employer_id: auth.user.id,
-      final_salary: tier === 'pulse_pro' ? 29 : 49,
-      success_hash: `UPGRADE_${tier}_${Date.now()}`,
-      neural_match_snapshot: 100,
-      metadata: { 
-        plan: tier, 
-        campaign_id: metadata?.campaignId,
-        source: metadata?.source
-      }
+    return res.status(403).json({ 
+      error: "UPGRADE_VIA_CHECKOUT_ONLY",
+      message: "Subscription upgrades must go through the payment flow.",
+      checkout_url: "/portal/employer/upgrade"
     });
-
-    return res.status(200).json({ success: true, profile: data });
   }
 
   // ACTION: GET_SESSION (Auth Consolidation)
