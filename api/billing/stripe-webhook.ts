@@ -1,8 +1,8 @@
+import Stripe from "stripe";
 import { createClient } from "@supabase/supabase-js";
-import { getJsonBody } from "../_lib/body";
 
-// Note: In production, use Stripe's official SDK to verify webhook signatures.
-// This is a simplified handler for the Aura v1.0 Production Prototype.
+// SECURITY: Stripe webhook signature verification is MANDATORY.
+// Without this, anyone can forge payment events and upgrade users for free.
 
 export default async function handler(req: any, res: any) {
   if (req.method !== "POST") {
@@ -10,38 +10,68 @@ export default async function handler(req: any, res: any) {
   }
 
   const supabaseUrl = process.env.SUPABASE_URL;
-  const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY; // Use Service Role for backend updates
+  const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
+  const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
 
   if (!supabaseUrl || !supabaseServiceKey) {
     return res.status(500).json({ error: "SUPABASE_NOT_CONFIGURED" });
   }
 
+  if (!stripeSecretKey || !webhookSecret) {
+    console.error("STRIPE_KEYS_MISSING: STRIPE_SECRET_KEY and STRIPE_WEBHOOK_SECRET must be set");
+    return res.status(500).json({ error: "PAYMENT_GATEWAY_NOT_CONFIGURED" });
+  }
+
+  // 1. Verify Stripe webhook signature
+  const stripe = new Stripe(stripeSecretKey);
+  const signature = req.headers["stripe-signature"];
+
+  if (!signature) {
+    return res.status(400).json({ error: "MISSING_STRIPE_SIGNATURE" });
+  }
+
+  let event: Stripe.Event;
+  try {
+    // req.body must be the raw body string for signature verification
+    const rawBody = typeof req.body === "string" ? req.body : JSON.stringify(req.body);
+    event = stripe.webhooks.constructEvent(rawBody, signature, webhookSecret);
+  } catch (err: any) {
+    console.error("WEBHOOK_SIGNATURE_VERIFICATION_FAILED:", err.message);
+    return res.status(400).json({ error: "INVALID_SIGNATURE" });
+  }
+
+  // 2. Process verified event
   const supabase = createClient(supabaseUrl, supabaseServiceKey);
-  const body = getJsonBody<any>(req);
 
-  // For Demo/Production: Assume we receive a 'checkout.session.completed' event
-  // with the user's ID in the client_reference_id field.
-  const eventType = body?.type;
-  const session = body?.data?.object;
-
-  if (eventType === 'checkout.session.completed' && session?.client_reference_id) {
+  if (event.type === "checkout.session.completed") {
+    const session = event.data.object as Stripe.Checkout.Session;
     const userId = session.client_reference_id;
 
+    if (!userId) {
+      console.error("WEBHOOK: No client_reference_id in checkout session");
+      return res.status(200).json({ status: "EVENT_RECEIVED_NO_USER_REF" });
+    }
+
     const { error } = await supabase
-      .from('profiles')
-      .update({ 
-        subscription_tier: 'pulse_pro',
-        subscription_expires_at: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString() // 30 days
+      .from("profiles")
+      .update({
+        subscription_tier: "pulse_pro",
+        subscription_expires_at: new Date(
+          Date.now() + 30 * 24 * 60 * 60 * 1000
+        ).toISOString(),
       })
-      .eq('id', userId);
+      .eq("id", userId);
 
     if (error) {
       console.error("WEBHOOK_DB_UPDATE_FAILED", error);
       return res.status(500).json({ error: "DB_UPDATE_FAILED" });
     }
 
-    return res.status(200).json({ status: 'PRO_SUBSCRIPTION_ACTIVATED', userId });
+    return res
+      .status(200)
+      .json({ status: "PRO_SUBSCRIPTION_ACTIVATED", userId });
   }
 
-  return res.status(200).json({ status: 'EVENT_RECEIVED_BUT_SKIPPED' });
+  return res.status(200).json({ status: "EVENT_RECEIVED_BUT_SKIPPED" });
 }
