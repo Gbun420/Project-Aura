@@ -17,7 +17,7 @@ interface OCRLog {
 
 export const LiveOCRMonitor: React.FC = () => {
   const [logs, setLogs] = useState<OCRLog[]>([]);
-  const [isLive, setIsLive] = useState(true);
+  const [isLive] = useState(true);
   const [selectedLog, setSelectedLog] = useState<OCRLog | null>(null);
   const [auditForm, setAuditForm] = useState<{ expiry_date: string; pulse_status: string }>({
     expiry_date: '',
