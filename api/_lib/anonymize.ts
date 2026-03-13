@@ -9,7 +9,10 @@ import crypto from 'crypto';
 export const anonymizeCandidate = (candidate: any, isPro: boolean, employerId: string) => {
   if (isPro) return candidate;
 
-  const salt = process.env.ANONYMIZATION_SALT || 'AURA_DEFAULT_SALT_2026';
+  const salt = process.env.ANONYMIZATION_SALT;
+  if (!salt) {
+    throw new Error('ANONYMIZATION_FATAL: ANONYMIZATION_SALT environment variable is not set.');
+  }
   
   // Deterministic but non-reversible ID generation
   const hash = crypto
