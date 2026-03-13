@@ -179,9 +179,20 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return res.status(500).json({ error: "APPLICANT_LIST_FAILED", detail: appError.message });
     }
 
+    interface CandidateProfile {
+      id: string;
+      full_name: string;
+      email: string;
+      role: string;
+      tcn_status?: string;
+      tcn_expiry_date?: string;
+      tcn_verification_id?: string;
+      resume_text?: string;
+    }
+
     // 3. Anonymize and Add Compliance Metadata based on Subscription
     const safeApplicants = (applicants || []).map(app => {
-      const candidate = app.candidate as any;
+      const candidate = app.candidate as unknown as CandidateProfile;
       
       // Determine if this applicant should be filtered out on Free tier (only show TCN-ready if job requires it)
       if (!isPro && requiresTCN && candidate.tcn_status !== 'verified_skills_pass') {

@@ -54,21 +54,34 @@ app.use(cors({
 // Apply rate limiter to all API routes
 app.use('/api/', apiLimiter);
 
+interface AuthUser {
+  id: string;
+  email?: string;
+}
+
+interface AuthRequest extends express.Request {
+  user?: AuthUser;
+}
+
 // 4. Auth Guard Middleware
-const authGuard = async (req: any, res: any, next: any) => {
+const authGuard = async (req: AuthRequest, res: express.Response, next: express.NextFunction) => {
   const authHeader = req.headers.authorization;
   if (!authHeader) {
     return res.status(401).json({ error: "UNAUTHORIZED_ACCESS: Credentials Required." });
   }
 
   const token = authHeader.split(' ')[1];
+  if (!token) {
+    return res.status(401).json({ error: "UNAUTHORIZED_ACCESS: Malformed Token." });
+  }
+
   const { data: { user }, error } = await supabase.auth.getUser(token);
 
   if (error || !user) {
     return res.status(401).json({ error: "UNAUTHORIZED_ACCESS: Invalid or Expired Token." });
   }
 
-  req.user = user;
+  req.user = user as AuthUser;
   next();
 };
 
@@ -81,10 +94,12 @@ app.get('/api/health', (req, res) => {
 // ------------------------------------------------------------------
 
 // Initiate Handshake (Protected)
-app.post('/api/hiring/start', authGuard, async (req, res) => {
+app.post('/api/hiring/start', authGuard as any, async (req, res) => {
   try {
     const { candidateId } = req.body;
-    const employerId = (req as any).user.id; // Use authenticated user ID
+    const employerId = (req as AuthRequest).user?.id; 
+    if (!employerId) throw new Error("UNAUTHORIZED_CONTEXT: Employer ID missing.");
+
     const signature = await BountyGuardian.logHandshake(db, employerId, candidateId);
     res.json({ success: true, hash: signature });
   } catch (error: any) {
@@ -93,10 +108,11 @@ app.post('/api/hiring/start', authGuard, async (req, res) => {
 });
 
 // Finalize Introduction (Protected)
-app.post('/api/billing/finalize', authGuard, async (req, res) => {
+app.post('/api/billing/finalize', authGuard as any, async (req, res) => {
   try {
     const { candidateId } = req.body;
-    const employerId = (req as any).user.id;
+    const employerId = (req as AuthRequest).user?.id;
+    if (!employerId) throw new Error("UNAUTHORIZED_CONTEXT: Employer ID missing.");
     
     // 1. Mark Ledger as Released
     const update = await db.introductionLedger.updateMany({
@@ -128,9 +144,11 @@ app.post('/api/billing/finalize', authGuard, async (req, res) => {
 });
 
 // Live Compliance Pulse (Protected)
-app.get('/api/hiring/pulse', authGuard, async (req, res) => {
+app.get('/api/hiring/pulse', authGuard as any, async (req, res) => {
   try {
-    const employerId = (req as any).user.id;
+    const employerId = (req as AuthRequest).user?.id;
+    if (!employerId) throw new Error("UNAUTHORIZED_CONTEXT: Employer ID missing.");
+
     const pulseData = await PulseAggregator.getEmployerPulse(db, employerId);
     res.json({ success: true, pulseData });
   } catch (error: any) {
@@ -139,9 +157,11 @@ app.get('/api/hiring/pulse', authGuard, async (req, res) => {
 });
 
 // DIER Regulatory Shield Export (Protected)
-app.get('/api/hiring/audit', authGuard, async (req, res) => {
+app.get('/api/hiring/audit', authGuard as any, async (req, res) => {
   try {
-    const employerId = (req as any).user.id;
+    const employerId = (req as AuthRequest).user?.id;
+    if (!employerId) throw new Error("UNAUTHORIZED_CONTEXT: Employer ID missing.");
+
     const auditLog = await AuditExportService.generateAuditLog(db, employerId);
     res.json({ success: true, auditLog });
   } catch (error: any) {
