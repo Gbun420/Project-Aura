@@ -12,7 +12,7 @@ interface OCRLog {
   created_at: string;
   expiry_date: string | null;
   file_path: string | null;
-  ocr_metadata?: any;
+  ocr_metadata?: Record<string, unknown>;
 }
 
 export const LiveOCRMonitor: React.FC = () => {

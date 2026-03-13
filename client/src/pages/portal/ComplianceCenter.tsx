@@ -40,7 +40,11 @@ export default function ComplianceCenter() {
               <h2 className="text-sm font-black text-white uppercase tracking-widest flex items-center gap-2">
                 <FileText size={16} className="text-slate-500" /> Document Vault
               </h2>
-              <button className="flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/10 text-slate-300 rounded-xl text-[10px] font-bold uppercase tracking-widest hover:bg-white/10 transition-all">
+              <button 
+                title="Export compliance history"
+                aria-label="Export all compliance history"
+                className="flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/10 text-slate-300 rounded-xl text-[10px] font-bold uppercase tracking-widest hover:bg-white/10 transition-all"
+              >
                 <Download size={12} /> Export_All_History
               </button>
             </div>
@@ -80,16 +84,25 @@ export default function ComplianceCenter() {
 
           {/* Quick Actions */}
           <div className="space-y-3">
-            <button className="w-full flex items-center justify-between px-6 py-4 bg-white/5 border border-white/10 rounded-2xl hover:bg-white/10 transition-all group">
+            <button 
+              aria-label="Upload new compliance document"
+              className="w-full flex items-center justify-between px-6 py-4 bg-white/5 border border-white/10 rounded-2xl hover:bg-white/10 transition-all group"
+            >
               <span className="text-[10px] font-black text-white uppercase tracking-widest">Upload_New_Document</span>
               <Upload size={14} className="text-slate-500 group-hover:text-white transition-colors" />
             </button>
-            <button className="w-full flex items-center justify-between px-6 py-4 bg-white/5 border border-white/10 rounded-2xl hover:bg-white/10 transition-all group">
+            <button 
+              aria-label="Generate audit report"
+              className="w-full flex items-center justify-between px-6 py-4 bg-white/5 border border-white/10 rounded-2xl hover:bg-white/10 transition-all group"
+            >
               <span className="text-[10px] font-black text-white uppercase tracking-widest">Generate_Audit_Report</span>
               <FileText size={14} className="text-slate-500 group-hover:text-white transition-colors" />
             </button>
             {currentRole === 'admin' && (
-              <button className="w-full flex items-center justify-between px-6 py-4 bg-red-500/10 border border-red-500/20 rounded-2xl hover:bg-red-500/20 transition-all group">
+              <button 
+                aria-label="Triage all pending alerts"
+                className="w-full flex items-center justify-between px-6 py-4 bg-red-500/10 border border-red-500/20 rounded-2xl hover:bg-red-500/20 transition-all group"
+              >
                 <span className="text-[10px] font-black text-red-400 uppercase tracking-widest">Triage_All_Alerts</span>
                 <AlertCircle size={14} className="text-red-400" />
               </button>

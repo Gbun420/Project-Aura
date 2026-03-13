@@ -1,7 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
 import { Brain, Shield, Bell, User, Briefcase, Settings, LayoutGrid } from 'lucide-react';
-
-type Role = 'admin' | 'employer' | 'candidate';
+import { Role } from '../types/aura.js';
 
 interface NavItemProps {
   icon: typeof Brain;

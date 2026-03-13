@@ -1,5 +1,7 @@
 export type Sector = 'iGaming' | 'Fintech' | 'Healthcare' | 'GreenEnergy' | 'Aviation';
 
+export type Role = 'admin' | 'employer' | 'candidate';
+
 export interface Job {
   id: string;
   sector: Sector;
