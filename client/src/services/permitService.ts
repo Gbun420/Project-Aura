@@ -1,10 +1,11 @@
 import { useNotificationStore } from '../store/useNotificationStore';
 import { AURA_CONFIG } from '../config/auraConfig';
+import type { PermitData } from '../types/aura.js';
 
 // AURA PERMIT SERVICE v1.1
 // Simulated Identità Automated Approval via AURA_CONFIG
 
-export const finalizePermitGrant = async (trackingId: string, setPermitStatus: (status: string, data: any) => void) => {
+export const finalizePermitGrant = async (trackingId: string, setPermitStatus: (status: string, data: PermitData) => void) => {
   const { addPing } = useNotificationStore.getState();
 
   try {

@@ -1,4 +1,4 @@
-import { Search, Bell, Sparkles, User, LogOut } from 'lucide-react';
+import { Search, Bell, User, LogOut } from 'lucide-react';
 import { useAuth } from '../hooks/useAuth';
 
 type Role = 'admin' | 'employer' | 'candidate';

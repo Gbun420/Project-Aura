@@ -26,7 +26,7 @@ export const LiveOCRMonitor: React.FC = () => {
 
   useEffect(() => {
     const fetchRecentLogs = async () => {
-      const { data, error } = await supabase
+      const { data } = await supabase
         .from('compliance_documents')
         .select('*')
         .order('created_at', { ascending: false })

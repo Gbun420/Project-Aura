@@ -1,5 +1,4 @@
-import React from 'react';
-import { ShieldCheck, Sparkles, Lock, Cpu } from 'lucide-react';
+import { Lock, Cpu } from 'lucide-react';
 
 export default function DesignSystem() {
   return (
