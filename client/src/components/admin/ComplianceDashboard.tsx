@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { ShieldCheck, AlertTriangle, FileText, Activity, Users, Clock } from 'lucide-react';
 import { LiveOCRMonitor } from './LiveOCRMonitor';
 
 const ComplianceDashboard: React.FC = () => {
-  const [activeTab, setActiveTab] = useState('overview');
 
   return (
     <div className="space-y-6">

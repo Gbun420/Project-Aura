@@ -75,7 +75,7 @@ export default function CandidateInsights() {
                         <p className="text-[10px] text-slate-500 font-mono mt-1">NESTED_MATCH: 92% | EXPECTED_SALARY: HIGH</p>
                       </div>
                     </div>
-                    <button className="p-2 text-slate-500 hover:text-white transition-colors">
+                    <button className="p-2 text-slate-500 hover:text-white transition-colors" aria-label="Action required">
                       <Zap size={18} />
                     </button>
                   </div>
