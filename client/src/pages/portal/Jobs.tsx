@@ -110,7 +110,11 @@ export default function Jobs() {
                 }`}>
                   {job.status}
                 </div>
-                <button className="text-slate-500 hover:text-white transition-colors" aria-label="More options">
+                <button 
+                  title="More options"
+                  className="text-slate-500 hover:text-white transition-colors" 
+                  aria-label="More options"
+                >
                   <MoreVertical size={16} />
                 </button>
               </div>
@@ -126,7 +130,11 @@ export default function Jobs() {
                     job.compliance_score >= 70 ? 'text-amber-400' : 'text-red-400'
                   }`}>{job.compliance_score}%</span>
                 </div>
-                <button className="text-white bg-white/5 hover:bg-white/10 p-2 rounded-xl transition-all" aria-label="View external link">
+                <button 
+                  title="View external link"
+                  className="text-white bg-white/5 hover:bg-white/10 p-2 rounded-xl transition-all" 
+                  aria-label="View external link"
+                >
                   <ExternalLink size={14} />
                 </button>
               </div>

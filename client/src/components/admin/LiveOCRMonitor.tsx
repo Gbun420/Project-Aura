@@ -156,6 +156,7 @@ export const LiveOCRMonitor: React.FC = () => {
                     </div>
                     <button 
                       onClick={() => handleAudit(log)}
+                      aria-label={`Audit document for ${log.profile_id.substring(0, 8)}`}
                       className="opacity-0 group-hover:opacity-100 p-2 bg-white/10 rounded-lg text-white hover:bg-white/20 transition-all"
                     >
                       <Gavel size={14} />
@@ -194,6 +195,7 @@ export const LiveOCRMonitor: React.FC = () => {
                 </div>
                 <button 
                   onClick={() => setSelectedLog(null)}
+                  aria-label="Close audit modal"
                   className="p-2 hover:bg-white/5 rounded-full text-slate-400 transition-colors"
                 >
                   <X size={20} />
@@ -208,7 +210,10 @@ export const LiveOCRMonitor: React.FC = () => {
                     <div className="aspect-video bg-black rounded-2xl border border-white/5 flex items-center justify-center group relative overflow-hidden">
                       <FileSearch size={48} className="text-slate-800" />
                       <div className="absolute inset-0 bg-blue-500/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                        <button className="px-4 py-2 bg-white text-black text-[10px] font-black uppercase tracking-widest rounded-xl flex items-center gap-2">
+                        <button 
+                          aria-label="View original document in full resolution"
+                          className="px-4 py-2 bg-white text-black text-[10px] font-black uppercase tracking-widest rounded-xl flex items-center gap-2"
+                        >
                           <ExternalLink size={12} /> View_Full_Resolution
                         </button>
                       </div>
@@ -236,8 +241,9 @@ export const LiveOCRMonitor: React.FC = () => {
                     
                     <div className="space-y-6">
                       <div>
-                        <label className="block text-[10px] font-mono text-slate-500 uppercase tracking-widest mb-2">Expiry_Date</label>
+                        <label htmlFor="expiry_date" className="block text-[10px] font-mono text-slate-500 uppercase tracking-widest mb-2">Expiry_Date</label>
                         <input 
+                          id="expiry_date"
                           type="date" 
                           value={auditForm.expiry_date}
                           onChange={(e) => setAuditForm({ ...auditForm, expiry_date: e.target.value })}
@@ -246,8 +252,9 @@ export const LiveOCRMonitor: React.FC = () => {
                       </div>
 
                       <div>
-                        <label className="block text-[10px] font-mono text-slate-500 uppercase tracking-widest mb-2">Verification_Status</label>
+                        <label htmlFor="pulse_status" className="block text-[10px] font-mono text-slate-500 uppercase tracking-widest mb-2">Verification_Status</label>
                         <select 
+                          id="pulse_status"
                           value={auditForm.pulse_status}
                           onChange={(e) => setAuditForm({ ...auditForm, pulse_status: e.target.value })}
                           className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-blue-500/50 transition-colors appearance-none"

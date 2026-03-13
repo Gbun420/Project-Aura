@@ -75,10 +75,18 @@ export default function Notifications() {
           </p>
         </div>
         <div className="flex items-center gap-2">
-          <button className="p-3 bg-white/5 border border-white/10 text-slate-400 rounded-xl hover:bg-white/10 transition-all" aria-label="Filter alerts">
+          <button 
+            title="Filter alerts"
+            className="p-3 bg-white/5 border border-white/10 text-slate-400 rounded-xl hover:bg-white/10 transition-all" 
+            aria-label="Filter alerts"
+          >
             <Filter size={14} />
           </button>
-          <button className="p-3 bg-white/5 border border-white/10 text-slate-400 rounded-xl hover:bg-white/10 transition-all" aria-label="Clear notifications">
+          <button 
+            title="Clear notifications"
+            className="p-3 bg-white/5 border border-white/10 text-slate-400 rounded-xl hover:bg-white/10 transition-all" 
+            aria-label="Clear notifications"
+          >
             <Trash2 size={14} />
           </button>
         </div>

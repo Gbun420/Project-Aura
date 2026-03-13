@@ -24,8 +24,13 @@ export default function PortalHeader({ role }: { role: Role }) {
       </div>
 
       <div className="flex items-center gap-6">
-        <button className="relative p-2 rounded-xl text-slate-500 hover:text-white hover:bg-white/5 transition-all">
+        <button 
+          title="View notifications"
+          aria-label="View notifications"
+          className="relative p-2 rounded-xl text-slate-500 hover:text-white hover:bg-white/5 transition-all"
+        >
           <Bell size={18} />
+          <span className="sr-only">View notifications</span>
           <span className="absolute top-1.5 right-1.5 h-2 w-2 bg-blue-500 rounded-full border-2 border-[#050505] animate-pulse" />
         </button>
         
@@ -42,9 +47,14 @@ export default function PortalHeader({ role }: { role: Role }) {
           </div>
           
           <div className="group relative">
-            <button className="h-10 w-10 rounded-2xl border border-white/10 bg-gradient-to-br from-[#4285F4] via-[#9B72CB] to-[#D96570] p-[1px] hover:scale-110 transition-transform">
+            <button 
+              title="User profile menu"
+              aria-label="User profile menu"
+              className="h-10 w-10 rounded-2xl border border-white/10 bg-gradient-to-br from-[#4285F4] via-[#9B72CB] to-[#D96570] p-[1px] hover:scale-110 transition-transform"
+            >
               <div className="h-full w-full rounded-2xl bg-[#050505] flex items-center justify-center">
                 <User size={18} className="text-white" />
+                <span className="sr-only">User profile menu</span>
               </div>
             </button>
             
