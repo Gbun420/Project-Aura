@@ -1,9 +1,9 @@
 #!/bin/bash
 
-# AURA_OS: SOVEREIGN_SENTINEL AUDIT v1.2
-# This script fetches the Watchman report and performs a local integrity check.
+# AURA_OS: SOVEREIGN_SENTINEL AUDIT v2.1 (CASCADE_ENABLED)
+# This script fetches the Watchman report and the AI-powered Brain Analysis.
 
-echo ">>> SOVEREIGN_SENTINEL: Initiating Sweep..."
+echo ">>> SOVEREIGN_SENTINEL: Initiating Multi-Heart Sweep..."
 WATCHMAN_REPORT=$(curl -s -X POST https://shfaydzqdomkkfvnhcal.supabase.co/functions/v1/ghost-watchman)
 
 # Check for errors in the fetch
@@ -17,20 +17,17 @@ fi
 echo ">>> AUDIT_COMPLETE: Analyzing Integrity..."
 echo "------------------------------------------------"
 echo "Timestamp:    $(echo $WATCHMAN_REPORT | grep -o '"timestamp":"[^"]*"' | cut -d'"' -f4)"
-echo "HTTP Status:  $(echo $WATCHMAN_REPORT | grep -o '"httpStatus":[0-9]*' | cut -d':' -f2)"
-echo "MIME Status:  $(echo $WATCHMAN_REPORT | grep -o '"isMimeValid":[a-z]*' | cut -d':' -f2)"
-echo "Guard Status: $(echo $WATCHMAN_REPORT | grep -o '"isHardened":[a-z]*' | cut -d':' -f2)"
+echo "HTTP Status:  $(echo $WATCHMAN_REPORT | grep -o '"status":[0-9]*' | head -1 | cut -d':' -f2)"
+echo "Content-Type: $(echo $WATCHMAN_REPORT | grep -o '"contentType":"[^"]*"' | cut -d'"' -f4)"
+echo "------------------------------------------------"
+echo ">>> BRAIN_ANALYSIS (Powered by $(echo $WATCHMAN_REPORT | grep -o '"provider":"[^"]*"' | cut -d'"' -f4))"
+echo ">>> Result: $(echo $WATCHMAN_REPORT | grep -o '"content":"[^"]*"' | cut -d'"' -f4)"
 echo "------------------------------------------------"
 
-GUARD_STATUS=$(echo $WATCHMAN_REPORT | grep -o '"isHardened":[a-z]*' | cut -d':' -f2)
+ANALYSIS_RESULT=$(echo $WATCHMAN_REPORT | grep -o '"content":"[^"]*"' | cut -d'"' -f4)
 
-if [ "$GUARD_STATUS" = "false" ]; then
-  echo ">>> CRITICAL: CSP is NOT hardened. Vercel deployment pending."
-  echo ">>> REQUIRED: git add vercel.json && git push"
-else
+if [[ $ANALYSIS_RESULT == *"FORTRESS_SECURE"* ]]; then
   echo ">>> SOVEREIGN: All systems normalized. The Fortress is secure."
+else
+  echo ">>> ACTION_REQUIRED: Brain has identified potential infections."
 fi
-
-# Internal Pulse Verification (Optional - Requires pg_net access)
-# echo ">>> Checking Database Pulse Ledger..."
-# curl -s -X POST -H "apikey: $SUPABASE_ANON_KEY" -H "Authorization: Bearer $SUPABASE_SERVICE_ROLE_KEY" -d '{"sql_query":"SELECT count(*) FROM net._http_response;"}' https://shfaydzqdomkkfvnhcal.supabase.co/rest/v1/rpc/admin_sql_execute
