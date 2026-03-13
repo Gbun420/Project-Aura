@@ -65,7 +65,10 @@ export default function CandidateVault() {
           <h1 className="text-4xl font-black text-white tracking-tight">Document Vault</h1>
           <p className="text-xs text-slate-500 mt-2 uppercase tracking-widest font-mono">End-to-end encrypted compliance storage</p>
         </div>
-        <button className="flex items-center gap-3 px-8 py-4 bg-gemini-gradient rounded-2xl text-[10px] font-black uppercase tracking-widest text-white hover:scale-105 active:scale-95 transition-all shadow-xl shadow-aura-accent/20">
+        <button 
+          aria-label="Upload compliance artifact"
+          className="flex items-center gap-3 px-8 py-4 bg-gemini-gradient rounded-2xl text-[10px] font-black uppercase tracking-widest text-white hover:scale-105 active:scale-95 transition-all shadow-xl shadow-aura-accent/20"
+        >
           <UploadCloud size={16} />
           Upload_Compliance_Artifact
         </button>
@@ -112,6 +115,7 @@ export default function CandidateVault() {
                   </div>
                   <button 
                     title="View Document Details"
+                    aria-label={`View details for ${doc.document_type.replace(/_/g, ' ')}`}
                     className="p-4 rounded-xl bg-white/5 text-slate-400 hover:text-white hover:bg-white/10 transition-all"
                   >
                     <ChevronRight size={20} />
