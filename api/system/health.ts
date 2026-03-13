@@ -1,7 +1,9 @@
 import { createClient } from "@supabase/supabase-js";
 import { requireUser } from "../_lib/auth.js";
+import type { VercelRequest, VercelResponse } from "@vercel/node";
 
-export default async function handler(req: any, res: any) {
+export default async function handler(req: VercelRequest, res: VercelResponse) {
+
   // Handle simple ping for monitoring
   if (req.query.simple === 'true') {
     return res.status(200).json({ 

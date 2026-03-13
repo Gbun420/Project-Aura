@@ -1,15 +1,15 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { User, Mail, Shield, ShieldCheck, Key, Globe, Camera } from 'lucide-react';
 import { useAuth } from '../../hooks/useAuth';
+import SEO from '../../components/SEO';
 
 export default function Profile() {
-  const auth = useAuth() as any;
-  const user = auth.user;
-  const profile = auth.profile;
+  const { user, profile } = useAuth();
   const [isEditing, setIsEditing] = useState(false);
 
   return (
     <div className="max-w-4xl mx-auto space-y-10 animate-in slide-in-from-bottom-6 duration-700">
+      <SEO title="Identity Manifest" noindex />
       {/* Header */}
       <div>
         <h1 className="text-3xl font-black text-white tracking-tight flex items-center gap-3">

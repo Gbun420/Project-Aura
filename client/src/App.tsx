@@ -37,7 +37,19 @@ export default function App() {
           <>
             <SEO 
               title="Home" 
-              description="Aura is the intelligence layer for recruitment in Malta. Seamless hiring, automated compliance, and neural-backed talent matching."
+              description="Aura is the intelligence layer for recruitment in Malta. Seamless hiring, automated compliance, and neural-backed talent matching for the 2026 labor market."
+              jsonLd={{
+                "@context": "https://schema.org",
+                "@type": "WebSite",
+                "name": "Aura Cloud",
+                "url": "https://project-aura-one.vercel.app/",
+                "description": "2026 High-performance recruitment platform for Malta. Neural Matching and Compliance Vault integrated.",
+                "potentialAction": {
+                  "@type": "SearchAction",
+                  "target": "https://project-aura-one.vercel.app/portal/candidate?q={search_term_string}",
+                  "query-input": "required name=search_term_string"
+                }
+              }}
             />
             <PublicLanding />
           </>
@@ -46,20 +58,35 @@ export default function App() {
           <>
             <SEO 
               title="Compliance" 
-              description="Aura Compliance Vault - Blockchain-backed verification for employment compliant with Maltese regulations."
+              description="Aura Compliance Vault - Blockchain-backed verification for employment compliant with Maltese regulations and Identità standards."
+              jsonLd={{
+                "@context": "https://schema.org",
+                "@type": "BreadcrumbList",
+                "itemListElement": [{
+                  "@type": "ListItem",
+                  "position": 1,
+                  "name": "Home",
+                  "item": "https://project-aura-one.vercel.app/"
+                },{
+                  "@type": "ListItem",
+                  "position": 2,
+                  "name": "Compliance",
+                  "item": "https://project-aura-one.vercel.app/compliance"
+                }]
+              }}
             />
             <Compliance />
           </>
         } />
         <Route path="/login" element={
           <>
-            <SEO title="Login" description="Access your Aura Cloud dashboard securely." />
+            <SEO title="Login" description="Secure access to your Aura Cloud dashboard. Neural matching and compliance management." />
             <Login />
           </>
         } />
         <Route path="/register" element={
           <>
-            <SEO title="Join Aura" description="Create your sovereign identity today." />
+            <SEO title="Join Aura" description="Create your sovereign identity and join the future of work in Malta. 2026 talent infrastructure ready." />
             <Register />
           </>
         } />

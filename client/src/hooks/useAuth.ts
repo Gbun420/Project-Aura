@@ -9,29 +9,58 @@ const normalizeRole = (value: unknown): AuraRole => {
   return 'candidate';
 };
 
+export interface Profile {
+  id: string;
+  full_name: string | null;
+  role: AuraRole;
+  avatar_url: string | null;
+  subscription_tier?: string | null;
+}
+
 export const useAuth = () => {
   const [user, setUser] = useState<User | null>(null);
   const [role, setRole] = useState<AuraRole>('candidate');
+  const [profile, setProfile] = useState<Profile | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     let mounted = true;
+
+    const fetchProfile = async (userId: string) => {
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', userId)
+        .single();
+      
+      if (mounted && !error && data) {
+        setProfile(data);
+      }
+    };
 
     const syncSession = async () => {
       const { data } = await supabase.auth.getSession();
       if (!mounted) return;
       const session = data.session;
       setUser(session?.user ?? null);
-      setRole(normalizeRole(session?.user?.app_metadata?.role));
+      if (session?.user) {
+        setRole(normalizeRole(session.user.app_metadata?.role));
+        await fetchProfile(session.user.id);
+      }
       setLoading(false);
     };
 
     syncSession();
 
-    const { data: subscription } = supabase.auth.onAuthStateChange((_event, session) => {
+    const { data: subscription } = supabase.auth.onAuthStateChange(async (_event, session) => {
       if (!mounted) return;
       setUser(session?.user ?? null);
-      setRole(normalizeRole(session?.user?.app_metadata?.role));
+      if (session?.user) {
+        setRole(normalizeRole(session.user.app_metadata?.role));
+        await fetchProfile(session.user.id);
+      } else {
+        setProfile(null);
+      }
       setLoading(false);
     });
 
@@ -41,5 +70,5 @@ export const useAuth = () => {
     };
   }, []);
 
-  return { user, role, loading };
+  return { user, role, profile, loading };
 };

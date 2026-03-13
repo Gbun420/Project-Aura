@@ -1,8 +1,9 @@
-import { createClient } from "@supabase/supabase-js";
+import { createClient, SupabaseClient } from "@supabase/supabase-js";
+import type { VercelRequest } from "@vercel/node";
 
-let supabase = null;
+let supabase: SupabaseClient | null = null;
 
-export async function requireUser(req) {
+export async function requireUser(req: VercelRequest) {
   const supabaseUrl = process.env.SUPABASE_URL;
   const supabaseAnonKey = process.env.SUPABASE_ANON_KEY;
 
@@ -22,7 +23,7 @@ export async function requireUser(req) {
   if (!supabase) {
     try {
       supabase = createClient(supabaseUrl, supabaseAnonKey);
-    } catch (error) {
+    } catch (error: any) {
       return {
         error: {
           status: 500,
@@ -33,7 +34,7 @@ export async function requireUser(req) {
     }
   }
 
-  const authHeader = req.headers.authorization || "";
+  const authHeader = (req.headers.authorization as string) || "";
   const token = authHeader.startsWith("Bearer ")
     ? authHeader.slice(7)
     : "";
@@ -59,3 +60,4 @@ export async function requireUser(req) {
 
   return { user: { id: data.user.id } };
 }
+

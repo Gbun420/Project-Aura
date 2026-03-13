@@ -1,10 +1,12 @@
 import Stripe from "stripe";
 import { createClient } from "@supabase/supabase-js";
+import type { VercelRequest, VercelResponse } from "@vercel/node";
 
 // SECURITY: Stripe webhook signature verification is MANDATORY.
 // Without this, anyone can forge payment events and upgrade users for free.
 
-export default async function handler(req: any, res: any) {
+export default async function handler(req: VercelRequest, res: VercelResponse) {
+
   if (req.method !== "POST") {
     return res.status(405).json({ error: "METHOD_NOT_ALLOWED" });
   }

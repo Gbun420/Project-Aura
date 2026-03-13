@@ -1,4 +1,6 @@
-export function getJsonBody(req) {
+import type { VercelRequest } from "@vercel/node";
+
+export function getJsonBody(req: VercelRequest) {
   if (!req.body) return null;
   if (typeof req.body === "string") {
     try {
@@ -9,3 +11,4 @@ export function getJsonBody(req) {
   }
   return req.body;
 }
+

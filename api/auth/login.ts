@@ -1,8 +1,9 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { createClient } from '@supabase/supabase-js';
 import { z } from 'zod';
-import { rateLimit } from '../../middleware/rateLimit';
-import { handleCors } from '../../middleware/cors';
+import { rateLimit } from '../../middleware/rateLimit.js';
+import { handleCors } from '../../middleware/cors.js';
+
 
 const loginSchema = z.object({
   email: z.string().email(),
@@ -43,7 +44,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   } catch (error: any) {
     if (error instanceof z.ZodError) {
-      return res.status(400).json({ error: 'Invalid input', details: error.errors });
+      return res.status(400).json({ error: 'Invalid input', details: error.issues });
     }
     if (error.message === 'Rate limit exceeded') {
       return res.status(429).json({ error: 'Too many requests' });

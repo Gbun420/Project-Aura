@@ -1,7 +1,15 @@
-import React from 'react';
 import { Settings as SettingsIcon, Bell, Shield, Smartphone, Globe, CreditCard, ChevronRight } from 'lucide-react';
+import { supabase } from '../../lib/supabase';
+import { useAuth } from '../../hooks/useAuth';
 
 export default function Settings() {
+  const { role, profile } = useAuth();
+
+  const handleSignOut = async () => {
+    await supabase.auth.signOut();
+    window.location.href = '/login';
+  };
+
   const sections = [
     {
       id: 'notifications',
@@ -55,12 +63,18 @@ export default function Settings() {
           <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-8">
             <div className="space-y-2">
               <span className="text-[10px] font-black text-blue-200 uppercase tracking-widest">Active_Subscription</span>
-              <h2 className="text-2xl font-black text-white uppercase tracking-tight">Sovereign_Plus_v1.4</h2>
-              <p className="text-blue-200/60 text-xs font-bold uppercase tracking-wider">Next Renewal: April 12, 2026</p>
+              <h2 className="text-2xl font-black text-white uppercase tracking-tight">
+                {profile?.subscription_tier === 'pro' ? 'Sovereign_Plus_v1.4' : 'Aura_Core_Standard'}
+              </h2>
+              <p className="text-blue-200/60 text-xs font-bold uppercase tracking-wider">
+                {profile?.subscription_tier === 'pro' ? 'Next Renewal: April 12, 2026' : 'Free Tier / Enterprise Managed'}
+              </p>
             </div>
-            <button className="px-6 py-3 bg-white text-blue-800 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-blue-50 transition-all">
-              Manage_Billing_Portal
-            </button>
+            {role === 'employer' && (
+              <button className="px-6 py-3 bg-white text-blue-800 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-blue-50 transition-all">
+                Manage_Billing_Portal
+              </button>
+            )}
           </div>
         </div>
 
@@ -89,7 +103,10 @@ export default function Settings() {
         </div>
 
         <div className="pt-6 border-t border-white/5 flex justify-center">
-          <button className="text-red-400/60 hover:text-red-400 text-[10px] font-black uppercase tracking-[0.2em] transition-colors py-4">
+          <button 
+            onClick={handleSignOut}
+            className="text-red-400/60 hover:text-red-400 text-[10px] font-black uppercase tracking-[0.2em] transition-colors py-4"
+          >
             Terminate_Aura_Session
           </button>
         </div>

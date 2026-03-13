@@ -1,7 +1,8 @@
+import type { VercelRequest } from '@vercel/node';
 import { createClient } from '@supabase/supabase-js';
 
-export async function authenticateRequest(req: any) {
-  const authHeader = req.headers['authorization'];
+export async function authenticateRequest(req: VercelRequest) {
+  const authHeader = req.headers['authorization'] as string;
   const supabase = createClient(
     process.env.SUPABASE_URL!,
     process.env.SUPABASE_ANON_KEY!

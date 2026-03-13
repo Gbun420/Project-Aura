@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Briefcase, Plus, Filter, Search, MoreVertical, ExternalLink } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
 import { useAuth } from '../../hooks/useAuth';
+import SEO from '../../components/SEO';
 
 interface Vacancy {
   id: string;
@@ -13,7 +14,7 @@ interface Vacancy {
 }
 
 export default function Jobs() {
-  const { user } = useAuth();
+  const { user, role } = useAuth();
   const [vacancies, setVacancies] = useState<Vacancy[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -21,11 +22,18 @@ export default function Jobs() {
     async function fetchJobs() {
       if (!user) return;
       setLoading(true);
-      const { data, error } = await supabase
-        .from('vacancies')
-        .select('*')
-        .eq('employer_id', user.id)
-        .order('created_at', { ascending: false });
+      
+      let query = supabase.from('vacancies').select('*');
+      
+      if (role === 'candidate') {
+        // Candidates see all published jobs
+        query = query.eq('status', 'published');
+      } else {
+        // Employers and Admins see their own jobs
+        query = query.eq('employer_id', user.id);
+      }
+
+      const { data, error } = await query.order('created_at', { ascending: false });
 
       if (error) {
         console.error('Error fetching jobs:', error);
@@ -36,10 +44,11 @@ export default function Jobs() {
     }
 
     fetchJobs();
-  }, [user]);
+  }, [user, role]);
 
   return (
     <div className="space-y-10 animate-in slide-in-from-bottom-6 duration-700">
+      <SEO title="Job Vacancies" noindex />
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
@@ -51,9 +60,11 @@ export default function Jobs() {
             Manage your active neural matching requirements
           </p>
         </div>
-        <button className="flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-2xl text-xs font-black uppercase tracking-widest transition-all shadow-lg shadow-blue-500/20">
-          <Plus size={16} /> Create_New_Vacancy
-        </button>
+        {role !== 'candidate' && (
+          <button className="flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-2xl text-xs font-black uppercase tracking-widest transition-all shadow-lg shadow-blue-500/20">
+            <Plus size={16} /> Create_New_Vacancy
+          </button>
+        )}
       </div>
 
       {/* Filters & Search */}
@@ -89,7 +100,7 @@ export default function Jobs() {
         </div>
       ) : (
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {vacancies.map((job) => (
+          {vacancies.map((job: Vacancy) => (
             <div key={job.id} className="group p-6 rounded-[2rem] bg-white/5 border border-white/10 hover:border-blue-500/30 transition-all hover:bg-white/[0.07] relative overflow-hidden">
               <div className="flex justify-between items-start mb-6">
                 <div className={`px-2 py-0.5 rounded text-[8px] font-black uppercase tracking-widest border ${

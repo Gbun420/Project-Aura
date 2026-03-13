@@ -1,36 +1,65 @@
-import React from 'react';
-import { Bell, Zap, Shield, Briefcase, Filter, Trash2 } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Bell, Zap, Shield, Filter, Trash2 } from 'lucide-react';
+import { supabase } from '../../lib/supabase';
+import { useAuth } from '../../hooks/useAuth';
+
+interface Notification {
+  id: string;
+  type: 'neural' | 'compliance' | 'system';
+  title: string;
+  message: string;
+  time: string;
+  icon: React.ReactNode;
+  unread: boolean;
+}
 
 export default function Notifications() {
-  const notifications = [
-    {
-      id: 1,
-      type: 'neural',
-      title: 'Neural_Match_Optimization_Success',
-      message: 'Algorithm V4 calibrated for iGaming sector in Malta. Match accuracy improved by 12.4%.',
-      time: '2_MIN_AGO',
-      icon: <Zap size={16} className="text-amber-400" />,
-      unread: true
-    },
-    {
-      id: 2,
-      type: 'compliance',
-      title: 'Compliance_Vault_Sync_Verified',
-      message: 'Annual audit trail for Q1 2026 successfully compiled and anchored to secure ledger.',
-      time: '4_HOURS_AGO',
-      icon: <Shield size={16} className="text-emerald-400" />,
-      unread: false
-    },
-    {
-      id: 3,
-      type: 'system',
-      title: 'New_Identity_Manifest_Ping',
-      message: 'BundyGlenn identity synchronized across 3 new regional relay nodes.',
-      time: '1_DAY_AGO',
-      icon: <Bell size={16} className="text-blue-400" />,
-      unread: false
+  const { user } = useAuth();
+  const [notifications, setNotifications] = useState<Notification[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchNotifications() {
+      if (!user) return;
+      setLoading(true);
+      
+      const { data, error } = await supabase
+        .from('audit_trails')
+        .select('*')
+        .eq('entity_id', user.id)
+        .order('timestamp', { ascending: false })
+        .limit(20);
+
+      if (error) {
+        console.error('Error fetching alerts:', error);
+      } else if (data) {
+        const mapped = data.map(item => ({
+          id: item.id,
+          type: item.action?.toLowerCase().includes('match') ? 'neural' : 
+                item.action?.toLowerCase().includes('compliance') ? 'compliance' : 'system',
+          title: item.action || 'SYSTEM_LOG',
+          message: item.details ? (typeof item.details === 'string' ? item.details : JSON.stringify(item.details)) : 'Activity registered in core ledger.',
+          time: new Date(item.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+          icon: item.action?.toLowerCase().includes('match') ? <Zap size={16} className="text-amber-400" /> : 
+                item.action?.toLowerCase().includes('compliance') ? <Shield size={16} className="text-emerald-400" /> : <Bell size={16} className="text-blue-400" />,
+          unread: false
+        }));
+        setNotifications(mapped as Notification[]);
+      }
+      setLoading(false);
     }
-  ];
+
+    fetchNotifications();
+  }, [user]);
+
+  if (loading) {
+    return (
+      <div className="flex flex-col items-center justify-center py-20 space-y-4">
+        <div className="w-12 h-12 border-4 border-blue-500/20 border-t-blue-500 rounded-full animate-spin"></div>
+        <span className="text-xs font-mono text-slate-500 uppercase tracking-widest">Syncing_Alert_Telemetry...</span>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-4xl mx-auto space-y-10 animate-in slide-in-from-bottom-6 duration-700">

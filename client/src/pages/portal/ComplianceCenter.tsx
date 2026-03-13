@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from 'react';
 import { Shield, FileText, CheckCircle2, AlertCircle, Clock, Upload, Download } from 'lucide-react';
 import { useAuth } from '../../hooks/useAuth';
-import { supabase } from '../../lib/supabase';
 import { ComplianceStatus } from '../../components/ComplianceStatus';
+import SEO from '../../components/SEO';
 
 export default function ComplianceCenter() {
   const { user, role } = useAuth();
@@ -10,6 +9,7 @@ export default function ComplianceCenter() {
 
   return (
     <div className="space-y-10 animate-in slide-in-from-bottom-6 duration-700">
+      <SEO title="Compliance Center" noindex />
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>

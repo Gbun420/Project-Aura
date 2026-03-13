@@ -16,8 +16,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   try {
-    // 1. Log Audit Trail (Mock)
-    console.log(`[AUDIT_TRAIL] Action: ${action} | IP: ${req.headers['x-forwarded-for'] || 'unknown'}`);
+    // 1. Log Audit Trail (Live)
+    await supabase.from('audit_trails').insert([{
+      action: action,
+      entity_type: 'SYSTEM',
+      entity_id: payload?.userId || 'SYSTEM_CORE',
+      details: { ip: req.headers['x-forwarded-for'] || 'unknown', payload },
+      timestamp: new Date().toISOString()
+    }]);
 
     // 2. Handle Actions
     switch (action) {
