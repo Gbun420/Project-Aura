@@ -44,7 +44,7 @@ export const useAuth = () => {
       const session = data.session;
       setUser(session?.user ?? null);
       if (session?.user) {
-        setRole(normalizeRole(session.user.app_metadata?.role));
+        setRole(normalizeRole(session.user.user_metadata?.role));
         await fetchProfile(session.user.id);
       }
       setLoading(false);
@@ -56,7 +56,7 @@ export const useAuth = () => {
       if (!mounted) return;
       setUser(session?.user ?? null);
       if (session?.user) {
-        setRole(normalizeRole(session.user.app_metadata?.role));
+        setRole(normalizeRole(session.user.user_metadata?.role));
         await fetchProfile(session.user.id);
       } else {
         setProfile(null);
