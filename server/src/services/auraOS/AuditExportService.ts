@@ -24,7 +24,7 @@ export class AuditExportService {
         candidateId: log.candidateId,
         notifiedAt: log.notifiedAt,
         releaseStatus: log.feeStatus,
-        complianceGates: ['PDC_VERIFIED', 'MQF_LEVEL_6_OK'] // Mocked for prototype
+        complianceGates: log.complianceGates || [] // Fetch actual compliance gates from log
       }))
     };
   }

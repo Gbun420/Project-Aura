@@ -19,19 +19,19 @@ export class ManifestGenerator {
 
     if (!proof) throw new Error("UNAUTHORIZED_ACCESS: No Introduction Certificate found.");
 
-    // 2. Aggregate Production Data (Mocking candidate record for prototype)
-    const candidate = {
-      id: candidateId,
-      pdcRef: 'PDC-2026-9942-1102',
-      pdcExpiryDate: '2026-04-22',
-      encryptedData: {
-        firstName: 'Marco',
-        lastName: 'Vella',
-        dob: '1992-05-15',
-        passportNo: 'MT942210'
+    // 2. Aggregate Production Data from DB
+    const candidate = await db.candidateProfile.findUnique({
+      where: { id: candidateId },
+      select: {
+        id: true,
+        pdcRef: true,
+        pdcExpiryDate: true,
+        encryptedData: true
       }
-    };
-    
+    });
+
+    if (!candidate) throw new Error(`UNAUTHORIZED_ACCESS: Candidate ${candidateId} not found.`);
+
     // 3. Construct the Manifest
     return {
       manifestId: `AMNIFEST-${proof.hash.substring(0, 8)}`,

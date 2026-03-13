@@ -1,13 +1,18 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '../../lib/supabase';
-import { ShieldCheck, Lock, MessageSquare, Cpu } from 'lucide-react';
+import { Lock, MessageSquare } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import AuraAssistant from '../../components/employer/AuraAssistant';
 
 type Applicant = {
   id: string;
   match_score: number;
-  ai_analysis: any;
+  ai_analysis: {
+    alignment: string[];
+    behavioralAlignment?: string;
+    culturalFit?: number;
+    gaps: string[];
+  };
   status: string;
   created_at: string;
   candidate: {
@@ -83,8 +88,9 @@ export default function EmployerApplicants() {
         setError(data.error || "Failed to load applicants");
       }
     } catch (err) {
-      setError("An error occurred while loading applicants");
-    } finally {
+        console.error("APP_LOAD_ERR:", err);
+        setError("An error occurred while loading applicants");
+      } finally {
       setLoading(false);
     }
   };
@@ -205,6 +211,7 @@ export default function EmployerApplicants() {
             </button>
           )}
           <select 
+            title="Select Mission Vacancy"
             value={selectedJobId}
             onChange={(e) => {
               setSelectedJobId(e.target.value);
@@ -260,13 +267,20 @@ export default function EmployerApplicants() {
               ${app.status === 'rejected' ? 'bg-black/40 border-white/5 opacity-40' : 'bg-white/5 border-white/10 hover:border-white/20'}`}>
               
               <div className="absolute top-0 right-0 p-8 flex flex-col items-end gap-4">
-                <div className="text-6xl font-black bg-gemini-gradient bg-clip-text text-transparent opacity-20 group-hover:opacity-100 transition-opacity font-mono tracking-tighter">
-                  {app.match_score}%
+                <div className="flex flex-col items-end gap-2">
+                  <div className="text-6xl font-black bg-gemini-gradient bg-clip-text text-transparent opacity-20 group-hover:opacity-100 transition-opacity font-mono tracking-tighter">
+                    {app.match_score}%
+                  </div>
+                  {app.ai_analysis?.culturalFit && (
+                    <div className="text-[10px] font-black text-aura-accent uppercase tracking-widest bg-aura-accent/5 px-2 py-0.5 rounded border border-aura-accent/20">
+                      Culture_Fit: {app.ai_analysis.culturalFit}%
+                    </div>
+                  )}
+                  <span className={`px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-[0.2em] border 
+                    ${STATUS_OPTIONS.find(o => o.value === app.status)?.color}`}>
+                    {app.status}
+                  </span>
                 </div>
-                <span className={`px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-[0.2em] border 
-                  ${STATUS_OPTIONS.find(o => o.value === app.status)?.color}`}>
-                  {app.status}
-                </span>
               </div>
 
               <div className="flex flex-col md:flex-row gap-8 items-start">
@@ -294,15 +308,23 @@ export default function EmployerApplicants() {
 
                   {app.ai_analysis && (
                     <div className="grid sm:grid-cols-2 gap-8 pt-8 border-t border-white/5">
-                      <div>
-                        <p className="text-[9px] font-black text-slate-500 uppercase tracking-[0.3em] mb-4">Neural_Alignments</p>
-                        <ul className="space-y-3">
-                          {(app.ai_analysis.alignment || []).map((item: string, i: number) => (
-                            <li key={i} className="text-[11px] text-slate-300 flex items-start gap-3">
-                              <span className="h-1 w-1 rounded-full bg-aura-accent mt-1.5 flex-shrink-0" /> {item}
-                            </li>
-                          ))}
-                        </ul>
+                      <div className="space-y-6">
+                        <div>
+                          <p className="text-[9px] font-black text-slate-500 uppercase tracking-[0.3em] mb-4">Neural_Alignments</p>
+                          <ul className="space-y-3">
+                            {(app.ai_analysis.alignment || []).map((item: string, i: number) => (
+                              <li key={i} className="text-[11px] text-slate-300 flex items-start gap-3">
+                                <span className="h-1 w-1 rounded-full bg-aura-accent mt-1.5 flex-shrink-0" /> {item}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                        {app.ai_analysis.behavioralAlignment && (
+                          <div className="p-4 rounded-2xl bg-white/5 border border-white/10">
+                            <p className="text-[9px] font-black text-aura-pulse uppercase tracking-[0.3em] mb-2">Behavioral_Fit</p>
+                            <p className="text-[11px] text-slate-400 italic leading-relaxed">{app.ai_analysis.behavioralAlignment}</p>
+                          </div>
+                        )}
                       </div>
                       <div className="flex flex-col justify-end items-end gap-4">
                         <div className="flex flex-wrap gap-2 justify-end">

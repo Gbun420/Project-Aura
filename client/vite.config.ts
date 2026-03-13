@@ -12,7 +12,7 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'mask-icon.svg'],
       manifest: {
-        name: 'Project Aura: Talent Infrastructure',
+        name: 'Aura Cloud: Sovereign Identity',
         short_name: 'Aura',
         description: '2026 High-performance recruitment platform for Malta.',
         theme_color: '#0F1114',

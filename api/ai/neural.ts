@@ -1,6 +1,6 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import { getJsonBody } from "../_lib/body";
-import { requireUser } from "../_lib/auth";
+import { getJsonBody } from "../_lib/body.js";
+import { requireUser } from "../_lib/auth.js";
 
 export default async function handler(req: any, res: any) {
   if (req.method !== "POST") {
@@ -18,7 +18,7 @@ export default async function handler(req: any, res: any) {
     return res.status(500).json({ error: "GEMINI_KEY_MISSING" });
   }
 
-  const body = getJsonBody<any>(req);
+  const body = getJsonBody(req);
   const action = body?.action || "ANALYZE_COMPLIANCE";
 
   try {
@@ -76,18 +76,21 @@ Content: ${content}`;
       }
 
       const prompt = `
-        System: You are the Aura Neural Match Engine. 
-        Task: Analyze the compatibility between the Candidate Resume and the Job Description.
-        Context: Maltese labor market, 2026.
+        System: You are the Aura Neural Match Engine v2.0 (2026 Build). 
+        Task: Deep-level compatibility analysis between Candidate Resume and Job Description.
+        Context: High-performance Maltese sectors (iGaming, Fintech, AI).
         
         Candidate Resume: "${resumeText}"
         Job Description: "${jobDescription}"
         
-        Output: JSON only. 
+        Output Requirements: Analyze hard skills, behavioral working styles, and cultural fit.
+        Format: JSON only. 
         { 
           "matchScore": number (0-100), 
-          "alignment": string[], (3 bullet points)
-          "gaps": string[] (2 bullet points) 
+          "alignment": string[], (3 specific hard-skill alignments)
+          "behavioralAlignment": string, (Brief summary of work-style fit)
+          "culturalFit": number (0-100),
+          "gaps": string[] (2 critical growth gaps) 
         }
       `;
 

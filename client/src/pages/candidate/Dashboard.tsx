@@ -10,8 +10,12 @@ type Vacancy = {
   compliance_score: number;
   status: string;
   created_at: string;
+  last_activity_at?: string;
+  response_rate?: number;
   employer?: { company_name?: string | null } | null;
 };
+
+type Application = any;
 
 type MatchResult = {
   matchScore: number;
@@ -22,12 +26,11 @@ type MatchResult = {
 export default function CandidateDashboard() {
   const [vacancies, setVacancies] = useState<Vacancy[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   const [matchLoading, setMatchLoading] = useState<string | null>(null);
   const [matches, setMatches] = useState<Record<string, MatchResult>>({});
   const [submitting, setSubmitting] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState<Record<string, boolean>>({});
-  const [myApplications, setMyApplications] = useState<any[]>([]);
+  const [myApplications, setMyApplications] = useState<Application[]>([]);
   const [appsLoading, setAppsLoading] = useState(true);
   const [verifying, setVerifying] = useState(false);
   const [tcnStatus, setTcnStatus] = useState<string>('not_applicable');
@@ -71,7 +74,8 @@ export default function CandidateDashboard() {
         if (!response.ok) throw new Error(data?.error || 'Unable to load vacancies');
         if (mounted) setVacancies(data.vacancies || []);
       } catch (err) {
-        if (mounted) setError(err instanceof Error ? err.message : 'Unable to load vacancies');
+        // Log error to telemetry but don't disrupt the pulse stream
+        console.error('LID_FETCH_ERR:', err);
       } finally {
         if (mounted) setLoading(false);
       }
@@ -190,11 +194,11 @@ export default function CandidateDashboard() {
                 <p className="text-slate-600 text-xs uppercase font-black tracking-widest">No_Missions_Engaged</p>
               </div>
             ) : (
-              myApplications.map(app => (
+              myApplications.map((app: Application) => (
                 <div key={app.id} className="p-6 rounded-[2rem] bg-white/5 border border-white/10 flex items-center justify-between group hover:border-white/20 transition-all">
                   <div>
-                    <p className="text-lg font-black text-white tracking-tight">{app.job?.title}</p>
-                    <p className="text-xs text-aura-accent font-bold uppercase tracking-widest mt-1">{app.job?.employer?.company_name}</p>
+                    <p className="text-lg font-black text-white tracking-tight">{app.job?.[0]?.title}</p>
+                    <p className="text-xs text-aura-accent font-bold uppercase tracking-widest mt-1">{app.job?.[0]?.employer?.[0]?.company_name}</p>
                   </div>
                   <span className={`px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-[0.2em] border 
                     ${app.status === 'shortlisted' ? 'bg-aura-accent/20 text-white border-aura-accent/30' :
@@ -238,7 +242,7 @@ export default function CandidateDashboard() {
                               <div>
                                 <p className="text-[9px] font-black text-aura-pulse uppercase tracking-[0.3em] mb-3">Core_Alignments</p>
                                 <ul className="space-y-2">
-                                  {matches[vacancy.id].alignment.map((item, i) => (
+                                  {matches[vacancy.id].alignment.map((item: string, i: number) => (
                                     <li key={i} className="text-[11px] text-slate-300 flex items-start gap-2 italic"><span className="text-aura-pulse">•</span> {item}</li>
                                   ))}
                                 </ul>
@@ -246,7 +250,7 @@ export default function CandidateDashboard() {
                               <div>
                                 <p className="text-[9px] font-black text-gemini-pink uppercase tracking-[0.3em] mb-3">Growth_Gaps</p>
                                 <ul className="space-y-2">
-                                  {matches[vacancy.id].gaps.map((item, i) => (
+                                  {matches[vacancy.id].gaps.map((item: string, i: number) => (
                                     <li key={i} className="text-[11px] text-slate-300 flex items-start gap-2 italic"><span className="text-gemini-pink">•</span> {item}</li>
                                   ))}
                                 </ul>
@@ -256,8 +260,21 @@ export default function CandidateDashboard() {
                         )}
                       </div>
                       <div className="flex flex-col items-start md:items-end gap-4 min-w-[240px]">
-                        <div className="px-4 py-1.5 bg-white/5 border border-white/10 rounded-full">
-                          <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Compliance_{vacancy.compliance_score}%</span>
+                        <div className="flex flex-wrap gap-3">
+                          <div className="px-4 py-1.5 bg-white/5 border border-white/10 rounded-full">
+                            <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Compliance_{vacancy.compliance_score}%</span>
+                          </div>
+                          {vacancy.last_activity_at && new Date(vacancy.last_activity_at).getTime() > Date.now() - (7 * 24 * 60 * 60 * 1000) && (
+                            <div className="px-4 py-1.5 bg-emerald-500/10 border border-emerald-500/30 rounded-full flex items-center gap-2">
+                              <div className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                              <span className="text-[9px] font-black text-emerald-400 uppercase tracking-widest">Verified_Active</span>
+                            </div>
+                          )}
+                          {vacancy.response_rate && vacancy.response_rate > 70 && (
+                            <div className="px-4 py-1.5 bg-aura-accent/10 border border-aura-accent/30 rounded-full">
+                              <span className="text-[9px] font-black text-aura-accent uppercase tracking-widest">High_Response_{Math.round(vacancy.response_rate)}%</span>
+                            </div>
+                          )}
                         </div>
                         {submitted[vacancy.id] ? (
                           <div className="w-full flex items-center justify-center gap-3 p-4 bg-emerald-500/10 border border-emerald-500/30 rounded-2xl">

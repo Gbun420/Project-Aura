@@ -15,21 +15,24 @@ export class PulseAggregator {
       }
     });
 
-    return activeIntroductions.map((intro: any) => {
-      // Mocking candidate data for prototype as per original
-      const mockCandidateName = intro.candidateId === 'CAND-MARCO-ROSSI' ? 'Marco Rossi' : 'Sarah Zammit';
-      const mockPdcExpiry = intro.candidateId === 'CAND-MARCO-ROSSI' ? intro.expiryDate : new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
+    const results = await Promise.all(activeIntroductions.map(async (intro: any) => {
+      // Fetching real candidate data 
+      const candidate = await db.candidateProfile.findUnique({ where: { id: intro.candidateId } });
+      const candidateName = candidate ? `${candidate.firstName} ${candidate.lastName}` : 'Unknown Candidate';
+      const pdcExpiry = candidate?.pdcExpiryDate || intro.expiryDate;
 
-      const daysRemaining = this.calculateRemainingDays(mockPdcExpiry);
+      const daysRemaining = this.calculateRemainingDays(pdcExpiry);
       return {
         candidateId: intro.candidateId,
-        candidateName: mockCandidateName,
+        candidateName: candidateName,
         status: intro.feeStatus,
         pdcClock: daysRemaining,
         riskLevel: daysRemaining < 7 ? 'CRITICAL' : 'STABLE',
         revenuePotential: intro.feeStatus === 'RELEASED' ? 0 : 5000 // Standard 2026 Success Fee
       };
-    });
+    }));
+
+    return results;
   }
 
   private static calculateRemainingDays(expiry: Date | string): number {

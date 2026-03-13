@@ -1,5 +1,5 @@
 import { createClient } from "@supabase/supabase-js";
-import { requireUser } from "../_lib/auth";
+import { requireUser } from "../_lib/auth.js";
 
 export default async function handler(req: any, res: any) {
   // Handle simple ping for monitoring
@@ -53,13 +53,8 @@ export default async function handler(req: any, res: any) {
 
     const totalSalary = (ledgerData.data || []).reduce((sum, entry) => sum + (Number(entry.final_salary) || 0), 0);
 
-    // Mock Heatmap Data for v1.2.1 based on real volumes
-    const sectorHeatmap = [
-      { sector: 'iGaming', density: 85, avgMatch: 92 },
-      { sector: 'Fintech', density: 64, avgMatch: 88 },
-      { sector: 'Health', density: 42, avgMatch: 76 },
-      { sector: 'Aviation', density: 28, avgMatch: 81 }
-    ];
+    // Removed Mock Heatmap Data for v1.2.1
+    const sectorHeatmap: any[] = [];
 
     const metrics = {
       total_registrations: profiles.count || 0,

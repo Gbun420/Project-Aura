@@ -4,11 +4,8 @@ FROM node:20-slim
 # Create app directory
 WORKDIR /usr/src/app
 
-# Install build dependencies for better-sqlite3
+# Install curl for health checks
 RUN apt-get update && apt-get install -y \
-    python3 \
-    make \
-    g++ \
     curl \
     && rm -rf /var/lib/apt/lists/*
 

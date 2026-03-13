@@ -39,12 +39,7 @@ interface AuraState {
   applyToJob: (jobId: string) => void;
 }
 
-const MOCK_JOBS: Job[] = [
-  { id: 'j1', sector: 'Healthcare', title: 'Critical Care Nurse', company: 'Mater Dei', salary_range: '€35k - €50k', location: 'Msida', aura_req: ['eng', 'pdc', 'h1'], permit_type: 'KEI', velocity_score: 95 },
-  { id: 'j2', sector: 'Fintech', title: 'AML Lead', company: 'Ferratum', salary_range: '€55k - €75k', location: 'Sliema', aura_req: ['eng', 'pdc', 'f1', 'f3'], permit_type: 'KEI', velocity_score: 92 },
-  { id: 'j3', sector: 'iGaming', title: 'Compliance Ops', company: 'Betsson', salary_range: '€45k - €65k', location: 'Ta\' Xbiex', aura_req: ['eng', 'pdc', 'i1'], permit_type: 'SinglePermit', velocity_score: 88 },
-  { id: 'j4', sector: 'GreenEnergy', title: 'Solar Engineer', company: 'EcoMalta', salary_range: '€40k - €55k', location: 'Gzira', aura_req: ['eng', 'pdc'], permit_type: 'SinglePermit', velocity_score: 75 },
-];
+
 
 const INITIAL_STATE: Omit<AuraState, 'setSector' | 'setIdentityType' | 'setGhostMode' | 'manifestIdentity' | 'uploadDoc' | 'setPermitStatus' | 'executeGoldenManifest' | 'completeInterview' | 'calculateSyncScore' | 'applyToJob'> = {
   userId: `AURA-${Math.random().toString(36).substr(2, 9).toUpperCase()}`,
@@ -57,7 +52,7 @@ const INITIAL_STATE: Omit<AuraState, 'setSector' | 'setIdentityType' | 'setGhost
   stepProgress: 15,
   currentStepId: 1,
   documents: { 'Passport': false, 'PDC_CERT': false, 'MGA_Compliance_CV': false },
-  jobs: MOCK_JOBS,
+  jobs: [],
   auraScore: 70,
   activeManifests: [],
   permit: { status: 'IDLE', data: null },

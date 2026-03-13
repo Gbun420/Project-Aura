@@ -6,10 +6,15 @@ import Register from './pages/public/Register';
 import PortalLayout from './layouts/PortalLayout';
 import PortalIndexRedirect from './pages/PortalIndexRedirect';
 import { ProtectedRoute } from './components/ProtectedRoute';
+import SEO from './components/SEO';
 
 // New Unified Pages
 import NeuralDashboard from './pages/portal/NeuralDashboard';
 import ComplianceCenter from './pages/portal/ComplianceCenter';
+import Jobs from './pages/portal/Jobs';
+import Profile from './pages/portal/Profile';
+import Settings from './pages/portal/Settings';
+import Notifications from './pages/portal/Notifications';
 
 // Existing Pages (Legacy/Specific)
 import CandidateVault from './pages/candidate/Vault';
@@ -28,42 +33,103 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<PublicLanding />} />
-        <Route path="/compliance" element={<Compliance />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+        <Route path="/" element={
+          <>
+            <SEO 
+              title="Home" 
+              description="Aura is the intelligence layer for recruitment in Malta. Seamless hiring, automated compliance, and neural-backed talent matching."
+            />
+            <PublicLanding />
+          </>
+        } />
+        <Route path="/compliance" element={
+          <>
+            <SEO 
+              title="Compliance" 
+              description="Aura Compliance Vault - Blockchain-backed verification for employment compliant with Maltese regulations."
+            />
+            <Compliance />
+          </>
+        } />
+        <Route path="/login" element={
+          <>
+            <SEO title="Login" description="Access your Aura Cloud dashboard securely." />
+            <Login />
+          </>
+        } />
+        <Route path="/register" element={
+          <>
+            <SEO title="Join Aura" description="Create your sovereign identity today." />
+            <Register />
+          </>
+        } />
         <Route path="/portal" element={<ProtectedRoute />}>
           <Route element={<PortalLayout />}>
             <Route index element={<PortalIndexRedirect />} />
             
             <Route element={<ProtectedRoute allowedRoles={['candidate']} />}>
-              <Route path="candidate" element={<NeuralDashboard />} />
-              <Route path="candidate/compliance" element={<ComplianceCenter />} />
-              <Route path="candidate/vault" element={<CandidateVault />} />
-              <Route path="candidate/insights" element={<CandidateInsights />} />
+              <Route path="candidate" element={
+                <>
+                  <SEO title="Candidate Dashboard" noindex />
+                  <NeuralDashboard />
+                </>
+              } />
+              <Route path="candidate/compliance" element={<><SEO title="Candidate Compliance" noindex /><ComplianceCenter /></>} />
+              <Route path="candidate/vault" element={<><SEO title="Candidate Vault" noindex /><CandidateVault /></>} />
+              <Route path="candidate/insights" element={<><SEO title="Candidate Insights" noindex /><CandidateInsights /></>} />
             </Route>
             
             <Route element={<ProtectedRoute allowedRoles={['employer']} />}>
-              <Route path="employer" element={<NeuralDashboard />} />
-              <Route path="employer/compliance" element={<ComplianceCenter />} />
-              <Route path="employer/applicants" element={<EmployerApplicants />} />
-              <Route path="employer/history" element={<EmployerHistory />} />
-              <Route path="employer/pricing" element={<EmployerPricing />} />
+              <Route path="employer" element={
+                <>
+                  <SEO title="Employer Console" noindex />
+                  <NeuralDashboard />
+                </>
+              } />
+              <Route path="employer/compliance" element={<><SEO title="Employer Compliance" noindex /><ComplianceCenter /></>} />
+              <Route path="employer/applicants" element={<><SEO title="Employer Applicants" noindex /><EmployerApplicants /></>} />
+              <Route path="employer/history" element={<><SEO title="Employer History" noindex /><EmployerHistory /></>} />
+              <Route path="employer/pricing" element={<><SEO title="Employer Pricing" noindex /><EmployerPricing /></>} />
             </Route>
             
             <Route element={<ProtectedRoute allowedRoles={['admin', 'platform_owner']} />}>
-              <Route path="admin" element={<NeuralDashboard />} />
-              <Route path="admin/compliance" element={<ComplianceCenter />} />
-              <Route path="admin/users" element={<AdminUsers />} />
-              <Route path="admin/audit" element={<AdminAudit />} />
-              <Route path="admin/design" element={<DesignSystem />} />
+              <Route path="admin" element={
+                <>
+                  <SEO title="Network Admin" noindex />
+                  <NeuralDashboard />
+                </>
+              } />
+              <Route path="admin/compliance" element={<><SEO title="Admin Compliance" noindex /><ComplianceCenter /></>} />
+              <Route path="admin/users" element={<><SEO title="Admin Users" noindex /><AdminUsers /></>} />
+              <Route path="admin/audit" element={<><SEO title="Admin Audit" noindex /><AdminAudit /></>} />
+              <Route path="admin/design" element={<><SEO title="Design System" noindex /><DesignSystem /></>} />
             </Route>
 
-            {/* Placeholder Common Routes */}
-            <Route path=":role/notifications" element={<div className="text-white p-10 font-mono">NEURAL_NOTIFICATION_STREAM_OFFLINE</div>} />
-            <Route path=":role/profile" element={<div className="text-white p-10 font-mono">IDENTITY_MANIFEST_READONLY</div>} />
-            <Route path=":role/settings" element={<div className="text-white p-10 font-mono">SYSTEM_PREFERENCES_LOCKED</div>} />
-            <Route path=":role/jobs" element={<div className="text-white p-10 font-mono">BATCH_VACANCY_FETCH_PENDING</div>} />
+            {/* Common Portal Routes */}
+            <Route path=":role/notifications" element={
+              <>
+                <SEO title="Alert Stream" noindex />
+                <Notifications />
+              </>
+            } />
+            <Route path=":role/profile" element={
+              <>
+                <SEO title="Identity Manifest" noindex />
+                <Profile />
+              </>
+            } />
+            <Route path=":role/settings" element={
+              <>
+                <SEO title="System Parameters" noindex />
+                <Settings />
+              </>
+            } />
+            <Route path=":role/jobs" element={
+              <>
+                <SEO title="Job Vacancies" noindex />
+                <Jobs />
+              </>
+            } />
 
           </Route>
         </Route>

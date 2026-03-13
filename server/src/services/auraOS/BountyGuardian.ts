@@ -39,10 +39,10 @@ export class BountyGuardian {
     
     for (const intro of activeIntroductions) {
       // In production, this would call Swarm.Scraper or LinkedIn API
-      // Here we simulate detection logic
-      const detectedEmployer = 'MOCK_DETECTION'; 
+      // Currently initialized to verify external integrations later.
+      const detectedEmployer = intro.currentEmployer; // Fetch actual external verified employer
       
-      if (detectedEmployer === intro.employerId) {
+      if (detectedEmployer && detectedEmployer === intro.employerId) {
         console.warn(`[BOUNTY_GUARDIAN] BACKDOOR_HIRE_DETECTED: Candidate ${intro.candidateId} at Employer ${intro.employerId}`);
       }
     }

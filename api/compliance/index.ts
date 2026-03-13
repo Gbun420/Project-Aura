@@ -21,27 +21,51 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     // 2. Handle Actions
     switch (action) {
-      case "VERIFY_LICENSE":
-        // Mock DIER Check
-        return res.status(200).json({
-          status: "VALID",
-          licenseNumber: "EA-2026-AURA",
-          expiry: "2027-03-12",
-          competentPerson: "Designated Officer"
-        });
+      case "VERIFY_LICENSE": {
+        // Real connection to verify license
+        const { data: licenseData, error: licenseError } = await supabase
+          .from('employer_licenses')
+          .select('*')
+          .eq('trackingId', payload?.trackingId || payload?.employerId)
+          .single();
 
-      case "RECORD_CONSENT":
-        // Persist to UserConsent table (Simulated)
-        // const { error } = await supabase.from('user_consent').insert(payload);
+        if (licenseError || !licenseData) {
+          return res.status(404).json({ error: "LICENSE_NOT_FOUND" });
+        }
+        return res.status(200).json({
+          status: licenseData.status || "VALID",
+          licenseNumber: licenseData.licenseNumber,
+          expiry: licenseData.expiry,
+          competentPerson: licenseData.competentPerson
+        });
+      }
+
+      case "RECORD_CONSENT": {
+        // Persist to UserConsent table
+        const { error: consentError } = await supabase.from('user_consent').insert(payload);
+        if (consentError) {
+          return res.status(500).json({ error: consentError.message });
+        }
         return res.status(200).json({ status: "CONSENT_RECORDED", timestamp: new Date().toISOString() });
+      }
 
-      case "CHECK_TCN_ELIGIBILITY":
-        // Mock Identità Check
+      case "CHECK_TCN_ELIGIBILITY": {
+        // Real check against candidates table for TCN eligibility
+        const { data: tcnData, error: tcnError } = await supabase
+          .from('candidate_eligibility')
+          .select('*')
+          .eq('candidateId', payload?.candidateId)
+          .single();
+
+        if (tcnError || !tcnData) {
+          return res.status(404).json({ error: "ELIGIBILITY_DATA_NOT_FOUND" });
+        }
         return res.status(200).json({
-          eligible: true,
-          requirements: ["PDC", "Health_Screening", "Skills_Pass"],
-          processingTime: "4-6 weeks"
+          eligible: tcnData.eligible || false,
+          requirements: tcnData.requirements || [],
+          processingTime: tcnData.processingTime || "Unknown"
         });
+      }
 
       default:
         return res.status(400).json({ error: "INVALID_ACTION" });

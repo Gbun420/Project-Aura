@@ -1,10 +1,12 @@
 import { createClient } from "@supabase/supabase-js";
-import { getJsonBody } from "../_lib/body";
-import { requireUser } from "../_lib/auth";
-import { anonymizeCandidate } from "../_lib/anonymize";
+import { getJsonBody } from "../_lib/body.js";
+import { requireUser } from "../_lib/auth.js";
+import { anonymizeCandidate } from "../_lib/anonymize.js";
 import crypto from 'crypto';
 
-export default async function handler(req: any, res: any) {
+import type { VercelRequest, VercelResponse } from "@vercel/node";
+
+export default async function handler(req: VercelRequest, res: VercelResponse) {
   const supabaseUrl = process.env.SUPABASE_URL;
   const supabaseAnonKey = process.env.SUPABASE_ANON_KEY;
 
@@ -18,7 +20,7 @@ export default async function handler(req: any, res: any) {
     const { data, error } = await supabase
       .from("vacancies")
       .select(
-        "id, title, description, compliance_score, status, created_at, employer:profiles!vacancies_employer_id_fkey(company_name)"
+        "id, title, description, compliance_score, status, created_at, last_activity_at, response_rate, employer:profiles!vacancies_employer_id_fkey(company_name)"
       )
       .eq("status", "published")
       .order("created_at", { ascending: false });
@@ -33,7 +35,7 @@ export default async function handler(req: any, res: any) {
     return res.status(405).json({ error: "METHOD_NOT_ALLOWED" });
   }
 
-  const body = getJsonBody<any>(req);
+  const body = getJsonBody(req);
   const action = body?.action;
 
   // ACTION: LIST_VACANCIES
@@ -42,7 +44,7 @@ export default async function handler(req: any, res: any) {
     const { data, error } = await supabase
       .from("vacancies")
       .select(
-        "id, title, description, compliance_score, status, created_at, employer:profiles!vacancies_employer_id_fkey(company_name)"
+        "id, title, description, compliance_score, status, created_at, last_activity_at, response_rate, employer:profiles!vacancies_employer_id_fkey(company_name)"
       )
       .eq("status", "published")
       .order("created_at", { ascending: false });
@@ -199,6 +201,9 @@ export default async function handler(req: any, res: any) {
       };
     }).filter(Boolean);
 
+    // 4. Update Trust Engine: Mark activity
+    await supabase.from("vacancies").update({ last_activity_at: new Date().toISOString() }).eq("id", jobId);
+
     return res.status(200).json({ 
       applicants: safeApplicants,
       metadata: {
@@ -252,8 +257,22 @@ export default async function handler(req: any, res: any) {
       .select()
       .single();
 
-    if (error) {
-      return res.status(400).json({ error: "STATUS_UPDATE_FAILED", detail: error.message });
+    // 4. Update Trust Engine: Recalculate response rate for the job
+    const { data: allApps } = await supabase
+      .from("applications")
+      .select("status")
+      .eq("job_id", appCheck.job_id);
+    
+    if (allApps && allApps.length > 0) {
+      const responded = allApps.filter(a => a.status !== 'applied').length;
+      const rate = (responded / allApps.length) * 100;
+      await supabase.from("vacancies")
+        .update({ 
+          last_activity_at: new Date().toISOString(),
+          response_rate: rate,
+          total_applications_processed: allApps.length
+        })
+        .eq("id", appCheck.job_id);
     }
 
     return res.status(200).json({ application: data });
