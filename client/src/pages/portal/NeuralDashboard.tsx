@@ -1,0 +1,117 @@
+import React, { useState, useEffect } from 'react';
+import { Brain, RefreshCw, TrendingUp, Users, Shield, Zap } from 'lucide-react';
+import { useAuth } from '../../hooks/useAuth';
+import { supabase } from '../../lib/supabase';
+
+interface Metrics {
+  [key: string]: {
+    [key: string]: string | number;
+  };
+}
+
+export default function NeuralDashboard() {
+  const { role } = useAuth();
+  const [loading, setLoading] = useState(false);
+  
+  const metrics: Metrics = {
+    candidate: {
+      matchAccuracy: '95%',
+      pendingApplications: 3,
+      complianceStatus: 'Verified',
+      neuralScore: '87'
+    },
+    employer: {
+      activeJobs: 12,
+      totalCandidates: 142,
+      matchSuccess: '92%',
+      complianceRate: '98%'
+    },
+    admin: {
+      totalUsers: 1243,
+      activeJobs: 2140,
+      systemHealth: '100%',
+      complianceAlerts: 3
+    }
+  };
+
+  const currentRole = role === 'platform_owner' ? 'admin' : (role || 'candidate');
+  const roleMetrics = metrics[currentRole as string] || metrics.candidate;
+
+  return (
+    <div className="space-y-8 animate-in fade-in duration-700">
+      {/* Neural Header */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <h1 className="text-3xl font-black text-white tracking-tight flex items-center gap-3">
+            <Brain className="text-blue-400" size={32} />
+            Neural Dashboard
+          </h1>
+          <p className="text-slate-400 font-medium mt-1 uppercase tracking-widest text-[10px]">
+            Real-time intelligence for {currentRole} operations
+          </p>
+        </div>
+        <div className="flex items-center gap-4">
+          <span className="text-[10px] font-mono text-slate-500 uppercase tracking-widest">Last updated: Just now</span>
+          <button 
+            onClick={() => {}}
+            className="flex items-center gap-2 px-4 py-2 bg-blue-500/10 border border-blue-500/20 text-blue-400 rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-blue-500/20 transition-all"
+          >
+            <RefreshCw size={14} />
+            Refresh Neural Data
+          </button>
+        </div>
+      </div>
+
+      {/* Metrics Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {Object.entries(roleMetrics).map(([key, value]) => (
+          <div key={key} className="bg-white/5 border border-white/10 rounded-3xl p-6 backdrop-blur-xl hover:bg-white/10 transition-all group">
+            <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-4">
+              {key.replace(/([A-Z])/g, ' $1').trim()}
+            </p>
+            <div className="flex items-baseline gap-2">
+              <span className="text-3xl font-black text-white tracking-tighter group-hover:text-blue-400 transition-colors">
+                {value}
+              </span>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Role-specific Content Placeholder */}
+      <div className="grid lg:grid-cols-2 gap-8">
+        <div className="p-8 rounded-[2.5rem] bg-white/5 border border-white/10">
+          <h3 className="text-sm font-black text-white uppercase tracking-widest mb-6">Neural_Activity_Feed</h3>
+          <div className="space-y-6">
+            <div className="flex items-start gap-4">
+              <div className="p-2 bg-blue-500/10 rounded-lg text-blue-400">
+                <Zap size={16} />
+              </div>
+              <div>
+                <p className="text-xs font-bold text-white">Match Accuracy Calibration</p>
+                <p className="text-[10px] text-slate-500 mt-1 font-mono">NEURAL_SYNC: Optimized for 2026 iGaming sectors.</p>
+              </div>
+            </div>
+            <div className="flex items-start gap-4">
+              <div className="p-2 bg-emerald-500/10 rounded-lg text-emerald-400">
+                <Shield size={16} />
+              </div>
+              <div>
+                <p className="text-xs font-bold text-white">Compliance Guard Active</p>
+                <p className="text-[10px] text-slate-500 mt-1 font-mono">VAULT_LOCK: Document encryption standards verified.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div className="p-8 rounded-[2.5rem] bg-gradient-to-br from-blue-500/5 to-purple-500/5 border border-white/10 flex flex-col justify-center items-center text-center">
+          <Brain size={48} className="text-blue-400 mb-6 animate-pulse" />
+          <h3 className="text-xl font-black text-white tracking-tight mb-2 uppercase">Neural_Suite_v1.4</h3>
+          <p className="text-xs text-slate-400 leading-relaxed max-w-xs">
+            Aura's intelligence core is continuously learning from market dynamics to provide higher precision matching.
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}

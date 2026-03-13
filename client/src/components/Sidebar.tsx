@@ -1,0 +1,98 @@
+import { Link, useLocation } from 'react-router-dom';
+import { Brain, Shield, Bell, User, Briefcase, Settings, LayoutGrid } from 'lucide-react';
+
+type Role = 'admin' | 'employer' | 'candidate';
+
+interface NavItemProps {
+  icon: typeof Brain;
+  label: string;
+  path: string;
+  badge?: string;
+  active?: boolean;
+}
+
+const NavItem = ({ icon: Icon, label, path, badge, active }: NavItemProps) => (
+  <Link
+    to={path}
+    className={`flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-bold transition-all group ${
+      active
+        ? 'bg-blue-500/10 text-white shadow-[0_0_20px_rgba(79,70,229,0.1)] border border-blue-500/20'
+        : 'text-slate-400 hover:bg-white/5 hover:text-white border border-transparent'
+    }`}
+  >
+    <Icon size={18} className={active ? 'text-blue-400' : 'text-slate-500 group-hover:text-blue-400 transition-colors'} />
+    <span className="flex-1 uppercase tracking-widest text-[10px]">{label}</span>
+    {badge && (
+      <span className="bg-blue-500/20 text-blue-400 px-2 py-0.5 rounded text-[9px] font-mono border border-blue-500/30">
+        {badge}
+      </span>
+    )}
+  </Link>
+);
+
+export default function Sidebar({ role }: { role: Role }) {
+  const location = useLocation();
+  const base = `/portal/${role}`;
+
+  const navItems = [
+    { label: 'Neural Dashboard', icon: Brain, path: base },
+    { label: 'Compliance Center', icon: Shield, path: `${base}/compliance`, badge: role === 'admin' ? '3' : undefined },
+    { label: 'Notifications', icon: Bell, path: `${base}/notifications`, badge: '12' },
+    { label: 'Profile', icon: User, path: `${base}/profile` },
+    { label: 'Jobs', icon: Briefcase, path: `${base}/jobs` },
+    { label: 'Settings', icon: Settings, path: `${base}/settings` },
+  ];
+
+  const portals = {
+    candidate: { color: 'blue', label: 'Candidate Portal' },
+    employer: { color: 'purple', label: 'Employer Portal' },
+    admin: { color: 'red', label: 'Admin Command' }
+  };
+
+  const currentPortal = portals[role] || portals.candidate;
+
+  return (
+    <aside className="w-64 shrink-0 border-r border-white/5 bg-[#050505] flex flex-col h-screen">
+      <div className="p-6 border-b border-white/5">
+        <div className="flex items-center gap-3">
+          <div className={`h-10 w-10 rounded-2xl bg-gradient-to-br from-${currentPortal.color}-500 to-${currentPortal.color}-700 flex items-center justify-center shadow-lg`}>
+            <LayoutGrid size={20} className="text-white" />
+          </div>
+          <div>
+            <p className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500">Aura</p>
+            <p className="text-xs font-black text-white uppercase tracking-widest">{currentPortal.label}</p>
+          </div>
+        </div>
+      </div>
+
+      <nav className="p-4 space-y-2 flex-1 mt-4">
+        {navItems.map((item) => (
+          <NavItem
+            key={item.label}
+            icon={item.icon}
+            label={item.label}
+            path={item.path}
+            badge={item.badge}
+            active={location.pathname === item.path}
+          />
+        ))}
+      </nav>
+
+      {/* Neural Status */}
+      <div className="p-6 mt-auto border-t border-white/5">
+        <div className="p-5 bg-gradient-to-br from-blue-500/5 to-purple-500/5 rounded-[2rem] border border-white/5">
+          <div className="flex items-center gap-2 text-xs">
+            <Brain size={16} className="text-blue-400" />
+            <span className="font-black text-white uppercase tracking-widest">Neural Suite</span>
+            <span className="ml-auto text-[9px] bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded border border-emerald-500/30 font-mono">
+              ACTIVE
+            </span>
+          </div>
+          <p className="text-[10px] text-slate-500 mt-3 leading-relaxed font-mono uppercase tracking-tighter">
+            Matching: 98%_ACCURACY_SCORE
+          </p>
+        </div>
+      </div>
+    </aside>
+  );
+}

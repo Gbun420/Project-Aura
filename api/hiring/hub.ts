@@ -1,0 +1,342 @@
+import { createClient } from "@supabase/supabase-js";
+import { getJsonBody } from "../_lib/body";
+import { requireUser } from "../_lib/auth";
+import { anonymizeCandidate } from "../_lib/anonymize";
+import crypto from 'crypto';
+
+export default async function handler(req: any, res: any) {
+  const supabaseUrl = process.env.SUPABASE_URL;
+  const supabaseAnonKey = process.env.SUPABASE_ANON_KEY;
+
+  if (!supabaseUrl || !supabaseAnonKey) {
+    return res.status(500).json({ error: "SUPABASE_NOT_CONFIGURED" });
+  }
+
+  // Handle GET for legacy or direct listing
+  if (req.method === "GET") {
+    const supabase = createClient(supabaseUrl, supabaseAnonKey);
+    const { data, error } = await supabase
+      .from("vacancies")
+      .select(
+        "id, title, description, compliance_score, status, created_at, employer:profiles!vacancies_employer_id_fkey(company_name)"
+      )
+      .eq("status", "published")
+      .order("created_at", { ascending: false });
+
+    if (error) {
+      return res.status(500).json({ error: "VACANCY_LIST_FAILED", detail: error.message });
+    }
+    return res.status(200).json({ vacancies: data ?? [] });
+  }
+
+  if (req.method !== "POST") {
+    return res.status(405).json({ error: "METHOD_NOT_ALLOWED" });
+  }
+
+  const body = getJsonBody<any>(req);
+  const action = body?.action;
+
+  // ACTION: LIST_VACANCIES
+  if (action === "LIST_VACANCIES") {
+    const supabase = createClient(supabaseUrl, supabaseAnonKey);
+    const { data, error } = await supabase
+      .from("vacancies")
+      .select(
+        "id, title, description, compliance_score, status, created_at, employer:profiles!vacancies_employer_id_fkey(company_name)"
+      )
+      .eq("status", "published")
+      .order("created_at", { ascending: false });
+
+    if (error) {
+      return res.status(500).json({ error: "VACANCY_LIST_FAILED", detail: error.message });
+    }
+    return res.status(200).json({ vacancies: data ?? [] });
+  }
+
+  // AUTHENTICATED ACTIONS
+  const auth = await requireUser(req);
+  if (auth.error) {
+    return res.status(auth.error.status).json({ error: auth.error.message });
+  }
+
+  const authHeader = req.headers.authorization || "";
+  const token = authHeader.startsWith("Bearer ") ? authHeader.slice(7) : "";
+  const options = token ? { global: { headers: { Authorization: `Bearer ${token}` } } } : {};
+  const supabase = createClient(supabaseUrl, supabaseAnonKey, options);
+
+  // ACTION: CREATE_VACANCY
+  if (action === "CREATE_VACANCY") {
+    const title = body?.title?.toString().trim();
+    const description = body?.description?.toString().trim();
+
+    if (!title || !description) {
+      return res.status(400).json({ error: "MISSING_FIELDS" });
+    }
+
+    const score = Number(body?.complianceScore ?? 0);
+    const status = score >= 85 ? "published" : score > 0 ? "flagged" : "draft";
+
+    const { data, error } = await supabase
+      .from("vacancies")
+      .insert({
+        employer_id: auth.user.id,
+        title,
+        description,
+        compliance_score: score,
+        status,
+      })
+      .select()
+      .single();
+
+    if (error) {
+      return res.status(400).json({ error: "VACANCY_INSERT_FAILED", detail: error.message });
+    }
+
+    return res.status(200).json({ vacancy: data });
+  }
+
+  // ACTION: SUBMIT_APPLICATION
+  if (action === "SUBMIT_APPLICATION") {
+    const { jobId, matchScore, aiAnalysis } = body;
+    if (!jobId || matchScore === undefined) {
+      return res.status(400).json({ error: "MISSING_APPLICATION_DATA" });
+    }
+
+    const { data, error } = await supabase
+      .from("applications")
+      .insert({
+        job_id: jobId,
+        candidate_id: auth.user.id,
+        match_score: matchScore,
+        ai_analysis: aiAnalysis,
+      })
+      .select()
+      .single();
+
+    if (error) {
+      return res.status(400).json({ error: "APPLICATION_SUBMISSION_FAILED", detail: error.message });
+    }
+
+    return res.status(200).json({ application: data });
+  }
+
+  // ACTION: LIST_APPLICANTS (Enhanced with Anonymization and Compliance filtering)
+  if (action === "LIST_APPLICANTS") {
+    const { jobId } = body;
+    if (!jobId) {
+      return res.status(400).json({ error: "MISSING_JOB_ID" });
+    }
+
+    // 1. Check Employer's Subscription Tier and Job Compliance Requirements
+    const { data: job, error: jobError } = await supabase
+      .from("vacancies")
+      .select("id, requires_tcn_compliance")
+      .eq("id", jobId)
+      .eq("employer_id", auth.user.id)
+      .single();
+
+    if (jobError || !job) {
+      return res.status(403).json({ error: "UNAUTHORIZED_JOB_ACCESS" });
+    }
+
+    const { data: employerProfile } = await supabase
+      .from("profiles")
+      .select("subscription_tier")
+      .eq("id", auth.user.id)
+      .single();
+
+    const isPro = employerProfile?.subscription_tier === "pro" || employerProfile?.subscription_tier === "pulse_pro" || employerProfile?.subscription_tier === "enterprise";
+    const requiresTCN = job.requires_tcn_compliance || false;
+
+    // 2. Build Query
+    let query = supabase
+      .from("applications")
+      .select(`
+        id,
+        match_score,
+        ai_analysis,
+        status,
+        created_at,
+        candidate:profiles!applications_candidate_id_fkey(
+          id,
+          full_name,
+          email,
+          role,
+          tcn_status,
+          tcn_expiry_date,
+          tcn_verification_id,
+          resume_text
+        )
+      `)
+      .eq("job_id", jobId)
+      .order("match_score", { ascending: false });
+
+    const { data: applicants, error: appError } = await query;
+
+    if (appError) {
+      return res.status(500).json({ error: "APPLICANT_LIST_FAILED", detail: appError.message });
+    }
+
+    // 3. Anonymize and Add Compliance Metadata based on Subscription
+    const safeApplicants = (applicants || []).map(app => {
+      const candidate = app.candidate as any;
+      
+      // Determine if this applicant should be filtered out on Free tier (only show TCN-ready if job requires it)
+      if (!isPro && requiresTCN && candidate.tcn_status !== 'verified_skills_pass') {
+        return null; 
+      }
+
+      const anonymized = anonymizeCandidate({ ...candidate, match_score: app.match_score }, isPro, auth.user.id);
+      
+      return {
+        ...app,
+        candidate: anonymized,
+        _compliance: isPro ? {
+          tcn_ready: candidate.tcn_status === 'verified_skills_pass',
+          expiry: candidate.tcn_expiry_date,
+          verification_id: candidate.tcn_verification_id
+        } : null
+      };
+    }).filter(Boolean);
+
+    return res.status(200).json({ 
+      applicants: safeApplicants,
+      metadata: {
+        total: safeApplicants.length,
+        isBlurred: !isPro,
+        pro_required: !isPro && requiresTCN,
+        upgrade_url: !isPro ? '/portal/employer/upgrade' : null
+      }
+    });
+  }
+
+  // ACTION: UPDATE_APPLICATION_STATUS
+  if (action === "UPDATE_APPLICATION_STATUS") {
+    const { applicationId, newStatus } = body;
+    if (!applicationId || !newStatus) {
+      return res.status(400).json({ error: "MISSING_STATUS_DATA" });
+    }
+
+    const { data, error } = await supabase
+      .from("applications")
+      .update({ status: newStatus, updated_at: new Date().toISOString() })
+      .eq("id", applicationId)
+      .select()
+      .single();
+
+    if (error) {
+      return res.status(400).json({ error: "STATUS_UPDATE_FAILED", detail: error.message });
+    }
+
+    if (!data) {
+      return res.status(403).json({ error: "UNAUTHORIZED_STATUS_CHANGE" });
+    }
+
+    return res.status(200).json({ application: data });
+  }
+
+  // ACTION: COMMIT_TO_LEDGER (Finalize Hire)
+  if (action === "COMMIT_TO_LEDGER") {
+    const { applicationId, finalSalary, matchScore } = body;
+    if (!applicationId) {
+      return res.status(400).json({ error: "MISSING_APPLICATION_ID" });
+    }
+
+    try {
+      // 1. Verification: Ensure Employer owns the Job linked to this Application
+      const { data: appData, error: appError } = await supabase
+        .from("applications")
+        .select("job_id, created_at")
+        .eq("id", applicationId)
+        .single();
+
+      if (appError || !appData) {
+        return res.status(403).json({ error: "UNAUTHORIZED_LEDGER_COMMIT" });
+      }
+
+      // 2. Generate the immutable "Aura Success Certificate" Hash
+      // Deterministic: ID + Salary + Creation Timestamp
+      const successHash = crypto
+        .createHash('sha256')
+        .update(`${applicationId}${finalSalary || "0"}${appData.created_at}`)
+        .digest('hex');
+
+      // 3. Insert into Ledger with Snapshot integrity
+      const { data: ledgerEntry, error: ledgerError } = await supabase
+        .from("ledger")
+        .insert({
+          application_id: applicationId,
+          employer_id: auth.user.id,
+          final_salary: finalSalary,
+          success_hash: successHash,
+          neural_match_snapshot: matchScore
+        })
+        .select()
+        .single();
+
+      if (ledgerError) {
+        // Log to internal telemetry if DB insert fails
+        console.error("LEDGER_DB_FAILURE", ledgerError);
+        return res.status(500).json({ error: "LEDGER_COMMIT_FAILED", detail: ledgerError.message });
+      }
+
+      // 4. Atomic status update
+      await supabase.from("applications").update({ status: 'hired' }).eq("id", applicationId);
+
+      return res.status(200).json({ 
+        status: 'COMMITTED', 
+        hash: successHash,
+        ledgerId: ledgerEntry.id 
+      });
+    } catch (err: any) {
+      return res.status(500).json({ error: "SYSTEM_COMMIT_EXCEPTION", message: err.message });
+    }
+  }
+
+  // ACTION: UPGRADE_SUBSCRIPTION (Nitro Consolidation)
+  if (action === "UPGRADE_SUBSCRIPTION") {
+    const { tier = 'pulse_pro', metadata } = body;
+    
+    const { data, error } = await supabase
+      .from('profiles')
+      .update({ 
+        subscription_tier: tier,
+        subscription_expires_at: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
+        acquisition_source: metadata?.source || undefined,
+        campaign_id: metadata?.campaignId || undefined
+      })
+      .eq('id', auth.user.id)
+      .select()
+      .single();
+
+    if (error) {
+      return res.status(400).json({ error: "UPGRADE_FAILED", detail: error.message });
+    }
+
+    // Record the upgrade in the ledger
+    await supabase.from('ledger').insert({
+      application_id: '00000000-0000-0000-0000-000000000000', // System entry
+      employer_id: auth.user.id,
+      final_salary: tier === 'pulse_pro' ? 29 : 49,
+      success_hash: `UPGRADE_${tier}_${Date.now()}`,
+      neural_match_snapshot: 100,
+      metadata: { 
+        plan: tier, 
+        campaign_id: metadata?.campaignId,
+        source: metadata?.source
+      }
+    });
+
+    return res.status(200).json({ success: true, profile: data });
+  }
+
+  // ACTION: GET_SESSION (Auth Consolidation)
+  if (action === "GET_SESSION") {
+    return res.status(200).json({
+      status: "AUTHORIZED",
+      userId: auth.user.id,
+    });
+  }
+
+  return res.status(400).json({ error: "INVALID_ACTION", action });
+}

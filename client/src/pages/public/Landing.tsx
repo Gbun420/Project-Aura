@@ -1,0 +1,359 @@
+import { Link } from 'react-router-dom';
+import { ArrowRight, Sparkles, ShieldCheck, Users, Wand2, Brain, FileCheck } from 'lucide-react';
+import ComplianceVerification from '../../components/ComplianceVerification';
+
+const JOBS = [
+  { title: 'Senior Frontend Engineer', company: 'Valletta Digital', location: 'Sliema, Malta', tag: 'Hybrid', salary: '€60–75k', matchScore: 94 },
+  { title: 'Compliance Analyst (TCN)', company: 'Harbour Group', location: 'Valletta, Malta', tag: 'On-site', salary: '€42–55k', matchScore: 82 },
+  { title: 'iGaming CRM Manager', company: 'Neptune Labs', location: 'St. Julian’s, Malta', tag: 'Remote', salary: '€55–70k', matchScore: 88 },
+];
+
+export default function PublicLanding() {
+  return (
+    <div className="min-h-screen bg-[#F8FAFC] text-slate-900">
+      <header className="sticky top-0 z-20 backdrop-blur-md bg-white/70 border-b border-slate-200">
+        <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="h-10 w-10 rounded-2xl bg-gradient-to-br from-[#4285F4] via-[#9B72CB] to-[#D96570]" />
+            <div>
+              <p className="text-xs uppercase tracking-[0.3em] text-slate-400">Aura</p>
+              <p className="text-lg font-semibold">Talent</p>
+            </div>
+          </div>
+          <nav className="hidden md:flex items-center gap-8 text-sm text-slate-600 font-medium">
+            <a className="hover:text-slate-900" href="#jobs">Jobs</a>
+            <a className="hover:text-slate-900" href="#talent">Talent</a>
+            <a className="hover:text-slate-900" href="/compliance">Compliance</a>
+            <Link className="hover:text-slate-900 font-semibold text-[#4285F4]" to="/register">Sign Up</Link>
+            <Link className="hover:text-slate-900" to="/login">Log In</Link>
+          </nav>
+          <div className="flex items-center gap-3">
+            <Link to="/login" className="hidden sm:inline-flex items-center gap-2 text-sm font-semibold text-slate-700">
+              Employer Portal
+              <ArrowRight size={16} />
+            </Link>
+            <Link
+              to="/login"
+              className="inline-flex items-center gap-2 rounded-2xl bg-slate-900 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-slate-800 transition"
+            >
+              Browse Talent
+            </Link>
+          </div>
+        </div>
+      </header>
+
+      {/* Neural Suite Announcement */}
+      <div className="bg-gradient-to-r from-[#4285F4]/10 via-[#9B72CB]/10 to-[#D96570]/10 border-b border-slate-200">
+        <div className="max-w-6xl mx-auto px-6 py-3">
+          <div className="flex items-center justify-center gap-2 text-sm">
+            <div className="flex items-center gap-2">
+              <Brain size={16} className="text-[#4285F4]" />
+              <span className="font-semibold text-slate-900">Neural Suite Active:</span>
+              <span className="text-slate-600">AI-powered matching & compliance automation now live</span>
+            </div>
+            <Link to="/compliance" className="ml-4 text-xs font-semibold text-[#4285F4] hover:underline">
+              Learn more →
+            </Link>
+          </div>
+        </div>
+      </div>
+
+      <main>
+        <section className="relative overflow-hidden">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_-20%,rgba(66,133,244,0.2),transparent_45%),radial-gradient(circle_at_80%_0%,rgba(155,114,203,0.18),transparent_40%)]" />
+          <div className="relative max-w-6xl mx-auto px-6 pt-24 pb-20">
+            <div className="flex flex-col lg:flex-row items-start lg:items-center gap-16">
+              <div className="flex-1">
+                <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-xs font-semibold text-slate-600 shadow-sm">
+                  <Sparkles size={14} className="text-[#4285F4]" />
+                  Gemini Intelligence Active
+                </div>
+                <h1 className="mt-6 text-5xl lg:text-6xl font-semibold tracking-tight text-slate-900 font-['Space_Grotesk']">
+                  Aura: The intelligence layer for recruitment.
+                  <span className="block bg-gradient-to-r from-[#4285F4] via-[#9B72CB] to-[#D96570] bg-clip-text text-transparent">
+                    Built for the Maltese market.
+                  </span>
+                </h1>
+                <p className="mt-6 text-lg text-slate-600 max-w-xl">
+                  Seamless hiring, automated compliance, and neural-backed talent matching for
+                  agencies and employers who need clarity, speed, and confidence.
+                </p>
+                <div className="mt-8 flex flex-wrap gap-4">
+                  <Link
+                    to="/register"
+                    className="inline-flex items-center gap-2 rounded-2xl bg-slate-900 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-slate-900/10 hover:bg-slate-800 transition"
+                  >
+                    Post a Vacancy
+                    <ArrowRight size={16} />
+                  </Link>
+                  <Link
+                    to="/register"
+                    className="inline-flex items-center gap-2 rounded-2xl border border-slate-200 bg-white px-6 py-3 text-sm font-semibold text-slate-700 shadow-sm hover:bg-slate-50 transition"
+                  >
+                    Explore Roles
+                  </Link>
+                </div>
+                <div className="mt-10 flex items-center gap-6 text-xs font-semibold text-slate-500">
+                  <span>Trusted by 120+ Maltese agencies</span>
+                  <span>Identità-ready compliance</span>
+                </div>
+              </div>
+
+              <div className="flex-1 w-full">
+                <div className="rounded-3xl border border-slate-200 bg-white/80 p-6 shadow-xl shadow-slate-200/60 backdrop-blur">
+                  <h3 className="text-sm font-semibold text-slate-700">Neural Search</h3>
+                  <p className="text-xs text-slate-500 mt-1">Match roles and talent with Gemini-assisted ranking.</p>
+                  <div className="mt-5 grid gap-3">
+                    <input
+                      className="w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-[#4285F4]/20"
+                      placeholder="Job title, keyword, or skill"
+                    />
+                    <div className="grid sm:grid-cols-2 gap-3">
+                      <input
+                        className="w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-[#9B72CB]/20"
+                        placeholder="Location"
+                      />
+                      <select 
+                        aria-label="Contract Type"
+                        className="w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-[#9B72CB]/20"
+                      >
+                        <option>Contract Type</option>
+                        <option>Full-time</option>
+                        <option>Hybrid</option>
+                        <option>Remote</option>
+                      </select>
+                    </div>
+                    <button className="w-full rounded-2xl bg-gradient-to-r from-[#4285F4] via-[#9B72CB] to-[#D96570] px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-purple-200/40">
+                      Search Opportunities
+                    </button>
+                  </div>
+                  <div className="mt-6 grid grid-cols-3 gap-4 text-xs text-slate-500">
+                    <div>
+                      <p className="text-lg font-semibold text-slate-900">2,140</p>
+                      <p>Active roles</p>
+                    </div>
+                    <div>
+                      <p className="text-lg font-semibold text-slate-900">98%</p>
+                      <p>Compliance success</p>
+                    </div>
+                    <div>
+                      <p className="text-lg font-semibold text-slate-900">12 hrs</p>
+                      <p>Median match time</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="talent" className="max-w-6xl mx-auto px-6 py-16">
+          <div className="grid lg:grid-cols-3 gap-6">
+            {[
+              { 
+                icon: ShieldCheck, 
+                title: 'Compliance Confidence', 
+                copy: 'Automated Identità checks keep every placement audit-ready.',
+                badge: 'GDPR & Malta Compliant'
+              },
+              { 
+                icon: Users, 
+                title: 'Talent Intelligence', 
+                copy: 'Gemini surfaces the best-fit candidates with clear match signals.',
+                badge: 'Neural Matching Active'
+              },
+              { 
+                icon: Wand2, 
+                title: 'Workflow Automation', 
+                copy: 'From intake to offer, every step is orchestrated inside Aura.',
+                badge: 'AI-Powered'
+              },
+            ].map(({ icon: Icon, title, copy, badge }) => (
+              <div key={title} className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm hover:shadow-md transition-shadow">
+                <div className="flex items-start justify-between mb-4">
+                  <div className="h-12 w-12 rounded-2xl bg-slate-900 text-white flex items-center justify-center">
+                    <Icon size={20} />
+                  </div>
+                  <span className="text-xs font-semibold text-[#4285F4] bg-blue-50 px-2 py-1 rounded-full">
+                    {badge}
+                  </span>
+                </div>
+                <h3 className="text-lg font-semibold text-slate-900">{title}</h3>
+                <p className="mt-2 text-sm text-slate-600">{copy}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section className="bg-gradient-to-r from-[#4285F4]/5 to-[#9B72CB]/5 rounded-3xl max-w-6xl mx-auto px-6 py-8 my-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            <div className="text-center">
+              <div className="text-2xl font-bold text-slate-900">2,140</div>
+              <div className="text-sm text-slate-600">Active Roles</div>
+            </div>
+            <div className="text-center">
+              <div className="text-2xl font-bold text-slate-900">98%</div>
+              <div className="text-sm text-slate-600">Compliance Success</div>
+            </div>
+            <div className="text-center">
+              <div className="text-2xl font-bold text-slate-900">12 hrs</div>
+              <div className="text-sm text-slate-600">Median Match Time</div>
+            </div>
+            <div className="text-center">
+              <div className="text-2xl font-bold text-slate-900">87%</div>
+              <div className="text-sm text-slate-600">Neural Match Accuracy</div>
+            </div>
+          </div>
+        </section>
+
+        <section id="jobs" className="max-w-6xl mx-auto px-6 pb-20">
+          <div className="flex items-center justify-between">
+            <div>
+              <h2 className="text-2xl font-semibold text-slate-900 font-['Space_Grotesk']">
+                Live opportunities
+                <span className="ml-3 inline-flex items-center gap-1 text-sm font-normal text-[#4285F4]">
+                  <Brain size={14} />
+                  Neural Matching Active
+                </span>
+              </h2>
+              <p className="text-sm text-slate-600 mt-1">
+                High-signal roles curated by Aura intelligence with AI-powered match scores.
+              </p>
+            </div>
+            <Link to="/portal?role=candidate" className="text-sm font-semibold text-[#4285F4] hover:text-[#2f6fe0]">
+              View all roles
+            </Link>
+          </div>
+          <div className="mt-6 grid gap-4">
+            {JOBS.map(job => (
+              <div key={job.title} className="rounded-2xl border border-slate-200 bg-white p-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 shadow-sm">
+                <div className="flex-1">
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <h3 className="text-lg font-semibold text-slate-900">{job.title}</h3>
+                      <p className="text-sm text-slate-600">{job.company} • {job.location}</p>
+                    </div>
+                    {/* Neural Match Score */}
+                    <div className="flex items-center gap-2">
+                      <div className="text-right">
+                        <div className="text-xs text-slate-500">Neural Match</div>
+                        <div className="text-sm font-semibold text-[#4285F4]">
+                          {job.matchScore}%
+                        </div>
+                      </div>
+                      <Brain size={16} className="text-[#9B72CB]" />
+                    </div>
+                  </div>
+                  
+                  {/* Compliance Badge */}
+                  <div className="mt-3 flex items-center gap-2">
+                    <div className="flex items-center gap-1 px-2 py-1 bg-green-50 rounded-full">
+                      <FileCheck size={12} className="text-green-600" />
+                      <span className="text-xs text-green-700">Identità Verified</span>
+                    </div>
+                    <span className="text-xs text-slate-500">• Compliance: Active</span>
+                  </div>
+                </div>
+                
+                <div className="flex items-center gap-3 text-sm text-slate-600">
+                  <span className="rounded-full border border-slate-200 px-3 py-1 text-xs">{job.tag}</span>
+                  <span className="font-semibold text-slate-900">{job.salary}</span>
+                  <button className="rounded-xl bg-slate-900 px-4 py-2 text-xs font-semibold text-white hover:bg-slate-800 transition">
+                    Apply
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section id="portals" className="bg-white border-t border-slate-200">
+          <div className="max-w-6xl mx-auto px-6 py-16 grid lg:grid-cols-[1.3fr_1fr] gap-10 items-center">
+            <div>
+              <h2 className="text-3xl font-semibold text-slate-900 font-['Space_Grotesk']">One portal. Three command centers.</h2>
+              <p className="mt-4 text-slate-600">
+                Aura keeps candidates, employers, and administrators in sync with a single secure workspace.
+                Roles automatically route to the correct dashboard without manual switching.
+              </p>
+              <div className="mt-6 flex flex-wrap gap-3">
+                <Link to="/login" className="rounded-full border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700">
+                  Candidate Portal
+                </Link>
+                <Link to="/login" className="rounded-full border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700">
+                  Employer Portal
+                </Link>
+                <Link to="/login" className="rounded-full border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700">
+                  Admin Command
+                </Link>
+              </div>
+            </div>
+            <div className="rounded-3xl border border-slate-200 bg-gradient-to-br from-[#4285F4]/10 via-[#9B72CB]/10 to-[#D96570]/10 p-6">
+              <div className="rounded-2xl bg-white p-6 shadow-sm">
+                <p className="text-xs uppercase tracking-[0.3em] text-slate-400">Aura Pulse</p>
+                <h3 className="mt-3 text-xl font-semibold text-slate-900">Unified hiring intelligence</h3>
+                <p className="mt-2 text-sm text-slate-600">
+                  AI-augmented compliance, audit trails, and talent analytics ready for production-scale teams.
+                </p>
+                <button className="mt-5 inline-flex items-center gap-2 rounded-2xl bg-slate-900 px-4 py-2 text-sm font-semibold text-white">
+                  Book a Demo
+                  <ArrowRight size={16} />
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="bg-slate-50 border-t border-slate-200 py-16">
+          <div className="max-w-6xl mx-auto px-6">
+            <ComplianceVerification />
+          </div>
+        </section>
+      </main>
+
+      <footer className="border-t border-slate-200 bg-white">
+        <div className="max-w-6xl mx-auto px-6 py-12">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 text-xs text-slate-500 mb-8 border-b border-slate-100 pb-8">
+            <div>
+              <h4 className="font-bold text-slate-900 uppercase tracking-widest mb-4">Aura Talent Infrastructure</h4>
+              <p className="leading-relaxed">
+                Sovereign recruitment platform with Neural AI matching, calibrated for the 2026 Maltese labor market. 
+                Built for agencies and employers who prioritize compliance and speed.
+              </p>
+              <div className="mt-3 flex items-center gap-2">
+                <Brain size={12} className="text-[#4285F4]" />
+                <span className="text-xs font-semibold">Neural Suite v1.4.0 Active</span>
+              </div>
+            </div>
+            <div>
+              <h4 className="font-bold text-slate-900 uppercase tracking-widest mb-4">Compliance & Regulatory</h4>
+              <ul className="space-y-2">
+                <li className="flex items-center gap-2">
+                  <ShieldCheck size={12} className="text-green-500" />
+                  <span>Primary Contact: <a href="mailto:aurajobs@proton.me" className="text-blue-600 hover:underline">aurajobs@proton.me</a></span>
+                </li>
+                <li>Compliance Officer: Designation Active</li>
+                <li>Regulatory Response: within 48 hours</li>
+                <li>Licensed under Maltese Employment Agencies Regulations 2023</li>
+                <li>Automated Document Verification: Active</li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="font-bold text-slate-900 uppercase tracking-widest mb-4">Data Protection & Neural AI</h4>
+              <p className="leading-relaxed mb-2">
+                GDPR Article 13/14 Compliant. Neural embeddings processed locally via Supabase Edge Functions.
+              </p>
+              <p className="italic mb-2">Data Controller: Aura Jobs</p>
+              <div className="text-xs text-slate-400">
+                <span className="font-semibold">AI Models:</span> MiniLM-L6-v2 • Donut OCR
+              </div>
+            </div>
+          </div>
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-[10px] text-slate-400 uppercase tracking-widest">
+            <span>Aura Talent • Malta 2026 • All rights reserved</span>
+            <span>Compliance-ready. Gemini-assisted. Built for scale.</span>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+}

@@ -1,0 +1,74 @@
+:root {
+  --aura-obsidian: #050505;
+  --aura-uv: #7B2CBF;
+  --aura-cyber-teal: #00F0FF;
+  --aura-glass: rgba(255, 255, 255, 0.05);
+  --aura-glass-border: rgba(255, 255, 255, 0.1);
+  --aura-glow-uv: 0 0 20px rgba(123, 44, 191, 0.4);
+  --aura-glow-teal: 0 0 20px rgba(0, 240, 255, 0.4);
+  --levity-transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--aura-obsidian);
+  color: #ffffff;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  overflow-x: hidden;
+}
+
+/* Starfield Background */
+.starfield {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  background: radial-gradient(ellipse at bottom, #1B2735 0%, #090A0F 100%);
+  overflow: hidden;
+}
+
+.star {
+  position: absolute;
+  background: white;
+  border-radius: 50%;
+  opacity: 0.5;
+  animation: move-stars linear infinite;
+}
+
+@keyframes move-stars {
+  from { transform: translateY(0); }
+  to { transform: translateY(-100vh); }
+}
+
+/* Glassmorphism */
+.aura-glass {
+  background: var(--aura-glass);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--aura-glass-border);
+  border-radius: 1rem;
+}
+
+.glow-uv {
+  box-shadow: var(--aura-glow-uv);
+}
+
+.glow-teal {
+  box-shadow: var(--aura-glow-teal);
+}
+
+/* Utilities */
+.text-gradient-uv {
+  background: linear-gradient(135deg, #7B2CBF 0%, #E0AAFF 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-gradient-teal {
+  background: linear-gradient(135deg, #00F0FF 0%, #B7FFFA 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}

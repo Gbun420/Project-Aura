@@ -1,0 +1,33 @@
+{
+  "name": "untitled-folder",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "npm run build --prefix client && rm -rf public && cp -r client/dist public",
+    "postinstall": "prisma generate --schema server/prisma/schema.prisma",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "db:reset": "npm run seed --prefix server",
+    "demo:ignite": "npm run db:reset && npm start --prefix server",
+    "start:aura": "npm start --prefix server & npm run dev --prefix client",
+    "aura-vault-backup": "cp server/aura.db server/aura.db.bak && echo '>>> AURA_VAULT: Immutable Snapshot Created.'",
+    "aura-vault-restore": "cp server/aura.db.bak server/aura.db && echo '>>> AURA_VAULT: Perfect State Restored.'"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "devDependencies": {
+    "@types/node": "^25.4.0",
+    "nodemon": "^3.1.14",
+    "prisma": "^7.5.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "@google/generative-ai": "^0.24.1",
+    "@prisma/client": "^7.5.0",
+    "@supabase/supabase-js": "^2.99.1",
+    "zod": "^4.3.6"
+  }
+}
