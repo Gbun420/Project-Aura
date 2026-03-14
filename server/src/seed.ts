@@ -36,7 +36,10 @@ async function main() {
   await db.introductionLedger.createMany({
     data: [
       { hash: hashAlpha, employerId: 'EMP-BETSSON', candidateId: 'CAND-MARCO-ROSSI', notifiedAt: new Date(), expiryDate: marcoExpiry, feeStatus: 'PENDING' },
-      { hash: hashBeta, employerId: 'EMP-CASUMO', candidateId: 'CAND-SARAH-ZAMMIT', notifiedAt: new Date(), expiryDate: sarahExpiry, feeStatus: 'RELEASED' }
+      { hash: hashBeta, employerId: 'EMP-CASUMO', candidateId: 'CAND-SARAH-ZAMMIT', notifiedAt: new Date(), expiryDate: sarahExpiry, feeStatus: 'RELEASED' },
+      // BATCH 02 LEADS (Neural Sync v2.3)
+      { hash: crypto.randomBytes(32).toString('hex'), employerId: 'EMP-NEPTUNE', candidateId: 'CAND-LUCA-BORG', notifiedAt: new Date(), expiryDate: marcoExpiry, feeStatus: 'PENDING' },
+      { hash: crypto.randomBytes(32).toString('hex'), employerId: 'EMP-GIG', candidateId: 'CAND-ELENA-ABELA', notifiedAt: new Date(), expiryDate: sarahExpiry, feeStatus: 'PENDING' }
     ]
   });
 
@@ -44,6 +47,7 @@ async function main() {
   console.log('--- 3 Jobs Seeded');
   console.log('--- 1 Critical Handshake (Marco Rossi)');
   console.log('--- 1 Released Manifest (Sarah Zammit)');
+  console.log('--- 2 Batch 02 Neural Leads Seeded');
 }
 
 main().catch((err) => {
