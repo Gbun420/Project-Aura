@@ -1,6 +1,6 @@
 import { Search, Bell, User, LogOut } from 'lucide-react';
 import { useAuth } from '../hooks/useAuth';
-import { Role } from '../types/aura.js';
+import type { Role } from '../types/aura.js';
 
 const ROLE_LABEL: Record<Role, string> = {
   admin: 'Aura Command Center',

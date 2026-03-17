@@ -1,6 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
 import { Brain, Shield, Bell, User, Briefcase, Settings } from 'lucide-react';
-import { Role } from '../types/aura.js';
+import type { Role } from '../types/aura.js';
 import { Logo } from './Logo';
 
 interface NavItemProps {

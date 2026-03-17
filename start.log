@@ -403,3 +403,7 @@ Node.js v24.12.0
       at TypeScriptParserMixin.withSmartMixTopicForbiddingContext (/Users/glennbundy/Desktop/untitled folder/project-aura/client/node_modules/@babel/parser/lib/index.js:12403:14)
       at TypeScriptParserMixin.parseFunction (/Users/glennbundy/Desktop/untitled folder/project-aura/client/node_modules/@babel/parser/lib/index.js:13444:10)
 8:40:18 PM [vite] (client) hmr update /src/index.css
+8:41:36 PM [vite] (client) hmr update /src/index.css, /src/components/PortalHeader.tsx
+8:41:36 PM [vite] (client) hmr update /src/index.css, /src/components/Sidebar.tsx
+8:41:36 PM [vite] (client) hmr update /src/layouts/PortalLayout.tsx, /src/index.css
+8:49:10 PM [vite] (client) hmr update /src/App.tsx, /src/index.css

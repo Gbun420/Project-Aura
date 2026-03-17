@@ -110,7 +110,7 @@ export default function App() {
               } />
               <Route path="candidate/compliance" element={<><SEO title="Candidate Compliance" noindex /><ComplianceCenter /></>} />
               <Route path="candidate/vault" element={<><SEO title="Candidate Vault" noindex /><ComplianceCenter /></>} />
-              <Route path="candidate/insights" element={<><SEO title="Candidate Insights" noindex /><ComplianceInsights /></>} />
+              <Route path="candidate/insights" element={<><SEO title="Candidate Insights" noindex /><CandidateInsights /></>} />
             </Route>
             
             <Route element={<ProtectedRoute allowedRoles={['employer']} />}>
