@@ -1,4 +1,5 @@
-import { BrowserRouter, Routes, Route, lazy, Suspense } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { lazy, Suspense } from 'react';
 import PublicLanding from './pages/public/Landing';
 import Compliance from './pages/public/Compliance';
 import Login from './pages/public/Login';

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { supabase } from '../../lib/supabase';
-import { ShieldCheck } from '@/icons';
+import { ShieldCheck as PricingShieldCheck } from '@/icons';
 
 type ComplianceAnalysis = {
   score: number;

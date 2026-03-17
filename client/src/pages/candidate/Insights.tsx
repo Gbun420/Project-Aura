@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { TrendingUp, Sparkles, Target, Zap } from '@/icons';
+import { TrendingUp as InsightsTrendingUp, Sparkles as InsightsSparkles, Target as InsightsTarget, Zap as InsightsZap } from '@/icons';
 import { supabase } from '../../lib/supabase';
 import { useAuth } from '../../hooks/useAuth';
 
@@ -35,7 +35,7 @@ export default function CandidateInsights() {
     <div className="space-y-10 animate-in slide-in-from-bottom-6 duration-700">
       <div>
         <h1 className="text-3xl font-black text-white tracking-tight flex items-center gap-3">
-          <TrendingUp className="text-purple-400" size={32} />
+           <InsightsTrendingUp className="text-purple-400" size={32} />
           Neural_Career_Insights
         </h1>
         <p className="text-slate-400 font-medium mt-1 uppercase tracking-widest text-[10px]">
@@ -47,7 +47,7 @@ export default function CandidateInsights() {
         <div className="lg:col-span-2 space-y-6">
           <div className="p-8 rounded-[2.5rem] bg-indigo-500/10 border border-indigo-500/20 relative overflow-hidden group">
             <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:rotate-12 transition-transform duration-700">
-              <Sparkles size={100} />
+              <InsightsSparkles size={100} />
             </div>
             <h3 className="text-sm font-black text-white uppercase tracking-widest mb-4">Neural_Match_Summary</h3>
             <p className="text-indigo-200/70 text-sm leading-relaxed max-w-xl">
@@ -68,7 +68,7 @@ export default function CandidateInsights() {
                   <div key={job.id} className="p-6 rounded-3xl bg-white/5 border border-white/10 hover:border-white/20 transition-all flex items-center justify-between group">
                     <div className="flex items-center gap-6">
                       <div className="p-3 bg-blue-500/10 rounded-2xl text-blue-400">
-                        <Target size={20} />
+                        <InsightsTarget size={20} />
                       </div>
                       <div>
                         <h4 className="text-sm font-black text-white uppercase tracking-tight group-hover:text-blue-400 transition-colors">{job.title}</h4>
@@ -80,7 +80,7 @@ export default function CandidateInsights() {
                       className="p-2 text-slate-500 hover:text-white transition-colors" 
                       aria-label="Action required"
                     >
-                      <Zap size={18} />
+                      <InsightsZap size={18} />
                     </button>
                   </div>
                 ))}

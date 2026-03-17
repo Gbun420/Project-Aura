@@ -1,4 +1,12 @@
-import { Settings as SettingsIcon, Bell, Shield, Smartphone, Globe, CreditCard, ChevronRight } from '@/icons';
+import { 
+  SettingsSettingsIcon as SettingsIcon, 
+  SettingsBell as Bell, 
+  SettingsShield as Shield, 
+  SettingsSmartphone as Smartphone, 
+  SettingsGlobe as Globe, 
+  SettingsCreditCard as CreditCard, 
+  SettingsChevronRight as ChevronRight 
+} from '@/icons';
 import { supabase } from '../../lib/supabase';
 import { useAuth } from '../../hooks/useAuth';
 
@@ -15,14 +23,14 @@ export default function Settings() {
       id: 'notifications',
       title: 'Neural_Alert_Protocol',
       description: 'System-wide notification and firing filters',
-      icon: <Bell className="text-blue-400" size={20} />,
+       icon: <SettingsBell className="text-blue-400" size={20} />,
       status: 'OPTIMIZED'
     },
     {
       id: 'security',
       title: 'Vault_Lockdown_Logic',
       description: 'encryption keys and biometric sync status',
-      icon: <Shield className="text-purple-400" size={20} />,
+       icon: <SettingsShield className="text-purple-400" size={20} />,
       status: 'MAX_SECURE'
     },
     {

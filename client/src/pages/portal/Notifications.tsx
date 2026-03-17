@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Bell, Zap, Shield, Filter, Trash2 } from '@/icons';
+import { 
+  NotificationsBell as Bell, 
+  NotificationsZap as Zap, 
+  NotificationsShield as Shield, 
+  NotificationsFilter as Filter, 
+  NotificationsTrash2 as Trash2 
+} from '@/icons';
 import { supabase } from '../../lib/supabase';
 import { useAuth } from '../../hooks/useAuth';
 
@@ -44,8 +50,8 @@ export default function Notifications() {
             title: item.action || 'SYSTEM_LOG',
             message: item.details ? (typeof item.details === 'string' ? item.details : JSON.stringify(item.details)) : 'Activity registered in core ledger.',
             time: new Date(item.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-            icon: item.action?.toLowerCase().includes('match') ? <Zap size={16} className="text-amber-400" /> : 
-                  item.action?.toLowerCase().includes('compliance') ? <Shield size={16} className="text-emerald-400" /> : <Bell size={16} className="text-blue-400" />,
+            icon: item.action?.toLowerCase().includes('match') ? <NotificationsZap size={16} className="text-amber-400" /> : 
+                  item.action?.toLowerCase().includes('compliance') ? <NotificationsShield size={16} className="text-emerald-400" /> : <NotificationsBell size={16} className="text-blue-400" />,
             unread: false
           }));
           setNotifications(mapped as Notification[]);
@@ -74,22 +80,22 @@ export default function Notifications() {
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
-          <h1 className="text-3xl font-black text-white tracking-tight flex items-center gap-3">
-            <Bell className="text-blue-400" size={32} />
-            Alert Stream
-          </h1>
+           <h1 className="text-3xl font-black text-white tracking-tight flex items-center gap-3">
+             <NotificationsBell className="text-blue-400" size={32} />
+             Alert Stream
+           </h1>
           <p className="text-slate-400 font-medium mt-1 uppercase tracking-widest text-[10px]">
             Real-time neural and compliance telemetry
           </p>
         </div>
         <div className="flex items-center gap-2">
-          <button 
-            title="Filter alerts"
-            className="p-3 bg-white/5 border border-white/10 text-slate-400 rounded-xl hover:bg-white/10 transition-all" 
-            aria-label="Filter alerts"
-          >
-            <Filter size={14} />
-          </button>
+                   <button 
+                     title="Filter alerts"
+                     className="p-3 bg-white/5 border border-white/10 text-slate-400 rounded-xl hover:bg-white/10 transition-all" 
+                     aria-label="Filter alerts"
+                   >
+                     <NotificationsFilter size={14} />
+                   </button>
           <button 
             title="Clear notifications"
             className="p-3 bg-white/5 border border-white/10 text-slate-400 rounded-xl hover:bg-white/10 transition-all" 
