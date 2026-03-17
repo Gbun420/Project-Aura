@@ -10,13 +10,16 @@ export default function NeuralDashboard() {
 
   useEffect(() => {
     async function fetchMetrics() {
-      if (!user) return;
+      if (!user) {
+        setLoading(false);
+        return;
+      }
       setLoading(true);
       
-      const currentRole = role === 'platform_owner' ? 'admin' : (role || 'candidate');
-      const stats: Record<string, string | number> = {};
-
       try {
+        const currentRole = role === 'platform_owner' ? 'admin' : (role || 'candidate');
+        const stats: Record<string, string | number> = {};
+
         if (currentRole === 'candidate') {
           const { count: appCount } = await supabase.from('applications').select('*', { count: 'exact', head: true }).eq('candidate_id', user.id);
           stats.matchAccuracy = '94.2%';
@@ -38,12 +41,12 @@ export default function NeuralDashboard() {
           stats.systemHealth = '100%';
           stats.complianceAlerts = 0;
         }
+        setLiveMetrics(stats);
       } catch (err) {
         console.error("METRIC_ERROR:", err);
+      } finally {
+        setLoading(false);
       }
-
-      setLiveMetrics(stats);
-      setLoading(false);
     }
 
     fetchMetrics();

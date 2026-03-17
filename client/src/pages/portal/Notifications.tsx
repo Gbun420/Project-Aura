@@ -20,33 +20,41 @@ export default function Notifications() {
 
   useEffect(() => {
     async function fetchNotifications() {
-      if (!user) return;
+      if (!user) {
+        setLoading(false);
+        return;
+      }
       setLoading(true);
       
-      const { data, error } = await supabase
-        .from('audit_trails')
-        .select('*')
-        .eq('entity_id', user.id)
-        .order('timestamp', { ascending: false })
-        .limit(20);
+      try {
+        const { data, error } = await supabase
+          .from('audit_trails')
+          .select('*')
+          .eq('entity_id', user.id)
+          .order('timestamp', { ascending: false })
+          .limit(20);
 
-      if (error) {
-        console.error('Error fetching alerts:', error);
-      } else if (data) {
-        const mapped = data.map(item => ({
-          id: item.id,
-          type: item.action?.toLowerCase().includes('match') ? 'neural' : 
-                item.action?.toLowerCase().includes('compliance') ? 'compliance' : 'system',
-          title: item.action || 'SYSTEM_LOG',
-          message: item.details ? (typeof item.details === 'string' ? item.details : JSON.stringify(item.details)) : 'Activity registered in core ledger.',
-          time: new Date(item.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-          icon: item.action?.toLowerCase().includes('match') ? <Zap size={16} className="text-amber-400" /> : 
-                item.action?.toLowerCase().includes('compliance') ? <Shield size={16} className="text-emerald-400" /> : <Bell size={16} className="text-blue-400" />,
-          unread: false
-        }));
-        setNotifications(mapped as Notification[]);
+        if (error) {
+          console.error('Error fetching alerts:', error);
+        } else if (data) {
+          const mapped = data.map(item => ({
+            id: item.id,
+            type: item.action?.toLowerCase().includes('match') ? 'neural' : 
+                  item.action?.toLowerCase().includes('compliance') ? 'compliance' : 'system',
+            title: item.action || 'SYSTEM_LOG',
+            message: item.details ? (typeof item.details === 'string' ? item.details : JSON.stringify(item.details)) : 'Activity registered in core ledger.',
+            time: new Date(item.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+            icon: item.action?.toLowerCase().includes('match') ? <Zap size={16} className="text-amber-400" /> : 
+                  item.action?.toLowerCase().includes('compliance') ? <Shield size={16} className="text-emerald-400" /> : <Bell size={16} className="text-blue-400" />,
+            unread: false
+          }));
+          setNotifications(mapped as Notification[]);
+        }
+      } catch (err) {
+        console.error('Error in fetchNotifications:', err);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     }
 
     fetchNotifications();

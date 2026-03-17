@@ -22,27 +22,35 @@ export default function Jobs() {
 
   useEffect(() => {
     async function fetchJobs() {
-      if (!user) return;
+      if (!user) {
+        setLoading(false);
+        return;
+      }
       setLoading(true);
       
-      let query = supabase.from('vacancies').select('*');
-      
-      if (role === 'candidate') {
-        // Candidates see all published jobs
-        query = query.eq('status', 'published');
-      } else {
-        // Employers and Admins see their own jobs
-        query = query.eq('employer_id', user.id);
-      }
+      try {
+        let query = supabase.from('vacancies').select('*');
+        
+        if (role === 'candidate') {
+          // Candidates see all published jobs
+          query = query.eq('status', 'published');
+        } else {
+          // Employers and Admins see their own jobs
+          query = query.eq('employer_id', user.id);
+        }
 
-      const { data, error } = await query.order('created_at', { ascending: false });
+        const { data, error } = await query.order('created_at', { ascending: false });
 
-      if (error) {
-        console.error('Error fetching jobs:', error);
-      } else if (data) {
-        setVacancies(data);
+        if (error) {
+          console.error('Error fetching jobs:', error);
+        } else if (data) {
+          setVacancies(data);
+        }
+      } catch (err) {
+        console.error('Error in fetchJobs:', err);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     }
 
     fetchJobs();

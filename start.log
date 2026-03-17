@@ -409,3 +409,6 @@ Node.js v24.12.0
 8:49:10 PM [vite] (client) hmr update /src/App.tsx, /src/index.css
 9:06:00 PM [vite] (client) hmr update /src/index.css, /src/components/ProtectedRoute.tsx, /src/pages/PortalIndexRedirect.tsx, /src/pages/public/Login.tsx, /src/pages/portal/Profile.tsx, /src/pages/portal/Settings.tsx, /src/pages/candidate/Insights.tsx, /src/pages/portal/ComplianceCenter.tsx, /src/pages/portal/NeuralDashboard.tsx, /src/pages/portal/Notifications.tsx, /src/pages/portal/Jobs.tsx, /src/components/PortalHeader.tsx, /src/pages/public/Landing.tsx
 9:06:20 PM [vite] (client) hmr update /src/index.css, /src/components/ProtectedRoute.tsx, /src/pages/PortalIndexRedirect.tsx, /src/pages/public/Login.tsx, /src/pages/portal/Profile.tsx, /src/pages/portal/Settings.tsx, /src/pages/candidate/Insights.tsx, /src/pages/portal/ComplianceCenter.tsx, /src/pages/portal/NeuralDashboard.tsx, /src/pages/portal/Notifications.tsx, /src/pages/portal/Jobs.tsx, /src/components/PortalHeader.tsx, /src/pages/public/Landing.tsx
+9:09:33 PM [vite] (client) hmr update /src/pages/portal/NeuralDashboard.tsx, /src/index.css
+9:09:38 PM [vite] (client) hmr update /src/pages/portal/Jobs.tsx, /src/index.css
+9:09:50 PM [vite] (client) hmr update /src/pages/portal/Notifications.tsx, /src/index.css
