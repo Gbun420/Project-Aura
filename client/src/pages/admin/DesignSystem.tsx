@@ -1,4 +1,4 @@
-import { Lock, Cpu } from 'lucide-react';
+import { Lock as DesignLock, Cpu as DesignCpu } from '@/icons';
 
 export default function DesignSystem() {
   return (
