@@ -4,26 +4,34 @@ import puppeteer from 'puppeteer';
   const browser = await puppeteer.launch({ headless: "new" });
   const page = await browser.newPage();
   
-  // Capture console messages
   page.on('console', msg => {
-    if (msg.type() === 'error') {
-      console.log('BROWSER_ERROR:', msg.text());
-    } else {
-      console.log('BROWSER_LOG:', msg.text());
-    }
+    console.log('BROWSER_LOG:', msg.text());
   });
 
-  await page.setViewport({ width: 1280, height: 800 });
+  await page.setViewport({ width: 1280, height: 1000 });
   
-  console.log('--- AURA: STARTING ERROR DIAGNOSTIC ---');
-  await page.goto('https://project-aura-one.vercel.app/', { waitUntil: 'networkidle2' });
+  console.log('--- AURA: TESTING LOGIN HANG ---');
+  await page.goto('https://project-aura-one.vercel.app/login', { waitUntil: 'networkidle2' });
 
-  // Give it a bit more time to crash and render the error boundary
+  // Try logging in with random credentials
+  await page.type('input[type="email"]', 'test-random-123@aura-jobs.com');
+  await page.type('input[type="password"]', 'WrongPass123!');
+  
+  console.log('Clicking Authenticate...');
+  await page.click('button[type="submit"]');
+
+  // Wait to see if it hangs or shows error
   await new Promise(r => setTimeout(r, 5000));
 
-  const textContent = await page.evaluate(() => document.body.innerText);
-  console.log('FINAL_TEXT_SNIPPET:', textContent.substring(0, 500));
+  const text = await page.evaluate(() => document.body.innerText);
+  const btnText = await page.evaluate(() => document.querySelector('button[type="submit"]').innerText);
+  
+  console.log('BUTTON_TEXT_AFTER_5S:', btnText);
+  console.log('CONTAINS_ERROR_MSG:', text.includes('Invalid login credentials') || text.includes('error'));
+
+  await page.screenshot({ path: 'login-test-result.png' });
+  console.log('SCREENSHOT_CREATED: login-test-result.png');
 
   await browser.close();
-  console.log('--- AURA: DIAGNOSTIC COMPLETE ---');
+  console.log('--- AURA: LOGIN TEST COMPLETE ---');
 })();
