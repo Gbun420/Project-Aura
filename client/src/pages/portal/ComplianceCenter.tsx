@@ -1,4 +1,4 @@
-import { Shield, FileText, CheckCircle2, AlertCircle, Clock, Upload, Download } from 'lucide-react';
+import { Shield as ComplianceShield, FileText as ComplianceFileText, CheckCircle2 as ComplianceCheckCircle2, AlertCircle as ComplianceAlertCircle, Clock as ComplianceClock, Upload as ComplianceUpload, Download as ComplianceDownload } from '@/icons';
 import { useAuth } from '../../hooks/useAuth';
 import { ComplianceStatus } from '../../components/ComplianceStatus';
 import SEO from '../../components/SEO';
