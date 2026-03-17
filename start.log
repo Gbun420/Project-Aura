@@ -11,39 +11,23 @@
 > tsx src/index.ts
 
 
-  VITE v7.3.1  ready in 223 ms
+  VITE v7.3.1  ready in 256 ms
 
   ➜  Local:   http://localhost:5173/
   ➜  Network: use --host to expose
   ➜  press h + enter to show help
-/Users/glennbundy/Desktop/untitled folder/project-aura/server/node_modules/@prisma/client/src/runtime/getPrismaClient.ts:320
-        throw new PrismaClientInitializationError(
-              ^
+[dotenv@17.3.1] injecting env (5) from .env -- tip: 🔐 prevent committing .env to code: https://dotenvx.com/precommit
+/Users/glennbundy/Desktop/untitled folder/project-aura/server/node_modules/@prisma/client/src/runtime/utils/validatePrismaClientOptions.ts:239
+      throw new PrismaClientConstructorValidationError(
+            ^
 
-PrismaClientInitializationError: `PrismaClient` needs to be constructed with a non-empty, valid `PrismaClientOptions`:
-
-```
-new PrismaClient({
-  ...
-})
-```
-
-or
-
-```
-constructor() {
-  super({ ... });
-}
-```
-          
-    at new t (/Users/glennbundy/Desktop/untitled folder/project-aura/server/node_modules/@prisma/client/src/runtime/getPrismaClient.ts:320:15)
-    at <anonymous> (/Users/glennbundy/Desktop/untitled folder/project-aura/server/src/core/database.ts:4:16)
+PrismaClientConstructorValidationError: Unknown property datasources provided to PrismaClient constructor.
+Read more at https://pris.ly/d/client-constructor
+    at validatePrismaClientOptions (/Users/glennbundy/Desktop/untitled folder/project-aura/server/node_modules/@prisma/client/src/runtime/utils/validatePrismaClientOptions.ts:239:13)
+    at new t (/Users/glennbundy/Desktop/untitled folder/project-aura/server/node_modules/@prisma/client/src/runtime/getPrismaClient.ts:342:7)
+    at <anonymous> (/Users/glennbundy/Desktop/untitled folder/project-aura/server/src/core/database.ts:7:16)
     at ModuleJob.run (node:internal/modules/esm/module_job:413:25)
     at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:660:26)
-    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5) {
-  clientVersion: '7.5.0',
-  errorCode: undefined,
-  retryable: undefined
-}
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
 
 Node.js v24.12.0
