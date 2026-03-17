@@ -55,7 +55,7 @@ export default function AuraAssistant({ candidateContext, onClose, onUpgrade }: 
           <Sparkles size={16} className="text-white" />
           <span className="text-xs font-black text-white uppercase tracking-widest">Aura_Assistant</span>
         </div>
-        <button onClick={onClose} className="text-white/60 hover:text-white transition-colors">
+        <button onClick={onClose} aria-label="Close Assistant" className="text-white/60 hover:text-white transition-colors">
           <X size={18} />
         </button>
       </div>

@@ -18,6 +18,7 @@ export default function PortalHeader({ role }: { role: Role }) {
           <Search size={14} className="text-slate-500 group-focus-within:text-blue-400" />
           <input
             placeholder="Neural search system..."
+            aria-label="Neural search system"
             className="bg-transparent outline-none placeholder:text-slate-600 text-xs font-mono uppercase tracking-widest w-full"
           />
         </div>

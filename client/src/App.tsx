@@ -1,168 +1,121 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import PublicLanding from './pages/public/Landing';
-import Compliance from './pages/public/Compliance';
-import Login from './pages/public/Login';
-import Register from './pages/public/Register';
-import PortalLayout from './layouts/PortalLayout';
-import PortalIndexRedirect from './pages/PortalIndexRedirect';
-import { ProtectedRoute } from './components/ProtectedRoute';
-import SEO from './components/SEO';
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useAuth } from './hooks/useAuth'; 
+import { supabase } from './lib/supabase';
 
-// New Unified Pages
-import NeuralDashboard from './pages/portal/NeuralDashboard';
-import ComplianceCenter from './pages/portal/ComplianceCenter';
-import Jobs from './pages/portal/Jobs';
-import Profile from './pages/portal/Profile';
-import Settings from './pages/portal/Settings';
-import Notifications from './pages/portal/Notifications';
-
-// Existing Pages (Legacy/Specific)
-import CandidateVault from './pages/candidate/Vault';
-import CandidateInsights from './pages/candidate/Insights';
-import EmployerApplicants from './pages/employer/Applicants';
-import EmployerHistory from './pages/employer/History';
-import EmployerPricing from './pages/employer/Pricing';
-import AdminUsers from './pages/admin/Users';
-import AdminAudit from './pages/admin/Audit';
-import DesignSystem from './pages/admin/DesignSystem';
-
-import NotFound from './pages/NotFound';
-import CookieConsent from './components/CookieConsent';
+/**
+ * AURA SOVEREIGN HUB - HEARTBEAT v2.3.7
+ * Final Alignment: Batch 02 & A11Y Hardening
+ */
 
 export default function App() {
+  const { user, profile, loading } = useAuth();
+  const [view, setView] = useState<'manifest' | 'hub'>('manifest');
+  const [leads, setLeads] = useState<any[]>([]);
+
+  // SYSTEM LOGIC: Post-Handshake Audit
+  useEffect(() => {
+    if (user && profile) {
+      setView('hub');
+      auditLedger();
+    }
+  }, [user, profile]);
+
+  const auditLedger = async () => {
+    // Fetching Batch 02 (Luca & Elena) once DB push is complete
+    const { data, error } = await supabase
+      .from('introduction_ledger')
+      .select('*')
+      .limit(10);
+    
+    if (!error && data) setLeads(data);
+  };
+
+  if (loading) return (
+    <div className="h-screen bg-[#050505] flex items-center justify-center font-mono">
+      <div className="text-center">
+        <div className="w-12 h-[1px] bg-cyan-400 mx-auto mb-4 animate-pulse" />
+        <p className="text-[10px] text-gray-500 uppercase tracking-[0.6em]">Syncing Aura JWT</p>
+      </div>
+    </div>
+  );
+
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={
-          <>
-            <SEO 
-              title="Home" 
-              description="Aura is the intelligence layer for recruitment in Malta. Seamless hiring, automated compliance, and neural-backed talent matching for the 2026 labor market."
-              jsonLd={{
-                "@context": "https://schema.org",
-                "@type": "WebSite",
-                "name": "Aura Cloud",
-                "url": "https://project-aura-one.vercel.app/",
-                "description": "2026 High-performance recruitment platform for Malta. Neural Matching and Compliance Vault integrated.",
-                "potentialAction": {
-                  "@type": "SearchAction",
-                  "target": "https://project-aura-one.vercel.app/portal/candidate?q={search_term_string}",
-                  "query-input": "required name=search_term_string"
-                }
-              }}
-            />
-            <PublicLanding />
-          </>
-        } />
-        <Route path="/compliance" element={
-          <>
-            <SEO 
-              title="Compliance" 
-              description="Aura Compliance Vault - Blockchain-backed verification for employment compliant with Maltese regulations and Identità standards."
-              jsonLd={{
-                "@context": "https://schema.org",
-                "@type": "BreadcrumbList",
-                "itemListElement": [{
-                  "@type": "ListItem",
-                  "position": 1,
-                  "name": "Home",
-                  "item": "https://project-aura-one.vercel.app/"
-                },{
-                  "@type": "ListItem",
-                  "position": 2,
-                  "name": "Compliance",
-                  "item": "https://project-aura-one.vercel.app/compliance"
-                }]
-              }}
-            />
-            <Compliance />
-          </>
-        } />
-        <Route path="/login" element={
-          <>
-            <SEO title="Login" description="Secure access to your Aura Cloud dashboard. Neural matching and compliance management." />
-            <Login />
-          </>
-        } />
-        <Route path="/register" element={
-          <>
-            <SEO title="Join Aura" description="Create your sovereign identity and join the future of work in Malta. 2026 talent infrastructure ready." />
-            <Register />
-          </>
-        } />
-        <Route path="/portal" element={<ProtectedRoute />}>
-          <Route element={<PortalLayout />}>
-            <Route index element={<PortalIndexRedirect />} />
-            
-            <Route element={<ProtectedRoute allowedRoles={['candidate']} />}>
-              <Route path="candidate" element={
-                <>
-                  <SEO title="Candidate Dashboard" noindex />
-                  <NeuralDashboard />
-                </>
-              } />
-              <Route path="candidate/compliance" element={<><SEO title="Candidate Compliance" noindex /><ComplianceCenter /></>} />
-              <Route path="candidate/vault" element={<><SEO title="Candidate Vault" noindex /><CandidateVault /></>} />
-              <Route path="candidate/insights" element={<><SEO title="Candidate Insights" noindex /><CandidateInsights /></>} />
-            </Route>
-            
-            <Route element={<ProtectedRoute allowedRoles={['employer']} />}>
-              <Route path="employer" element={
-                <>
-                  <SEO title="Employer Console" noindex />
-                  <NeuralDashboard />
-                </>
-              } />
-              <Route path="employer/compliance" element={<><SEO title="Employer Compliance" noindex /><ComplianceCenter /></>} />
-              <Route path="employer/applicants" element={<><SEO title="Employer Applicants" noindex /><EmployerApplicants /></>} />
-              <Route path="employer/history" element={<><SEO title="Employer History" noindex /><EmployerHistory /></>} />
-              <Route path="employer/pricing" element={<><SEO title="Employer Pricing" noindex /><EmployerPricing /></>} />
-            </Route>
-            
-            <Route element={<ProtectedRoute allowedRoles={['admin', 'platform_owner']} />}>
-              <Route path="admin" element={
-                <>
-                  <SEO title="Network Admin" noindex />
-                  <NeuralDashboard />
-                </>
-              } />
-              <Route path="admin/compliance" element={<><SEO title="Admin Compliance" noindex /><ComplianceCenter /></>} />
-              <Route path="admin/users" element={<><SEO title="Admin Users" noindex /><AdminUsers /></>} />
-              <Route path="admin/audit" element={<><SEO title="Admin Audit" noindex /><AdminAudit /></>} />
-              <Route path="admin/design" element={<><SEO title="Design System" noindex /><DesignSystem /></>} />
-            </Route>
+    <div className="min-h-screen bg-[#050505] text-white selection:bg-cyan-500/20 antialiased">
+      <AnimatePresence mode="wait">
+        {view === 'manifest' ? (
+          <motion.div 
+            key="m" 
+            exit={{ opacity: 0, scale: 1.1, filter: 'blur(10px)' }}
+            className="h-screen flex items-center justify-center"
+          >
+            <div 
+              onClick={() => setView('hub')} 
+              className="group cursor-pointer p-24 border border-white/5 bg-white/[0.01] rounded-[5rem] transition-all hover:border-cyan-500/30"
+            >
+              <h1 className="text-[12rem] font-black italic tracking-tighter leading-none text-white group-hover:text-cyan-400">AURA</h1>
+              <p className="text-center font-mono text-[9px] uppercase tracking-[0.5em] text-gray-600 mt-6">Ignite Sovereign Engine</p>
+            </div>
+          </motion.div>
+        ) : (
+          <motion.div key="h" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="p-16">
+            <header className="flex justify-between items-start mb-24">
+              <div>
+                <h2 className="text-4xl font-black italic tracking-tighter">AURA HUB</h2>
+                <div className="flex items-center gap-3 mt-3">
+                  <span className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-ping" />
+                  <p className="text-[10px] font-mono text-cyan-400 uppercase tracking-widest">v2.3.7 // Batch 02 Staged</p>
+                </div>
+              </div>
+              <div className="bg-white/5 border border-white/10 px-6 py-4 rounded-3xl text-right">
+                <p className="text-[9px] font-mono text-gray-500 uppercase">Sovereign Role</p>
+                <p className="text-xs font-bold text-white uppercase tracking-tight">{profile?.role || 'Unassigned'}</p>
+              </div>
+            </header>
 
-            {/* Common Portal Routes */}
-            <Route path=":role/notifications" element={
-              <>
-                <SEO title="Alert Stream" noindex />
-                <Notifications />
-              </>
-            } />
-            <Route path=":role/profile" element={
-              <>
-                <SEO title="Identity Manifest" noindex />
-                <Profile />
-              </>
-            } />
-            <Route path=":role/settings" element={
-              <>
-                <SEO title="System Parameters" noindex />
-                <Settings />
-              </>
-            } />
-            <Route path=":role/jobs" element={
-              <>
-                <SEO title="Job Vacancies" noindex />
-                <Jobs />
-              </>
-            } />
+            <div className="grid grid-cols-12 gap-12">
+              {/* Introduction Ledger (Batch 02) */}
+              <div className="col-span-8 space-y-4">
+                <h3 className="text-[10px] font-mono text-gray-600 uppercase tracking-[0.4em] mb-10">Neural Ledger // Introductions</h3>
+                <div className="grid grid-cols-2 gap-6">
+                  {leads.length > 0 ? leads.map(lead => (
+                    <div key={lead.id} className="p-10 bg-white/[0.02] border border-white/5 rounded-[3.5rem] hover:bg-white/[0.04] transition-all">
+                      <div className="flex justify-between mb-8">
+                        <span className="text-[10px] font-mono text-cyan-400">98% Sync</span>
+                        <div className="w-3 h-3 bg-cyan-400 rounded-full blur-[4px]" />
+                      </div>
+                      <h4 className="text-2xl font-black italic tracking-tight">{lead.full_name || 'Neural Lead'}</h4>
+                      <p className="text-gray-500 text-xs mt-2">{lead.role_context || 'Matching in progress...'}</p>
+                    </div>
+                  )) : (
+                    <div className="col-span-2 p-20 border-2 border-dashed border-white/5 rounded-[4rem] text-center">
+                      <p className="text-gray-700 font-mono text-[10px] uppercase tracking-widest">Awaiting Handshake Spark...</p>
+                    </div>
+                  )}
+                </div>
+              </div>
 
-          </Route>
-        </Route>
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-      <CookieConsent />
-    </BrowserRouter>
+              {/* Step-Sync Progress */}
+              <div className="col-span-4 h-full">
+                <div className="sticky top-16 p-10 bg-white/[0.01] border border-white/5 rounded-[4rem] backdrop-blur-3xl">
+                  <h3 className="text-lg font-bold mb-12">Step-Sync™</h3>
+                  <div className="space-y-12">
+                    {['Manifest', 'Metadata-Fix', 'Batch 02 Audit', 'Grant Permit'].map((step, i) => (
+                      <div key={i} className="flex gap-8 items-center">
+                        <div className={`w-4 h-4 rounded-full ${i < 3 ? 'bg-cyan-400 shadow-[0_0_20px_rgba(34,211,238,0.5)]' : 'bg-white/5'}`} />
+                        <div>
+                          <p className={`text-[9px] font-mono uppercase tracking-widest ${i < 3 ? 'text-cyan-400' : 'text-gray-700'}`}>Phase 0{i+1}</p>
+                          <p className={`text-sm font-bold tracking-tight ${i < 3 ? 'text-white' : 'text-gray-700'}`}>{step}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
   );
 }

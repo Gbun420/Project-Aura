@@ -10,6 +10,7 @@
     "db:reset": "npm run seed --prefix server",
     "demo:ignite": "npm run db:reset && npm start --prefix server",
     "start:aura": "npm start --prefix server & npm run dev --prefix client",
+    "monitor:aura": "node neural-monitor.cjs",
     "aura-vault-backup": "cp server/aura.db server/aura.db.bak && echo '>>> AURA_VAULT: Immutable Snapshot Created.'",
     "aura-vault-restore": "cp server/aura.db.bak server/aura.db && echo '>>> AURA_VAULT: Perfect State Restored.'"
   },
