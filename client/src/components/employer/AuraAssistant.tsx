@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Send, Sparkles, X } from 'lucide-react';
+import { Send, Sparkles, X } from '@/icons';
 
 type AssistantProps = {
   candidateContext: {

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { supabase } from '../../lib/supabase';
-import { ShieldCheck } from 'lucide-react';
+import { ShieldCheck } from '@/icons';
 
 type ComplianceAnalysis = {
   score: number;

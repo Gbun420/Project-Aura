@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, lazy, Suspense } from 'react-router-dom';
 import PublicLanding from './pages/public/Landing';
 import Compliance from './pages/public/Compliance';
 import Login from './pages/public/Login';
@@ -8,26 +8,26 @@ import PortalIndexRedirect from './pages/PortalIndexRedirect';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import SEO from './components/SEO';
 
-// New Unified Pages
-import NeuralDashboard from './pages/portal/NeuralDashboard';
-import ComplianceCenter from './pages/portal/ComplianceCenter';
-import Jobs from './pages/portal/Jobs';
-import Profile from './pages/portal/Profile';
-import Settings from './pages/portal/Settings';
-import Notifications from './pages/portal/Notifications';
+// New Unified Pages - Lazy Loaded
+const NeuralDashboard = lazy(() => import('./pages/portal/NeuralDashboard'));
+const ComplianceCenter = lazy(() => import('./pages/portal/ComplianceCenter'));
+const Jobs = lazy(() => import('./pages/portal/Jobs'));
+const Profile = lazy(() => import('./pages/portal/Profile'));
+const Settings = lazy(() => import('./pages/portal/Settings'));
+const Notifications = lazy(() => import('./pages/portal/Notifications'));
 
-// Existing Pages (Legacy/Specific)
-import CandidateVault from './pages/candidate/Vault';
-import CandidateInsights from './pages/candidate/Insights';
-import EmployerApplicants from './pages/employer/Applicants';
-import EmployerHistory from './pages/employer/History';
-import EmployerPricing from './pages/employer/Pricing';
-import AdminUsers from './pages/admin/Users';
-import AdminAudit from './pages/admin/Audit';
-import DesignSystem from './pages/admin/DesignSystem';
+// Existing Pages (Legacy/Specific) - Lazy Loaded
+const CandidateVault = lazy(() => import('./pages/candidate/Vault'));
+const CandidateInsights = lazy(() => import('./pages/candidate/Insights'));
+const EmployerApplicants = lazy(() => import('./pages/employer/Applicants'));
+const EmployerHistory = lazy(() => import('./pages/employer/History'));
+const EmployerPricing = lazy(() => import('./pages/employer/Pricing'));
+const AdminUsers = lazy(() => import('./pages/admin/Users'));
+const AdminAudit = lazy(() => import('./pages/admin/Audit'));
+const DesignSystem = lazy(() => import('./pages/admin/DesignSystem'));
 
-import NotFound from './pages/NotFound';
-import CookieConsent from './components/CookieConsent';
+const NotFound = lazy(() => import('./pages/NotFound'));
+const CookieConsent = lazy(() => import('./components/CookieConsent'));
 
 export default function App() {
   return (
@@ -94,7 +94,9 @@ export default function App() {
         <Route path="/jobs" element={
           <>
             <SEO title="Job Vacancies" noindex />
-            <Jobs />
+            <Suspense fallback={<div>Loading jobs...</div>}>
+              <Jobs />
+            </Suspense>
           </>
         } />
         <Route path="/portal" element={<ProtectedRoute />}>
@@ -105,70 +107,90 @@ export default function App() {
               <Route path="candidate" element={
                 <>
                   <SEO title="Candidate Dashboard" noindex />
-                  <NeuralDashboard />
+                  <Suspense fallback={<div>Loading dashboard...</div>}>
+                    <NeuralDashboard />
+                  </Suspense>
                 </>
               } />
-              <Route path="candidate/compliance" element={<><SEO title="Candidate Compliance" noindex /><ComplianceCenter /></>} />
-              <Route path="candidate/vault" element={<><SEO title="Candidate Vault" noindex /><ComplianceCenter /></>} />
-              <Route path="candidate/insights" element={<><SEO title="Candidate Insights" noindex /><CandidateInsights /></>} />
+              <Route path="candidate/compliance" element={<><SEO title="Candidate Compliance" noindex /><Suspense fallback={<div>Loading compliance...</div>}><ComplianceCenter /></Suspense></>} />
+              <Route path="candidate/vault" element={<><SEO title="Candidate Vault" noindex /><Suspense fallback={<div>Loading vault...</div>}><ComplianceCenter /></Suspense></>} />
+              <Route path="candidate/insights" element={<><SEO title="Candidate Insights" noindex /><Suspense fallback={<div>Loading insights...</div>}><CandidateInsights /></Suspense></>} />
             </Route>
             
             <Route element={<ProtectedRoute allowedRoles={['employer']} />}>
               <Route path="employer" element={
                 <>
                   <SEO title="Employer Console" noindex />
-                  <NeuralDashboard />
+                  <Suspense fallback={<div>Loading dashboard...</div>}>
+                    <NeuralDashboard />
+                  </Suspense>
                 </>
               } />
-              <Route path="employer/compliance" element={<><SEO title="Employer Compliance" noindex /><ComplianceCenter /></>} />
-              <Route path="employer/applicants" element={<><SEO title="Employer Applicants" noindex /><EmployerApplicants /></>} />
-              <Route path="employer/history" element={<><SEO title="Employer History" noindex /><EmployerHistory /></>} />
-              <Route path="employer/pricing" element={<><SEO title="Employer Pricing" noindex /><EmployerPricing /></>} />
+              <Route path="employer/compliance" element={<><SEO title="Employer Compliance" noindex /><Suspense fallback={<div>Loading compliance...</div>}><ComplianceCenter /></Suspense></>} />
+              <Route path="employer/applicants" element={<><SEO title="Employer Applicants" noindex /><Suspense fallback={<div>Loading applicants...</div>}><EmployerApplicants /></Suspense></>} />
+              <Route path="employer/history" element={<><SEO title="Employer History" noindex /><Suspense fallback={<div>Loading history...</div>}><EmployerHistory /></Suspense></>} />
+              <Route path="employer/pricing" element={<><SEO title="Employer Pricing" noindex /><Suspense fallback={<div>Loading pricing...</div>}><EmployerPricing /></Suspense></>} />
             </Route>
             
             <Route element={<ProtectedRoute allowedRoles={['admin', 'platform_owner']} />}>
               <Route path="admin" element={
                 <>
                   <SEO title="Network Admin" noindex />
-                  <NeuralDashboard />
+                  <Suspense fallback={<div>Loading dashboard...</div>}>
+                    <NeuralDashboard />
+                  </Suspense>
                 </>
               } />
-              <Route path="admin/compliance" element={<><SEO title="Admin Compliance" noindex /><ComplianceCenter /></>} />
-              <Route path="admin/users" element={<><SEO title="Admin Users" noindex /><AdminUsers /></>} />
-              <Route path="admin/audit" element={<><SEO title="Admin Audit" noindex /><AdminAudit /></>} />
-              <Route path="admin/design" element={<><SEO title="Design System" noindex /><DesignSystem /></>} />
+              <Route path="admin/compliance" element={<><SEO title="Admin Compliance" noindex /><Suspense fallback={<div>Loading compliance...</div>}><ComplianceCenter /></Suspense></>} />
+              <Route path="admin/users" element={<><SEO title="Admin Users" noindex /><Suspense fallback={<div>Loading users...</div>}><AdminUsers /></Suspense></>} />
+              <Route path="admin/audit" element={<><SEO title="Admin Audit" noindex /><Suspense fallback={<div>Loading audit...</div>}><AdminAudit /></Suspense></>} />
+              <Route path="admin/design" element={<><SEO title="Design System" noindex /><Suspense fallback={<div>Loading design system...</div>}><DesignSystem /></Suspense></>} />
             </Route>
 
             {/* Common Portal Routes */}
             <Route path=":role/notifications" element={
               <>
                 <SEO title="Alert Stream" noindex />
-                <Notifications />
+                <Suspense fallback={<div>Loading notifications...</div>}>
+                  <Notifications />
+                </Suspense>
               </>
             } />
             <Route path=":role/profile" element={
               <>
                 <SEO title="Identity Manifest" noindex />
-                <Profile />
+                <Suspense fallback={<div>Loading profile...</div>}>
+                  <Profile />
+                </Suspense>
               </>
             } />
             <Route path=":role/settings" element={
               <>
                 <SEO title="System Parameters" noindex />
-                <Settings />
+                <Suspense fallback={<div>Loading settings...</div>}>
+                  <Settings />
+                </Suspense>
               </>
             } />
             <Route path=":role/jobs" element={
               <>
                 <SEO title="Job Vacancies" noindex />
-                <Jobs />
+                <Suspense fallback={<div>Loading jobs...</div>}>
+                  <Jobs />
+                </Suspense>
               </>
             } />
           </Route>
         </Route>
-        <Route path="*" element={<NotFound />} />
+        <Route path="*" element={
+          <Suspense fallback={<div>Loading page...</div>}>
+            <NotFound />
+          </Suspense>
+        } />
       </Routes>
-      <CookieConsent />
+      <Suspense fallback={<div>Loading consent...</div>}>
+        <CookieConsent />
+      </Suspense>
     </BrowserRouter>
   );
 }

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Briefcase, Plus, Filter, Search, MoreVertical, ExternalLink } from 'lucide-react';
+import { Briefcase, Plus, Filter, Search, MoreVertical, ExternalLink } from '@/icons';
 import { supabase } from '../../lib/supabase';
 import { useAuth } from '../../hooks/useAuth';
 import SEO from '../../components/SEO';

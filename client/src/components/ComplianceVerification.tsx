@@ -1,5 +1,5 @@
 import React from 'react';
-import { Shield, Globe, AlertCircle } from 'lucide-react';
+import { Shield, Globe, AlertCircle } from '@/icons';
 
 const ComplianceVerification: React.FC = () => {
   return (

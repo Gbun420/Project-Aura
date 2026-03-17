@@ -1,4 +1,4 @@
-import { Settings as SettingsIcon, Bell, Shield, Smartphone, Globe, CreditCard, ChevronRight } from 'lucide-react';
+import { Settings as SettingsIcon, Bell, Shield, Smartphone, Globe, CreditCard, ChevronRight } from '@/icons';
 import { supabase } from '../../lib/supabase';
 import { useAuth } from '../../hooks/useAuth';
 

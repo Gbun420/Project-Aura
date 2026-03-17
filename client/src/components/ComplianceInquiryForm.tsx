@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Send, CheckCircle } from 'lucide-react';
+import { Send, CheckCircle } from '@/icons';
 
 const ComplianceInquiryForm: React.FC = () => {
   const [formData, setFormData] = useState({

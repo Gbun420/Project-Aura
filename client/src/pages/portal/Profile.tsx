@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { User, Mail, Shield, ShieldCheck, Key, Globe, Camera } from 'lucide-react';
+import { User, Mail, Shield, ShieldCheck, Key, Globe, Camera } from '@/icons';
 import { useAuth } from '../../hooks/useAuth';
 import SEO from '../../components/SEO';
 

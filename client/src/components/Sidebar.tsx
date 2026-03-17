@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
-import { Brain, Shield, Bell, User, Briefcase, Settings } from 'lucide-react';
+import { Brain as SidebarBrain, Shield as SidebarShield, Bell as SidebarBell, User as SidebarUser, Briefcase as SidebarBriefcase, Settings as SidebarSettings } from '@/icons';
 import type { Role } from '../types/aura.js';
 import { Logo } from './Logo';
 

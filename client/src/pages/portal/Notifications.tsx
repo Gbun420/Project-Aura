@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Bell, Zap, Shield, Filter, Trash2 } from 'lucide-react';
+import { Bell, Zap, Shield, Filter, Trash2 } from '@/icons';
 import { supabase } from '../../lib/supabase';
 import { useAuth } from '../../hooks/useAuth';
 

@@ -1,4 +1,4 @@
-import { Brain, Sparkles, Lock, Cpu } from 'lucide-react';
+import { Brain, Sparkles, Lock, Cpu } from '../icons';
 import { motion } from 'framer-motion';
 
 interface Props {

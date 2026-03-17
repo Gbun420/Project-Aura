@@ -1,5 +1,5 @@
 import React from 'react';
-import { Mail, Shield, Clock, FileText } from 'lucide-react';
+import { Mail, Shield, Clock, FileText } from '@/icons';
 
 const ContactCompliance: React.FC = () => {
   return (
