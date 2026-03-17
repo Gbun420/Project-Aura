@@ -11,23 +11,55 @@
 > tsx src/index.ts
 
 
-  VITE v7.3.1  ready in 256 ms
+  VITE v7.3.1  ready in 200 ms
 
   ➜  Local:   http://localhost:5173/
   ➜  Network: use --host to expose
   ➜  press h + enter to show help
-[dotenv@17.3.1] injecting env (5) from .env -- tip: 🔐 prevent committing .env to code: https://dotenvx.com/precommit
-/Users/glennbundy/Desktop/untitled folder/project-aura/server/node_modules/@prisma/client/src/runtime/utils/validatePrismaClientOptions.ts:239
-      throw new PrismaClientConstructorValidationError(
+[dotenv@17.3.1] injecting env (5) from .env -- tip: ⚙️  load multiple .env files with { path: ['.env.local', '.env'] }
+[dotenv@17.3.1] injecting env (0) from .env -- tip: ⚙️  load multiple .env files with { path: ['.env.local', '.env'] }
+[AURA_OS] Core Engine tracking on port 3001
+/Users/glennbundy/Desktop/untitled folder/project-aura/server/node_modules/@prisma/client/src/runtime/RequestHandler.ts:237
+      throw new PrismaClientKnownRequestError(message, {
             ^
 
-PrismaClientConstructorValidationError: Unknown property datasources provided to PrismaClient constructor.
-Read more at https://pris.ly/d/client-constructor
-    at validatePrismaClientOptions (/Users/glennbundy/Desktop/untitled folder/project-aura/server/node_modules/@prisma/client/src/runtime/utils/validatePrismaClientOptions.ts:239:13)
-    at new t (/Users/glennbundy/Desktop/untitled folder/project-aura/server/node_modules/@prisma/client/src/runtime/getPrismaClient.ts:342:7)
-    at <anonymous> (/Users/glennbundy/Desktop/untitled folder/project-aura/server/src/core/database.ts:7:16)
-    at ModuleJob.run (node:internal/modules/esm/module_job:413:25)
-    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:660:26)
-    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+PrismaClientKnownRequestError: 
+Invalid `db.introductionLedger.findMany()` invocation in
+/Users/glennbundy/Desktop/untitled folder/project-aura/server/src/workers/ShadowMonitor.ts:12:50
+
+   9  * to 'Hired' on the frontend while no fee is paid.
+  10  */
+  11 static async checkIntegrity(db: any) {
+→ 12   const outliers = await db.introductionLedger.findMany(
+Can't reach database server at db.shfaydzqdomkkfvnhcal.supabase.co
+    at Gr.handleRequestError (/Users/glennbundy/Desktop/untitled folder/project-aura/server/node_modules/@prisma/client/src/runtime/RequestHandler.ts:237:13)
+    at Gr.handleAndLogRequestError (/Users/glennbundy/Desktop/untitled folder/project-aura/server/node_modules/@prisma/client/src/runtime/RequestHandler.ts:183:12)
+    at Gr.request (/Users/glennbundy/Desktop/untitled folder/project-aura/server/node_modules/@prisma/client/src/runtime/RequestHandler.ts:152:12)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async a (/Users/glennbundy/Desktop/untitled folder/project-aura/server/node_modules/@prisma/client/src/runtime/getPrismaClient.ts:938:24)
+    at async ShadowMonitor.checkIntegrity (/Users/glennbundy/Desktop/untitled folder/project-aura/server/src/workers/ShadowMonitor.ts:12:22) {
+  code: 'P1001',
+  meta: {
+    modelName: 'IntroductionLedger',
+    driverAdapterError: DriverAdapterError: DatabaseNotReachable
+        at PrismaPgAdapter.onError (file:///Users/glennbundy/Desktop/untitled%20folder/project-aura/server/node_modules/@prisma/adapter-pg/dist/index.mjs:651:11)
+        at PrismaPgAdapter.performIO (file:///Users/glennbundy/Desktop/untitled%20folder/project-aura/server/node_modules/@prisma/adapter-pg/dist/index.mjs:646:12)
+        at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+        at async PrismaPgAdapter.queryRaw (file:///Users/glennbundy/Desktop/untitled%20folder/project-aura/server/node_modules/@prisma/adapter-pg/dist/index.mjs:566:30)
+        at async e.interpretNode (/Users/glennbundy/Desktop/untitled folder/project-aura/server/node_modules/@prisma/client-engine-runtime/src/interpreter/query-interpreter.ts:186:26)
+        at async e.interpretNode (/Users/glennbundy/Desktop/untitled folder/project-aura/server/node_modules/@prisma/client-engine-runtime/src/interpreter/query-interpreter.ts:272:41)
+        at async e.run (/Users/glennbundy/Desktop/untitled folder/project-aura/server/node_modules/@prisma/client-engine-runtime/src/interpreter/query-interpreter.ts:94:23)
+        at async e.execute (/Users/glennbundy/Desktop/untitled folder/project-aura/server/node_modules/@prisma/client/src/runtime/core/engines/client/LocalExecutor.ts:81:12)
+        at async jt.request (/Users/glennbundy/Desktop/untitled folder/project-aura/server/node_modules/@prisma/client/src/runtime/core/engines/client/ClientEngine.ts:492:22)
+        at async Object.singleLoader (/Users/glennbundy/Desktop/untitled folder/project-aura/server/node_modules/@prisma/client/src/runtime/RequestHandler.ts:112:26) {
+      cause: {
+        kind: 'DatabaseNotReachable',
+        host: 'db.shfaydzqdomkkfvnhcal.supabase.co',
+        port: undefined
+      }
+    }
+  },
+  clientVersion: '7.5.0'
+}
 
 Node.js v24.12.0
