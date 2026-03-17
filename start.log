@@ -63,3 +63,87 @@ Can't reach database server at db.shfaydzqdomkkfvnhcal.supabase.co
 }
 
 Node.js v24.12.0
+8:34:28 PM [vite] Internal server error: /Users/glennbundy/Desktop/untitled folder/project-aura/client/src/pages/public/Landing.tsx: Adjacent JSX elements must be wrapped in an enclosing tag. Did you want a JSX fragment <>...</>? (376:20)
+
+  374 |                     </div>
+  375 |                     
+> 376 |                     <div className="flex items-center gap-3 text-sm text-slate-600">
+      |                     ^
+  377 |                       <span className="rounded-full border border-slate-200 px-3 py-1 text-xs">{job.tag}</span>
+  378 |                       <span className="font-semibold text-slate-900">{job.salary}</span>
+  379 |                       <button
+  Plugin: vite:react-babel
+  File: /Users/glennbundy/Desktop/untitled folder/project-aura/client/src/pages/public/Landing.tsx:376:20
+  374 |                      </div>
+  375 |                      
+  376 |                      <div className="flex items-center gap-3 text-sm text-slate-600">
+      |                      ^
+  377 |                        <span className="rounded-full border border-slate-200 px-3 py-1 text-xs">{job.tag}</span>
+  378 |                        <span className="font-semibold text-slate-900">{job.salary}</span>
+      at constructor (/Users/glennbundy/Desktop/untitled folder/project-aura/client/node_modules/@babel/parser/lib/index.js:365:19)
+      at TypeScriptParserMixin.raise (/Users/glennbundy/Desktop/untitled folder/project-aura/client/node_modules/@babel/parser/lib/index.js:6599:19)
+      at TypeScriptParserMixin.jsxParseElementAt (/Users/glennbundy/Desktop/untitled folder/project-aura/client/node_modules/@babel/parser/lib/index.js:4742:18)
+      at TypeScriptParserMixin.jsxParseElement (/Users/glennbundy/Desktop/untitled folder/project-aura/client/node_modules/@babel/parser/lib/index.js:4749:17)
+      at TypeScriptParserMixin.parseExprAtom (/Users/glennbundy/Desktop/untitled folder/project-aura/client/node_modules/@babel/parser/lib/index.js:4759:19)
+      at TypeScriptParserMixin.parseExprSubscripts (/Users/glennbundy/Desktop/untitled folder/project-aura/client/node_modules/@babel/parser/lib/index.js:11081:23)
+      at TypeScriptParserMixin.parseUpdate (/Users/glennbundy/Desktop/untitled folder/project-aura/client/node_modules/@babel/parser/lib/index.js:11066:21)
+      at TypeScriptParserMixin.parseMaybeUnary (/Users/glennbundy/Desktop/untitled folder/project-aura/client/node_modules/@babel/parser/lib/index.js:11046:23)
+      at TypeScriptParserMixin.parseMaybeUnary (/Users/glennbundy/Desktop/untitled folder/project-aura/client/node_modules/@babel/parser/lib/index.js:9837:18)
+      at TypeScriptParserMixin.parseMaybeUnaryOrPrivate (/Users/glennbundy/Desktop/untitled folder/project-aura/client/node_modules/@babel/parser/lib/index.js:10899:61)
+      at TypeScriptParserMixin.parseExprOps (/Users/glennbundy/Desktop/untitled folder/project-aura/client/node_modules/@babel/parser/lib/index.js:10904:23)
+      at TypeScriptParserMixin.parseMaybeConditional (/Users/glennbundy/Desktop/untitled folder/project-aura/client/node_modules/@babel/parser/lib/index.js:10881:23)
+      at TypeScriptParserMixin.parseMaybeAssign (/Users/glennbundy/Desktop/untitled folder/project-aura/client/node_modules/@babel/parser/lib/index.js:10831:21)
+      at /Users/glennbundy/Desktop/untitled folder/project-aura/client/node_modules/@babel/parser/lib/index.js:9775:39
+      at TypeScriptParserMixin.tryParse (/Users/glennbundy/Desktop/untitled folder/project-aura/client/node_modules/@babel/parser/lib/index.js:6907:20)
+      at TypeScriptParserMixin.parseMaybeAssign (/Users/glennbundy/Desktop/untitled folder/project-aura/client/node_modules/@babel/parser/lib/index.js:9775:18)
+      at /Users/glennbundy/Desktop/untitled folder/project-aura/client/node_modules/@babel/parser/lib/index.js:10800:39
+      at TypeScriptParserMixin.allowInAnd (/Users/glennbundy/Desktop/untitled folder/project-aura/client/node_modules/@babel/parser/lib/index.js:12426:12)
+      at TypeScriptParserMixin.parseMaybeAssignAllowIn (/Users/glennbundy/Desktop/untitled folder/project-aura/client/node_modules/@babel/parser/lib/index.js:10800:17)
+      at TypeScriptParserMixin.parseMaybeAssignAllowInOrVoidPattern (/Users/glennbundy/Desktop/untitled folder/project-aura/client/node_modules/@babel/parser/lib/index.js:12493:17)
+      at TypeScriptParserMixin.parseParenAndDistinguishExpression (/Users/glennbundy/Desktop/untitled folder/project-aura/client/node_modules/@babel/parser/lib/index.js:11675:28)
+      at TypeScriptParserMixin.parseExprAtom (/Users/glennbundy/Desktop/untitled folder/project-aura/client/node_modules/@babel/parser/lib/index.js:11331:23)
+      at TypeScriptParserMixin.parseExprAtom (/Users/glennbundy/Desktop/untitled folder/project-aura/client/node_modules/@babel/parser/lib/index.js:4764:20)
+      at TypeScriptParserMixin.parseExprSubscripts (/Users/glennbundy/Desktop/untitled folder/project-aura/client/node_modules/@babel/parser/lib/index.js:11081:23)
+      at TypeScriptParserMixin.parseUpdate (/Users/glennbundy/Desktop/untitled folder/project-aura/client/node_modules/@babel/parser/lib/index.js:11066:21)
+      at TypeScriptParserMixin.parseMaybeUnary (/Users/glennbundy/Desktop/untitled folder/project-aura/client/node_modules/@babel/parser/lib/index.js:11046:23)
+      at TypeScriptParserMixin.parseMaybeUnary (/Users/glennbundy/Desktop/untitled folder/project-aura/client/node_modules/@babel/parser/lib/index.js:9837:18)
+      at TypeScriptParserMixin.parseMaybeUnaryOrPrivate (/Users/glennbundy/Desktop/untitled folder/project-aura/client/node_modules/@babel/parser/lib/index.js:10899:61)
+      at TypeScriptParserMixin.parseExprOps (/Users/glennbundy/Desktop/untitled folder/project-aura/client/node_modules/@babel/parser/lib/index.js:10904:23)
+      at TypeScriptParserMixin.parseMaybeConditional (/Users/glennbundy/Desktop/untitled folder/project-aura/client/node_modules/@babel/parser/lib/index.js:10881:23)
+      at TypeScriptParserMixin.parseMaybeAssign (/Users/glennbundy/Desktop/untitled folder/project-aura/client/node_modules/@babel/parser/lib/index.js:10831:21)
+      at TypeScriptParserMixin.parseMaybeAssign (/Users/glennbundy/Desktop/untitled folder/project-aura/client/node_modules/@babel/parser/lib/index.js:9786:20)
+      at TypeScriptParserMixin.parseFunctionBody (/Users/glennbundy/Desktop/untitled folder/project-aura/client/node_modules/@babel/parser/lib/index.js:12093:24)
+      at TypeScriptParserMixin.parseArrowExpression (/Users/glennbundy/Desktop/untitled folder/project-aura/client/node_modules/@babel/parser/lib/index.js:12075:10)
+      at TypeScriptParserMixin.parseExprAtom (/Users/glennbundy/Desktop/untitled folder/project-aura/client/node_modules/@babel/parser/lib/index.js:11438:25)
+      at TypeScriptParserMixin.parseExprAtom (/Users/glennbundy/Desktop/untitled folder/project-aura/client/node_modules/@babel/parser/lib/index.js:4764:20)
+      at TypeScriptParserMixin.parseExprSubscripts (/Users/glennbundy/Desktop/untitled folder/project-aura/client/node_modules/@babel/parser/lib/index.js:11081:23)
+      at TypeScriptParserMixin.parseUpdate (/Users/glennbundy/Desktop/untitled folder/project-aura/client/node_modules/@babel/parser/lib/index.js:11066:21)
+      at TypeScriptParserMixin.parseMaybeUnary (/Users/glennbundy/Desktop/untitled folder/project-aura/client/node_modules/@babel/parser/lib/index.js:11046:23)
+      at TypeScriptParserMixin.parseMaybeUnary (/Users/glennbundy/Desktop/untitled folder/project-aura/client/node_modules/@babel/parser/lib/index.js:9837:18)
+      at TypeScriptParserMixin.parseMaybeUnaryOrPrivate (/Users/glennbundy/Desktop/untitled folder/project-aura/client/node_modules/@babel/parser/lib/index.js:10899:61)
+      at TypeScriptParserMixin.parseExprOps (/Users/glennbundy/Desktop/untitled folder/project-aura/client/node_modules/@babel/parser/lib/index.js:10904:23)
+      at TypeScriptParserMixin.parseMaybeConditional (/Users/glennbundy/Desktop/untitled folder/project-aura/client/node_modules/@babel/parser/lib/index.js:10881:23)
+      at TypeScriptParserMixin.parseMaybeAssign (/Users/glennbundy/Desktop/untitled folder/project-aura/client/node_modules/@babel/parser/lib/index.js:10831:21)
+      at TypeScriptParserMixin.parseMaybeAssign (/Users/glennbundy/Desktop/untitled folder/project-aura/client/node_modules/@babel/parser/lib/index.js:9786:20)
+      at /Users/glennbundy/Desktop/untitled folder/project-aura/client/node_modules/@babel/parser/lib/index.js:10800:39
+      at TypeScriptParserMixin.allowInAnd (/Users/glennbundy/Desktop/untitled folder/project-aura/client/node_modules/@babel/parser/lib/index.js:12426:12)
+      at TypeScriptParserMixin.parseMaybeAssignAllowIn (/Users/glennbundy/Desktop/untitled folder/project-aura/client/node_modules/@babel/parser/lib/index.js:10800:17)
+      at TypeScriptParserMixin.parseMaybeAssignAllowInOrVoidPattern (/Users/glennbundy/Desktop/untitled folder/project-aura/client/node_modules/@babel/parser/lib/index.js:12493:17)
+      at TypeScriptParserMixin.parseExprListItem (/Users/glennbundy/Desktop/untitled folder/project-aura/client/node_modules/@babel/parser/lib/index.js:12175:18)
+8:34:28 PM [vite] (client) Pre-transform error: /Users/glennbundy/Desktop/untitled folder/project-aura/client/src/pages/public/Landing.tsx: Adjacent JSX elements must be wrapped in an enclosing tag. Did you want a JSX fragment <>...</>? (376:20)
+
+  374 |                     </div>
+  375 |                     
+> 376 |                     <div className="flex items-center gap-3 text-sm text-slate-600">
+      |                     ^
+  377 |                       <span className="rounded-full border border-slate-200 px-3 py-1 text-xs">{job.tag}</span>
+  378 |                       <span className="font-semibold text-slate-900">{job.salary}</span>
+  379 |                       <button
+  Plugin: vite:react-babel
+  File: /Users/glennbundy/Desktop/untitled folder/project-aura/client/src/pages/public/Landing.tsx:376:20
+  374 |                      </div>
+  375 |                      
+  376 |                      <div className="flex items-center gap-3 text-sm text-slate-600">
+      |                      ^
+  377 |                        <span className="rounded-full border border-slate-200 px-3 py-1 text-xs">{job.tag}</span>
+  378 |                        <span className="font-semibold text-slate-900">{job.salary}</span>
