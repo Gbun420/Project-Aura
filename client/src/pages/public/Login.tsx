@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 import { supabase } from '../../lib/supabase';
+import { Logo } from '../../components/Logo';
 
 export default function Login() {
   const { user, role } = useAuth();
@@ -42,7 +43,7 @@ export default function Login() {
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_-20%,rgba(66,133,244,0.25),transparent_40%),radial-gradient(circle_at_85%_0%,rgba(155,114,203,0.2),transparent_35%)]" />
       <div className="relative w-full max-w-md rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl p-8 shadow-2xl">
         <div className="text-center mb-8">
-          <div className="mx-auto h-12 w-12 rounded-2xl bg-gradient-to-br from-[#4285F4] via-[#9B72CB] to-[#D96570]" />
+          <Logo className="mx-auto text-white" size={48} />
           <h2 className="mt-4 text-3xl font-semibold tracking-tight">Access AURA_CORE</h2>
           <p className="mt-2 text-sm text-slate-400">Initialize your session to continue.</p>
         </div>

@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { ArrowRight, Sparkles, ShieldCheck, Users, Wand2, Brain, FileCheck } from 'lucide-react';
 import ComplianceVerification from '../../components/ComplianceVerification';
+import { Logo } from '../../components/Logo';
 
 const JOBS = [
   { title: 'Senior Frontend Engineer', company: 'Valletta Digital', location: 'Sliema, Malta', tag: 'Hybrid', salary: '€60–75k', matchScore: 94 },
@@ -14,7 +15,7 @@ export default function PublicLanding() {
       <header className="sticky top-0 z-20 backdrop-blur-md bg-white/70 border-b border-slate-200">
         <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="h-10 w-10 rounded-2xl bg-gradient-to-br from-[#4285F4] via-[#9B72CB] to-[#D96570]" />
+            <Logo size={42} className="text-slate-900 drop-shadow-sm" />
             <div>
               <p className="text-xs uppercase tracking-[0.3em] text-slate-400">Aura</p>
               <p className="text-lg font-semibold">Talent</p>

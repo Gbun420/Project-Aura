@@ -1,6 +1,7 @@
 import { Link, useLocation } from 'react-router-dom';
-import { Brain, Shield, Bell, User, Briefcase, Settings, LayoutGrid } from 'lucide-react';
+import { Brain, Shield, Bell, User, Briefcase, Settings } from 'lucide-react';
 import { Role } from '../types/aura.js';
+import { Logo } from './Logo';
 
 interface NavItemProps {
   icon: typeof Brain;
@@ -54,8 +55,9 @@ export default function Sidebar({ role }: { role: Role }) {
     <aside className="w-64 shrink-0 border-r border-white/5 bg-[#050505] flex flex-col h-screen">
       <div className="p-6 border-b border-white/5">
         <div className="flex items-center gap-3">
-          <div className={`h-10 w-10 rounded-2xl bg-gradient-to-br from-${currentPortal.color}-500 to-${currentPortal.color}-700 flex items-center justify-center shadow-lg`}>
-            <LayoutGrid size={20} className="text-white" />
+          <div className="relative group cursor-pointer">
+            <div className="absolute inset-0 bg-blue-500/20 blur-xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            <Logo size={42} className="relative z-10 drop-shadow-[0_0_10px_rgba(79,70,229,0.5)] text-white" />
           </div>
           <div>
             <p className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500">Aura</p>
