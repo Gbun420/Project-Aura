@@ -361,7 +361,7 @@ export default function PublicLanding() {
                             <Brain size={16} className="text-[#9B72CB]" />
                           </div>
                         </div>
-                      }
+                      </div>
                       
                       {/* Compliance Badge */}
                       <div className="mt-3 flex items-center gap-2">
