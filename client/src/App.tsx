@@ -90,6 +90,13 @@ export default function App() {
             <Register />
           </>
         } />
+        {/* Standalone jobs route for direct access */}
+        <Route path="/jobs" element={
+          <>
+            <SEO title="Job Vacancies" noindex />
+            <Jobs />
+          </>
+        } />
         <Route path="/portal" element={<ProtectedRoute />}>
           <Route element={<PortalLayout />}>
             <Route index element={<PortalIndexRedirect />} />
@@ -102,7 +109,7 @@ export default function App() {
                 </>
               } />
               <Route path="candidate/compliance" element={<><SEO title="Candidate Compliance" noindex /><ComplianceCenter /></>} />
-              <Route path="candidate/vault" element={<><SEO title="Candidate Vault" noindex /><ComplianceVault /></>} />
+              <Route path="candidate/vault" element={<><SEO title="Candidate Vault" noindex /><ComplianceCenter /></>} />
               <Route path="candidate/insights" element={<><SEO title="Candidate Insights" noindex /><ComplianceInsights /></>} />
             </Route>
             
@@ -157,7 +164,6 @@ export default function App() {
                 <Jobs />
               </>
             } />
-
           </Route>
         </Route>
         <Route path="*" element={<NotFound />} />

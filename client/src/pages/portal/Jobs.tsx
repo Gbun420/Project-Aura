@@ -3,6 +3,7 @@ import { Briefcase, Plus, Filter, Search, MoreVertical, ExternalLink } from 'luc
 import { supabase } from '../../lib/supabase';
 import { useAuth } from '../../hooks/useAuth';
 import SEO from '../../components/SEO';
+import JobPostingForm from '../../components/employer/JobPostingForm';
 
 interface Vacancy {
   id: string;
@@ -17,6 +18,7 @@ export default function Jobs() {
   const { user, role } = useAuth();
   const [vacancies, setVacancies] = useState<Vacancy[]>([]);
   const [loading, setLoading] = useState(true);
+  const [showJobForm, setShowJobForm] = useState(false);
 
   useEffect(() => {
     async function fetchJobs() {
@@ -46,6 +48,14 @@ export default function Jobs() {
     fetchJobs();
   }, [user, role]);
 
+  const handleCreateVacancy = () => {
+    setShowJobForm(true);
+  };
+
+  const handleJobFormClose = () => {
+    setShowJobForm(false);
+  };
+
   return (
     <div className="space-y-10 animate-in slide-in-from-bottom-6 duration-700">
       <SEO title="Job Vacancies" noindex />
@@ -61,11 +71,32 @@ export default function Jobs() {
           </p>
         </div>
         {role !== 'candidate' && (
-          <button className="flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-2xl text-xs font-black uppercase tracking-widest transition-all shadow-lg shadow-blue-500/20">
+          <button 
+            className="flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-2xl text-xs font-black uppercase tracking-widest transition-all shadow-lg shadow-blue-500/20"
+            onClick={handleCreateVacancy}
+          >
             <Plus size={16} /> Create_New_Vacancy
           </button>
         )}
       </div>
+
+      {/* Job Posting Form */}
+      {showJobForm && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+          <div className="relative bg-white/5 border border-white/10 rounded-3xl w-full max-w-2xl p-6 backdrop-blur-md">
+            <div className="flex justify-between items-start mb-4">
+              <h2 className="text-xl font-bold text-white">Create New Vacancy</h2>
+              <button 
+                onClick={handleJobFormClose}
+                className="text-slate-400 hover:text-white"
+              >
+                ✕
+              </button>
+            </div>
+            <JobPostingForm onClose={handleJobFormClose} />
+          </div>
+        </div>
+      )}
 
       {/* Filters & Search */}
       <div className="flex flex-col md:flex-row gap-4">
@@ -94,9 +125,14 @@ export default function Jobs() {
           </div>
           <h3 className="text-white font-bold mb-2 uppercase tracking-tight">Vault_Empty</h3>
           <p className="text-slate-500 text-sm mb-8 font-medium">No job vacancies detected in your neural network.</p>
-          <button className="text-blue-400 text-[10px] font-black uppercase tracking-[0.2em] hover:text-blue-300 transition-colors">
-            Initialize_First_Vacancy
-          </button>
+          {role !== 'candidate' && (
+            <button 
+              className="text-blue-400 text-[10px] font-black uppercase tracking-[0.2em] hover:text-blue-300 transition-colors"
+              onClick={handleCreateVacancy}
+            >
+              Initialize_First_Vacancy
+            </button>
+          )}
         </div>
       ) : (
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
