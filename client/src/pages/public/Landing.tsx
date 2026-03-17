@@ -253,10 +253,10 @@ export default function PublicLanding() {
                 </div>
               </div>
             </div>
-          </div>
+            </div>
+            </section>
 
-          <section id="talent" className="max-w-6xl mx-auto px-6 py-16">
-            <div className="grid lg:grid-cols-3 gap-6">
+            <section id="talent" className="max-w-6xl mx-auto px-6 py-16">            <div className="grid lg:grid-cols-3 gap-6">
               {[
                 { 
                   icon: ShieldCheck, 
@@ -398,11 +398,11 @@ export default function PublicLanding() {
                     <p className="text-slate-500">No jobs match your search criteria.</p>
                     <p className="text-sm">Try adjusting your search filters.</p>
                   </div>
-                )}
-              </div>
-            </div>
-          </section>
-
+                  )}
+                  </div>
+                  ) : null}
+                  </div>
+                  </section>
           <section id="portals" className="bg-white border-t border-slate-200">
             <div className="max-w-6xl mx-auto px-6 py-16 grid lg:grid-cols-[1.3fr_1fr] gap-10 items-center">
               <div>
@@ -489,8 +489,7 @@ export default function PublicLanding() {
               <span>Compliance-ready. Gemini-assisted. Built for scale.</span>
             </div>
           </div>
-        </footer>
-      </main>
-    </div>
-  );
-}
+          </footer>
+          </div>
+          );
+          }
