@@ -1,5 +1,5 @@
 import React from 'react';
-import { Mail, Shield, Clock, FileText } from '@/icons';
+import { ContactMail as Mail, ContactShield as Shield, ContactClock as Clock, ContactFileText as FileText } from '@/icons';
 
 const ContactCompliance: React.FC = () => {
   return (

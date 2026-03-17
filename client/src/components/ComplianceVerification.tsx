@@ -1,5 +1,5 @@
 import React from 'react';
-import { Shield, Globe, AlertCircle } from '@/icons';
+import { VerificationShield as Shield, VerificationGlobe as Globe, VerificationAlertCircle as AlertCircle } from '@/icons';
 
 const ComplianceVerification: React.FC = () => {
   return (

@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { ArrowRight, Sparkles, ShieldCheck, Users, Wand2, Brain, FileCheck } from 'lucide-react';
+import { ArrowRight as LandingArrowRight, Sparkles as LandingSparkles, ShieldCheck as LandingShieldCheck, Users as LandingUsers, Wand2 as LandingWand2, Brain as LandingBrain, FileCheck as LandingFileCheck } from '@/icons';
 import ComplianceVerification from '../../components/ComplianceVerification';
 import { Logo } from '../../components/Logo';
 import { useState } from 'react';
