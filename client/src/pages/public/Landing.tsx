@@ -3,7 +3,6 @@ import { ArrowRight as LandingArrowRight, Sparkles as LandingSparkles, ShieldChe
 import ComplianceVerification from '../../components/ComplianceVerification';
 import { Logo } from '../../components/Logo';
 import { useState } from 'react';
-import { supabase } from '../../lib/supabase';
 import { useAuth } from '../../hooks/useAuth';
 
 const JOBS = [

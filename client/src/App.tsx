@@ -18,7 +18,6 @@ const Settings = lazy(() => import('./pages/portal/Settings'));
 const Notifications = lazy(() => import('./pages/portal/Notifications'));
 
 // Existing Pages (Legacy/Specific) - Lazy Loaded
-const CandidateVault = lazy(() => import('./pages/candidate/Vault'));
 const CandidateInsights = lazy(() => import('./pages/candidate/Insights'));
 const EmployerApplicants = lazy(() => import('./pages/employer/Applicants'));
 const EmployerHistory = lazy(() => import('./pages/employer/History'));

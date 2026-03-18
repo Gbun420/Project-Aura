@@ -6,7 +6,7 @@ import type { Role } from '../types/aura.js';
 const getRoleFromPath = (pathname: string): Role | 'platform_owner' => {
   const [, base, role] = pathname.split('/');
   if (base !== 'portal') return 'candidate';
-  if (role === 'admin' || role === 'employer' || role === 'candidate' || role === 'platform_owner') return role as any;
+  if (role === 'admin' || role === 'employer' || role === 'candidate' || role === 'platform_owner') return role as Role | 'platform_owner';
   return 'candidate';
 };
 

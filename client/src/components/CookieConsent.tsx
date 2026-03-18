@@ -1,16 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Cookie, Check } from 'lucide-react';
 
 const CookieConsent: React.FC = () => {
-  const [isVisible, setIsVisible] = useState(false);
-  const [showDetails, setShowDetails] = useState(false);
-
-  useEffect(() => {
-    const consent = localStorage.getItem('aura_cookie_consent');
-    if (!consent) {
-      setIsVisible(true);
+  const [isVisible, setIsVisible] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return !localStorage.getItem('aura_cookie_consent');
     }
-  }, []);
+    return false;
+  });
+  const [showDetails, setShowDetails] = useState(false);
 
   const handleAccept = () => {
     localStorage.setItem('aura_cookie_consent', 'accepted');

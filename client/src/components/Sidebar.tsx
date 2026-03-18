@@ -1,10 +1,10 @@
 import { Link, useLocation } from 'react-router-dom';
-import { Brain as SidebarBrain, Shield as SidebarShield, Bell as SidebarBell, User as SidebarUser, Briefcase as SidebarBriefcase, Settings as SidebarSettings } from 'lucide-react';
+import { Brain, Shield, Bell, User, Briefcase, Settings } from 'lucide-react';
 import type { Role } from '../types/aura.js';
 import { Logo } from './Logo';
 
 interface NavItemProps {
-  icon: typeof SidebarBrain;
+  icon: typeof Brain;
   label: string;
   path: string;
   badge?: string;
@@ -39,7 +39,7 @@ export default function Sidebar({ role }: { role: Role }) {
     { label: 'Compliance Center', icon: Shield, path: `${base}/compliance`, badge: role === 'admin' ? '3' : undefined },
     { label: 'Notifications', icon: Bell, path: `${base}/notifications`, badge: '12' },
     { label: 'Profile', icon: User, path: `${base}/profile` },
-    { label: 'Jobs', icon: SidebarBriefcase, path: `${base}/jobs` },
+    { label: 'Jobs', icon: Briefcase, path: `${base}/jobs` },
     { label: 'Settings', icon: Settings, path: `${base}/settings` },
   ];
 

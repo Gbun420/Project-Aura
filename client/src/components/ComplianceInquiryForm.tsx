@@ -9,9 +9,12 @@ const ComplianceInquiryForm: React.FC = () => {
     message: '',
   });
   const [submitted, setSubmitted] = useState(false);
+  const [referenceId, setReferenceId] = useState('');
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    const id = `AURA-REG-${Math.random().toString(36).substr(2, 6).toUpperCase()}`;
+    setReferenceId(id);
     // Simulate API call
     console.log('Sending compliance inquiry to aurajobs@proton.me:', formData);
     setSubmitted(true);
@@ -30,7 +33,7 @@ const ComplianceInquiryForm: React.FC = () => {
           Expect a response within 48 hours.
         </p>
         <p className="text-[10px] text-emerald-600 font-bold uppercase tracking-widest">
-          Reference: AURA-REG-{Math.random().toString(36).substr(2, 6).toUpperCase()}
+          Reference: {referenceId}
         </p>
       </div>
     );

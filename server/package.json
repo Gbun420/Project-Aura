@@ -5,6 +5,7 @@
   "main": "src/index.ts",
   "scripts": {
     "postinstall": "prisma generate",
+    "build": "tsc",
     "start": "tsx src/index.ts",
     "dev": "tsx watch src/index.ts",
     "seed": "tsx src/seed.ts",
