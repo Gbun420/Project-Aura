@@ -109,7 +109,7 @@ export default function Jobs() {
       {/* Filters & Search */}
       <div className="flex flex-col md:flex-row gap-4">
         <div className="relative flex-1">
-          <JobsSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500" size={16} />
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500" size={16} />
           <input 
             type="text" 
             placeholder="Search_Jobs_System..." 
@@ -117,7 +117,7 @@ export default function Jobs() {
           />
         </div>
         <button className="flex items-center gap-2 px-6 py-3 bg-white/5 border border-white/10 text-slate-300 rounded-2xl text-[10px] font-bold uppercase tracking-widest hover:bg-white/10 transition-all">
-          <JobsFilter size={14} /> Refine_Search
+          <Filter size={14} /> Refine_Search
         </button>
       </div>
 
@@ -129,7 +129,7 @@ export default function Jobs() {
       ) : vacancies.length === 0 ? (
         <div className="p-20 border-2 border-dashed border-white/5 rounded-[3rem] text-center">
           <div className="inline-flex items-center justify-center w-16 h-16 rounded-3xl bg-white/5 mb-6">
-            <JobsBriefcase className="text-slate-500" size={32} />
+            <Briefcase className="text-slate-500" size={32} />
           </div>
           <h3 className="text-white font-bold mb-2 uppercase tracking-tight">Vault_Empty</h3>
           <p className="text-slate-500 text-sm mb-8 font-medium">No job vacancies detected in your neural network.</p>
@@ -159,7 +159,7 @@ export default function Jobs() {
                   className="text-slate-500 hover:text-white transition-colors" 
                   aria-label="More options"
                 >
-                  <JobsMoreVertical size={16} />
+                  <MoreVertical size={16} />
                 </button>
               </div>
 
