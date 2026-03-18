@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { 
-  NotificationsBell as Bell, 
-  NotificationsZap as Zap, 
-  NotificationsShield as Shield, 
-  NotificationsFilter as Filter, 
-  NotificationsTrash2 as Trash2 
+  Bell, 
+  Zap, 
+  Shield, 
+  Filter, 
+  Trash2 
 } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
 import { useAuth } from '../../hooks/useAuth';

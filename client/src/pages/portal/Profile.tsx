@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { 
-  ProfileUser,
-  ProfileMail,
-  ProfileShield,
-  ProfileShieldCheck,
-  ProfileKey,
-  ProfileGlobe,
-  ProfileCamera
+  User as ProfileUser,
+  Mail as ProfileMail,
+  Shield as ProfileShield,
+  ShieldCheck as ProfileShieldCheck,
+  Key as ProfileKey,
+  Globe as ProfileGlobe,
+  Camera as ProfileCamera
 } from 'lucide-react';
 import { useAuth } from '../../hooks/useAuth';
 import SEO from '../../components/SEO';
@@ -21,7 +21,7 @@ export default function Profile() {
       {/* Header */}
       <div>
         <h1 className="text-3xl font-black text-white tracking-tight flex items-center gap-3">
-          <ProfileUser className="text-purple-400" size={32} />
+           <User className="text-purple-400" size={32} />
           Identity Manifest
         </h1>
         <p className="text-slate-400 font-medium mt-1 uppercase tracking-widest text-[10px]">
@@ -44,7 +44,7 @@ export default function Profile() {
                 aria-label="Change avatar"
                 className="absolute -bottom-2 -right-2 p-2 bg-purple-600 rounded-xl text-white shadow-lg shadow-purple-900/40 opacity-0 group-hover:opacity-100 transition-opacity"
               >
-                <ProfileCamera size={14} />
+                <Camera size={14} />
               </button>
             </div>
             
@@ -82,7 +82,7 @@ export default function Profile() {
               <div className="space-y-2">
                 <label htmlFor="identity_email" className="text-[10px] font-black text-slate-500 uppercase tracking-widest px-1">IDENTITY_EMAIL</label>
                 <div className="relative group">
-                  <ProfileMail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-600 group-focus-within:text-purple-400 transition-colors" size={16} />
+                  <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-600 group-focus-within:text-purple-400 transition-colors" size={16} />
                   <input 
                     id="identity_email"
                     type="email" 
@@ -98,7 +98,7 @@ export default function Profile() {
               <div className="space-y-2">
                 <label htmlFor="full_legal_name" className="text-[10px] font-black text-slate-500 uppercase tracking-widest px-1">FULL_LEGAL_NAME</label>
                 <div className="relative group">
-                  <ProfileUser className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-600 group-focus-within:text-purple-400 transition-colors" size={16} />
+                  <User className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-600 group-focus-within:text-purple-400 transition-colors" size={16} />
                   <input 
                     id="full_legal_name"
                     type="text" 

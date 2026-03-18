@@ -1,11 +1,11 @@
 import { 
-  SettingsSettingsIcon as SettingsIcon, 
-  SettingsBell as Bell, 
-  SettingsShield as Shield, 
-  SettingsSmartphone as Smartphone, 
-  SettingsGlobe as Globe, 
-  SettingsCreditCard as CreditCard, 
-  SettingsChevronRight as ChevronRight 
+  Settings as SettingsIcon,
+  Bell,
+  Shield,
+  Smartphone,
+  Globe,
+  CreditCard,
+  ChevronRight
 } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
 import { useAuth } from '../../hooks/useAuth';
