@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { 
-  User as ProfileUser,
-  Mail as ProfileMail,
-  Shield as ProfileShield,
-  ShieldCheck as ProfileShieldCheck,
-  Key as ProfileKey,
-  Globe as ProfileGlobe,
-  Camera as ProfileCamera
+  User,
+  Mail,
+  Shield,
+  ShieldCheck,
+  Key,
+  Globe,
+  Camera
 } from 'lucide-react';
 import { useAuth } from '../../hooks/useAuth';
 import SEO from '../../components/SEO';
