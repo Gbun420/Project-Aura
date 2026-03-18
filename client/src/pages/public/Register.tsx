@@ -100,6 +100,7 @@ export default function Register() {
               placeholder="Email Address" 
               className="w-full aura-input rounded-2xl p-4 outline-none transition-all"
               required 
+              autoComplete="email"
               onChange={e => setFormData({...formData, email: e.target.value})} 
             />
           </div>
@@ -111,6 +112,7 @@ export default function Register() {
               placeholder="Sovereign Password" 
               className="w-full aura-input rounded-2xl p-4 outline-none transition-all"
               required 
+              autoComplete="new-password"
               onChange={e => setFormData({...formData, password: e.target.value})} 
             />
             <span className="text-[9px] text-aura-pulse ml-4 mt-1 block font-mono uppercase tracking-widest font-bold">

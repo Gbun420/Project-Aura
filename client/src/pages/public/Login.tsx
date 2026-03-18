@@ -54,6 +54,7 @@ export default function Login() {
             <input
               type="email"
               required
+              autoComplete="email"
               value={email}
               onChange={(event) => setEmail(event.target.value)}
               className="mt-2 w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-[#9B72CB]"
@@ -66,6 +67,7 @@ export default function Login() {
             <input
               type="password"
               required
+              autoComplete="current-password"
               value={password}
               onChange={(event) => setPassword(event.target.value)}
               className="mt-2 w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-[#9B72CB]"
