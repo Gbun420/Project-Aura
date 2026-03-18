@@ -9,12 +9,12 @@ const ComplianceInquiryForm: React.FC = () => {
     message: '',
   });
   const [submitted, setSubmitted] = useState(false);
-  const [referenceId, setReferenceId] = useState('');
+  const [referenceId] = useState(() => 
+    `AURA-REG-${Math.random().toString(36).substr(2, 6).toUpperCase()}`
+  );
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const id = `AURA-REG-${Math.random().toString(36).substr(2, 6).toUpperCase()}`;
-    setReferenceId(id);
     // Simulate API call
     console.log('Sending compliance inquiry to aurajobs@proton.me:', formData);
     setSubmitted(true);
