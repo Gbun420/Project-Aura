@@ -259,7 +259,7 @@ export default function PublicLanding() {
             <section id="talent" className="max-w-6xl mx-auto px-6 py-16">            <div className="grid lg:grid-cols-3 gap-6">
               {[
                 { 
-                  icon: ShieldCheck, 
+                   icon: LandingShieldCheck, 
                   title: 'Compliance Confidence', 
                   copy: 'Automated Identità checks keep every placement audit-ready.',
                   badge: 'GDPR & Malta Compliant'
