@@ -156,7 +156,7 @@ export default function PublicLanding() {
             <div className="flex flex-col lg:flex-row items-start lg:items-center gap-16">
               <div className="flex-1">
                 <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-xs font-semibold text-slate-600 shadow-sm">
-                  <Sparkles size={14} className="text-[#4285F4]" />
+                   <LandingSparkles size={14} className="text-[#4285F4]" />
                   Gemini Intelligence Active
                 </div>
                 <h1 className="mt-6 text-5xl lg:text-6xl font-semibold tracking-tight text-slate-900 font-['Space_Grotesk']">
@@ -464,7 +464,7 @@ export default function PublicLanding() {
                 <h4 className="font-bold text-slate-900 uppercase tracking-widest mb-4">Compliance & Regulatory</h4>
                 <ul className="space-y-2">
                   <li className="flex items-center gap-2">
-                    <ShieldCheck size={12} className="text-green-500" />
+                     <LandingShieldCheck size={12} className="text-green-500" />
                     <span>Primary Contact: <a href="mailto:aurajobs@proton.me" className="text-blue-600 hover:underline">aurajobs@proton.me</a></span>
                   </li>
                   <li>Compliance Officer: Designation Active</li>
