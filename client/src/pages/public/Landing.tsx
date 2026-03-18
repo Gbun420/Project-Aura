@@ -138,7 +138,7 @@ export default function PublicLanding() {
         <div className="max-w-6xl mx-auto px-6 py-3">
           <div className="flex items-center justify-center gap-2 text-sm">
             <div className="flex items-center gap-2">
-              <Brain size={16} className="text-[#4285F4]" />
+               <LandingBrain size={16} className="text-[#4285F4]" />
               <span className="font-semibold text-slate-900">Neural Suite Active:</span>
               <span className="text-slate-600">AI-powered matching & compliance automation now live</span>
             </div>
@@ -320,7 +320,7 @@ export default function PublicLanding() {
                 <h2 className="text-2xl font-semibold text-slate-900 font-['Space_Grotesk']">
                   Live opportunities
                   <span className="ml-3 inline-flex items-center gap-1 text-sm font-normal text-[#4285F4]">
-                    <Brain size={14} />
+                     <LandingBrain size={14} />
                     Neural Matching Active
                   </span>
                 </h2>
@@ -358,7 +358,7 @@ export default function PublicLanding() {
                                 {job.matchScore}%
                               </div>
                             </div>
-                            <Brain size={16} className="text-[#9B72CB]" />
+                             <LandingBrain size={16} className="text-[#9B72CB]" />
                           </div>
                         </div>
                       
@@ -456,7 +456,7 @@ export default function PublicLanding() {
                   Built for agencies and employers who prioritize compliance and speed.
                 </p>
                 <div className="mt-3 flex items-center gap-2">
-                  <Brain size={12} className="text-[#4285F4]" />
+                   <LandingBrain size={12} className="text-[#4285F4]" />
                   <span className="text-xs font-semibold">Neural Suite v1.4.0 Active</span>
                 </div>
               </div>
