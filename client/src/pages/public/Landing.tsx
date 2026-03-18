@@ -432,7 +432,7 @@ export default function PublicLanding() {
                   </p>
                   <button className="mt-5 inline-flex items-center gap-2 rounded-2xl bg-slate-900 px-4 py-2 text-sm font-semibold text-white">
                     Book a Demo
-                    <ArrowRight size={16} />
+                    <LandingArrowRight size={16} />
                   </button>
                 </div>
               </div>
