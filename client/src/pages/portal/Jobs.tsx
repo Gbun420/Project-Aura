@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { JobsBriefcase, JobsPlus, JobsFilter, JobsSearch, JobsMoreVertical, JobsExternalLink } from 'lucide-react';
+import { Briefcase, Plus, Filter, Search, MoreVertical, ExternalLink } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
 import { useAuth } from '../../hooks/useAuth';
 import SEO from '../../components/SEO';
@@ -71,7 +71,7 @@ export default function Jobs() {
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
           <h1 className="text-3xl font-black text-white tracking-tight flex items-center gap-3">
-            <JobsBriefcase className="text-blue-400" size={32} />
+            <Briefcase className="text-blue-400" size={32} />
             Job Vacancies
           </h1>
           <p className="text-slate-400 font-medium mt-1 uppercase tracking-widest text-[10px]">
@@ -83,7 +83,7 @@ export default function Jobs() {
             className="flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-2xl text-xs font-black uppercase tracking-widest transition-all shadow-lg shadow-blue-500/20"
             onClick={handleCreateVacancy}
           >
-            <JobsPlus size={16} /> Create_New_Vacancy
+            <Plus size={16} /> Create_New_Vacancy
           </button>
         )}
       </div>
