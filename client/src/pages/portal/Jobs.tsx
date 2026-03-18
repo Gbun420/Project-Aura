@@ -179,7 +179,7 @@ export default function Jobs() {
                   className="text-white bg-white/5 hover:bg-white/10 p-2 rounded-xl transition-all" 
                   aria-label="View external link"
                 >
-                  <JobsExternalLink size={14} />
+                  <ExternalLink size={14} />
                 </button>
               </div>
             </div>
