@@ -1,6 +1,17 @@
 {
+  "builds": [
+    { "src": "api/auth/login.ts", "use": "@vercel/node" },
+    { "src": "api/compliance/index.ts", "use": "@vercel/node" },
+    { "src": "api/system/health.ts", "use": "@vercel/node" },
+    { "src": "api/ai/neural.ts", "use": "@vercel/node" },
+    { "src": "api/lib/validation.ts", "use": "@vercel/node" },
+    { "src": "api/hiring/hub.ts", "use": "@vercel/node" },
+    { "src": "api/jobs/index.ts", "use": "@vercel/node" },
+    { "src": "api/billing/create-checkout-session.ts", "use": "@vercel/node" },
+    { "src": "api/billing/stripe-webhook.ts", "use": "@vercel/node" }
+  ],
   "rewrites": [
     { "source": "/api/(.*)", "destination": "/api/$1" },
-    { "source": "/(.*)", "destination": "/client/dist/index.html" }
+    { "source": "/(.*)", "destination": "/public/index.html" }
   ]
 }

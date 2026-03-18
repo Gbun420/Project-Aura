@@ -1,16 +1,5 @@
-import { PrismaClient } from '@prisma/client';
-import { PrismaPg } from '@prisma/adapter-pg';
-import { Pool } from 'pg';
-import * as dotenv from 'dotenv';
+import { PrismaClient } from '@prisma/client'
 
-dotenv.config();
+const prisma = new PrismaClient()
 
-const pool = new Pool({ connectionString: process.env.DATABASE_URL });
-const adapter = new PrismaPg(pool);
-
-// AURA_OS: CLOUD-READY SOVEREIGN LEDGER (Supabase/Postgres)
-const prisma = new PrismaClient({
-  adapter,
-});
-
-export { prisma as db };
+export { prisma as db }

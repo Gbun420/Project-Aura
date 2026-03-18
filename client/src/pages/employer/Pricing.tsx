@@ -8,7 +8,7 @@ export default function Pricing() {
       const token = sessionData.session?.access_token;
 
       // Call the Stripe checkout session creation endpoint
-      const response = await fetch('/api/billing/create-checkout-session', {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/billing/create-checkout-session`, {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json',
