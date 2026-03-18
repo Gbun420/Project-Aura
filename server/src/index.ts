@@ -159,7 +159,9 @@ app.post('/api/billing/create-checkout-session', authGuard as any, async (req, r
       return res.status(500).json({ error: "PAYMENT_GATEWAY_NOT_CONFIGURED" });
     }
 
-    const stripe = new Stripe(stripeSecretKey);
+    const stripe = new Stripe(stripeSecretKey, {
+      apiVersion: '2024-06-20', // Use a stable version
+    });
 
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
@@ -170,9 +172,9 @@ app.post('/api/billing/create-checkout-session', authGuard as any, async (req, r
         },
       ],
       mode: 'subscription',
-      success_url: successUrl || `${req.headers.origin}/portal/employer/applicants?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: cancelUrl || `${req.headers.origin}/portal/employer/pricing`,
-      client_reference_id: user?.id,
+      success_url: (successUrl as string) || `${req.headers.origin}/portal/employer/applicants?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: (cancelUrl as string) || `${req.headers.origin}/portal/employer/pricing`,
+      client_reference_id: user?.id || undefined,
       metadata: {
         userId: user?.id || '',
       },
