@@ -74,6 +74,7 @@ const ComplianceInquiryForm: React.FC = () => {
         <div className="space-y-2">
           <label className="text-[10px] font-black uppercase tracking-widest text-slate-400">Inquiry Classification</label>
           <select
+            title="Inquiry Classification"
             className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition"
             value={formData.category}
             onChange={(e) => setFormData({ ...formData, category: e.target.value })}
