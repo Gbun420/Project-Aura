@@ -6,7 +6,7 @@ import {
   SettingsGlobe as Globe, 
   SettingsCreditCard as CreditCard, 
   SettingsChevronRight as ChevronRight 
-} from '@/icons';
+} from 'lucide-react';
 import { supabase } from '../../lib/supabase';
 import { useAuth } from '../../hooks/useAuth';
 

@@ -7,7 +7,7 @@ import {
   ProfileKey,
   ProfileGlobe,
   ProfileCamera
-} from '@/icons';
+} from 'lucide-react';
 import { useAuth } from '../../hooks/useAuth';
 import SEO from '../../components/SEO';
 

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '../../lib/supabase';
-import { ShieldCheck as VaultShieldCheck, FileText as VaultFileText, AlertCircle as VaultAlertCircle, Clock as VaultClock, CheckCircle2 as VaultCheckCircle2, UploadCloud as VaultUploadCloud, ChevronRight as VaultChevronRight } from '@/icons';
+import { ShieldCheck as VaultShieldCheck, FileText as VaultFileText, AlertCircle as VaultAlertCircle, Clock as VaultClock, CheckCircle2 as VaultCheckCircle2, UploadCloud as VaultUploadCloud, ChevronRight as VaultChevronRight } from 'lucide-react';
 
 type ComplianceDocument = {
   id: string;

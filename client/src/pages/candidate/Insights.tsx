@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { TrendingUp as InsightsTrendingUp, Sparkles as InsightsSparkles, Target as InsightsTarget, Zap as InsightsZap } from '@/icons';
+import { InsightsTrendingUp, InsightsSparkles, InsightsTarget, InsightsZap } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
 import { useAuth } from '../../hooks/useAuth';
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { FileText as PublicComplianceFileText, Lock as PublicComplianceLock, CheckCircle as PublicComplianceCheckCircle } from '@/icons';
+import { FileText as PublicComplianceFileText, Lock as PublicComplianceLock, CheckCircle as PublicComplianceCheckCircle } from 'lucide-react';
 import ContactCompliance from '../../components/ContactCompliance';
 import ComplianceVerification from '../../components/ComplianceVerification';
 

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../../lib/supabase';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Shield, Zap, AlertCircle, CheckCircle2, FileSearch, Gavel, X, Save, ExternalLink } from '@/icons';
+import { Shield, Zap, AlertCircle, CheckCircle2, FileSearch, Gavel, X, Save, ExternalLink } from 'lucide-react';
 
 interface OCRLog {
   id: string;

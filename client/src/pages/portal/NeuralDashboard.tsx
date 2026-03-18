@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Brain, RefreshCw, Shield, Zap } from '@/icons';
+import { Brain, RefreshCw, Shield, Zap } from 'lucide-react';
 import { useAuth } from '../../hooks/useAuth';
 import { supabase } from '../../lib/supabase';
 

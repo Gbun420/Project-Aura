@@ -1,4 +1,4 @@
-import { Search, Bell, User, LogOut } from '../icons';
+import { Search, Bell, User, LogOut } from 'lucide-react';
 import { useAuth } from '../hooks/useAuth';
 import type { Role } from '../types/aura.js';
 

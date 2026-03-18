@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Cookie, Check } from '@/icons';
+import { Cookie, Check } from 'lucide-react';
 
 const CookieConsent: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);

@@ -1,5 +1,5 @@
 import React from 'react';
-import { ShieldCheck, AlertTriangle, FileText, Activity, Users, Clock } from '@/icons';
+import { ShieldCheck, AlertTriangle, FileText, Activity, Users, Clock } from 'lucide-react';
 import { LiveOCRMonitor } from './LiveOCRMonitor';
 
 const ComplianceDashboard: React.FC = () => {

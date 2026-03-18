@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { JobsBriefcase, JobsPlus, JobsFilter, JobsSearch, JobsMoreVertical, JobsExternalLink } from '@/icons';
+import { JobsBriefcase, JobsPlus, JobsFilter, JobsSearch, JobsMoreVertical, JobsExternalLink } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
 import { useAuth } from '../../hooks/useAuth';
 import SEO from '../../components/SEO';

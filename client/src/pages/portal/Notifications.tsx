@@ -5,7 +5,7 @@ import {
   NotificationsShield as Shield, 
   NotificationsFilter as Filter, 
   NotificationsTrash2 as Trash2 
-} from '@/icons';
+} from 'lucide-react';
 import { supabase } from '../../lib/supabase';
 import { useAuth } from '../../hooks/useAuth';
 
