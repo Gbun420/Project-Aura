@@ -1,5 +1,5 @@
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { ShieldCheck as PricingShieldCheck, Zap as PricingZap, Lock as PricingLock, Sparkles as PricingSparkles, Check as PricingCheck } from 'lucide-react';
+import { ShieldCheck, Zap, Lock, Sparkles, Check } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
 
 export default function Pricing() {
