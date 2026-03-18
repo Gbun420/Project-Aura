@@ -271,7 +271,7 @@ export default function PublicLanding() {
                   badge: 'Neural Matching Active'
                 },
                 { 
-                  icon: Wand2, 
+                   icon: LandingWand2, 
                   title: 'Workflow Automation', 
                   copy: 'From intake to offer, every step is orchestrated inside Aura.',
                   badge: 'AI-Powered'
@@ -365,7 +365,7 @@ export default function PublicLanding() {
                       {/* Compliance Badge */}
                       <div className="mt-3 flex items-center gap-2">
                         <div className="flex items-center gap-1 px-2 py-1 bg-green-50 rounded-full">
-                          <FileCheck size={12} className="text-green-600" />
+                           <LandingFileCheck size={12} className="text-green-600" />
                           <span className="text-xs text-green-700">Identità Verified</span>
                         </div>
                         <span className="text-xs text-slate-500">• Compliance: Active</span>
