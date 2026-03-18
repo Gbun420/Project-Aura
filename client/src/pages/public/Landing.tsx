@@ -265,7 +265,7 @@ export default function PublicLanding() {
                   badge: 'GDPR & Malta Compliant'
                 },
                 { 
-                  icon: Users, 
+                   icon: LandingUsers,
                   title: 'Talent Intelligence', 
                   copy: 'Gemini surfaces the best-fit candidates with clear match signals.',
                   badge: 'Neural Matching Active'
