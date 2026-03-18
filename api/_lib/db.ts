@@ -1,11 +1,5 @@
-let cachedDb = null;
+import { PrismaClient } from '@prisma/client'
 
-export async function getDb() {
-  if (cachedDb) {
-    return cachedDb;
-  }
+const prisma = new PrismaClient()
 
-  const mod = await import("../../server/src/core/database");
-  cachedDb = mod.db;
-  return cachedDb;
-}
+export { prisma as db }
