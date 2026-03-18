@@ -25,8 +25,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(500).json({ error: "PAYMENT_GATEWAY_NOT_CONFIGURED" });
   }
 
+  const stripeContext = process.env.STRIPE_CONTEXT;
+  
   // 1. Verify Stripe webhook signature
-  const stripe = new Stripe(stripeSecretKey);
+  const stripe = new Stripe(stripeSecretKey, {
+    apiVersion: '2026-02-25.clover',
+    ...(stripeContext ? { stripeAccount: stripeContext } : {})
+  });
   const signature = req.headers["stripe-signature"];
 
   if (!signature) {

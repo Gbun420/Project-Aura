@@ -23,14 +23,14 @@ export default function Settings() {
       id: 'notifications',
       title: 'Neural_Alert_Protocol',
       description: 'System-wide notification and firing filters',
-       icon: <SettingsBell className="text-blue-400" size={20} />,
+       icon: <Bell className="text-blue-400" size={20} />,
       status: 'OPTIMIZED'
     },
     {
       id: 'security',
       title: 'Vault_Lockdown_Logic',
       description: 'encryption keys and biometric sync status',
-       icon: <SettingsShield className="text-purple-400" size={20} />,
+       icon: <Shield className="text-purple-400" size={20} />,
       status: 'MAX_SECURE'
     },
     {

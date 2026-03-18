@@ -57,9 +57,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const finalSuccessUrl = successUrl || `${baseUrl}/portal/employer/applicants?session_id={CHECKOUT_SESSION_ID}`;
     const finalCancelUrl = cancelUrl || `${baseUrl}/portal/employer/pricing`;
 
+    const stripeContext = process.env.STRIPE_CONTEXT;
+    
     // Initialize Stripe
     const stripe = new Stripe(stripeSecretKey, {
       apiVersion: '2026-02-25.clover',
+      ...(stripeContext ? { stripeAccount: stripeContext } : {})
     });
 
     // Create checkout session
