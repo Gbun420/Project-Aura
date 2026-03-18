@@ -50,8 +50,8 @@ export default function Notifications() {
             title: item.action || 'SYSTEM_LOG',
             message: item.details ? (typeof item.details === 'string' ? item.details : JSON.stringify(item.details)) : 'Activity registered in core ledger.',
             time: new Date(item.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-            icon: item.action?.toLowerCase().includes('match') ? <NotificationsZap size={16} className="text-amber-400" /> : 
-                  item.action?.toLowerCase().includes('compliance') ? <NotificationsShield size={16} className="text-emerald-400" /> : <NotificationsBell size={16} className="text-blue-400" />,
+            icon: item.action?.toLowerCase().includes('match') ? <Zap size={16} className="text-amber-400" /> : 
+                  item.action?.toLowerCase().includes('compliance') ? <Shield size={16} className="text-emerald-400" /> : <Bell size={16} className="text-blue-400" />,
             unread: false
           }));
           setNotifications(mapped as Notification[]);
@@ -81,7 +81,7 @@ export default function Notifications() {
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
            <h1 className="text-3xl font-black text-white tracking-tight flex items-center gap-3">
-             <NotificationsBell className="text-blue-400" size={32} />
+             <Bell className="text-blue-400" size={32} />
              Alert Stream
            </h1>
           <p className="text-slate-400 font-medium mt-1 uppercase tracking-widest text-[10px]">

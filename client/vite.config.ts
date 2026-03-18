@@ -58,4 +58,25 @@ export default defineConfig({
       }
     })
   ],
+  build: {
+    // Code splitting
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'lucide-react': ['lucide-react'],
+          'supabase': ['@supabase/supabase-js'],
+          'react-router': ['react-router-dom']
+        }
+      }
+    },
+    // Minify assets
+    minify: 'esbuild',
+    // Generate manifest for preloading
+    manifest: true,
+    // Brotli compression
+    brotliSize: true,
+    // Asset cleanup
+    assetsDir: 'assets',
+    emptyOutDir: true
+  }
 })
