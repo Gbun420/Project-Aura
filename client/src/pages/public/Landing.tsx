@@ -121,7 +121,7 @@ export default function PublicLanding() {
           <div className="flex items-center gap-3">
             <Link to="/login" className="hidden sm:inline-flex items-center gap-2 text-sm font-semibold text-slate-700">
               Employer Portal
-              <ArrowRight size={16} />
+              <LandingArrowRight size={16} />
             </Link>
             <Link
               to="/login"
@@ -175,7 +175,7 @@ export default function PublicLanding() {
                     className="inline-flex items-center gap-2 rounded-2xl bg-slate-900 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-slate-900/10 hover:bg-slate-800 transition"
                   >
                     Post a Vacancy
-                    <ArrowRight size={16} />
+                    <LandingArrowRight size={16} />
                   </Link>
                   <Link
                     to="/register"
