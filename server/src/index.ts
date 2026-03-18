@@ -7,15 +7,15 @@ import rateLimit from 'express-rate-limit';
 import { createClient } from '@supabase/supabase-js';
 
 // Import Project Aura Hardened Subsystems
-import { db } from './core/database';
-import { SovereignVault } from './core/security/Vault';
-import { BountyGuardian } from './core/ledger/BountyGuardian';
-import { ManifestGenerator } from './services/auraOS/ManifestGenerator';
-import { PulseAggregator } from './services/auraOS/PulseAggregator';
-import { AuditExportService } from './services/auraOS/AuditExportService';
+import { db } from './core/database.js';
+import { SovereignVault } from './core/security/Vault.js';
+import { BountyGuardian } from './core/ledger/BountyGuardian.js';
+import { ManifestGenerator } from './services/auraOS/ManifestGenerator.js';
+import { PulseAggregator } from './services/auraOS/PulseAggregator.js';
+import { AuditExportService } from './services/auraOS/AuditExportService.js';
 import { AuditTrailService } from './core/audit/AuditTrailService.js';
-import { attachPilot } from './core/communications/SuccessPilot';
-import { ShadowMonitor } from './workers/ShadowMonitor';
+import { attachPilot } from './core/communications/SuccessPilot.js';
+import { ShadowMonitor } from './workers/ShadowMonitor.js';
 
 // Initialize Environment
 dotenv.config();

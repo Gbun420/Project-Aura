@@ -1,6 +1,6 @@
 {
-  "_lucide-react-DCBvxLsg.js": {
-    "file": "assets/lucide-react-DCBvxLsg.js",
+  "_lucide-react-CaFySrKr.js": {
+    "file": "assets/lucide-react-CaFySrKr.js",
     "name": "lucide-react",
     "imports": [
       "_react-router-Bkx0M3xE.js"
@@ -15,13 +15,13 @@
     "name": "supabase"
   },
   "index.html": {
-    "file": "assets/index-B1eUo_KL.js",
+    "file": "assets/index-Dx4PeQA2.js",
     "name": "index",
     "src": "index.html",
     "isEntry": true,
     "imports": [
       "_react-router-Bkx0M3xE.js",
-      "_lucide-react-DCBvxLsg.js",
+      "_lucide-react-CaFySrKr.js",
       "_supabase-DiOMTyHL.js"
     ],
     "dynamicImports": [
@@ -31,7 +31,6 @@
       "src/pages/portal/Profile.tsx",
       "src/pages/portal/Settings.tsx",
       "src/pages/portal/Notifications.tsx",
-      "src/pages/candidate/Vault.tsx",
       "src/pages/candidate/Insights.tsx",
       "src/pages/employer/Applicants.tsx",
       "src/pages/employer/History.tsx",
@@ -47,193 +46,181 @@
     ]
   },
   "src/components/CookieConsent.tsx": {
-    "file": "assets/CookieConsent-DyTA14R2.js",
+    "file": "assets/CookieConsent-DOCPJ2QP.js",
     "name": "CookieConsent",
     "src": "src/components/CookieConsent.tsx",
     "isDynamicEntry": true,
     "imports": [
       "index.html",
       "_react-router-Bkx0M3xE.js",
-      "_lucide-react-DCBvxLsg.js",
+      "_lucide-react-CaFySrKr.js",
       "_supabase-DiOMTyHL.js"
     ]
   },
   "src/pages/NotFound.tsx": {
-    "file": "assets/NotFound-CRn0M5uk.js",
+    "file": "assets/NotFound-DYHq8-uh.js",
     "name": "NotFound",
     "src": "src/pages/NotFound.tsx",
     "isDynamicEntry": true,
     "imports": [
       "index.html",
       "_react-router-Bkx0M3xE.js",
-      "_lucide-react-DCBvxLsg.js",
+      "_lucide-react-CaFySrKr.js",
       "_supabase-DiOMTyHL.js"
     ]
   },
   "src/pages/admin/Audit.tsx": {
-    "file": "assets/Audit-D-_ZChNs.js",
+    "file": "assets/Audit-Cuv4uPvi.js",
     "name": "Audit",
     "src": "src/pages/admin/Audit.tsx",
     "isDynamicEntry": true,
     "imports": [
       "index.html",
       "_react-router-Bkx0M3xE.js",
-      "_lucide-react-DCBvxLsg.js",
+      "_lucide-react-CaFySrKr.js",
       "_supabase-DiOMTyHL.js"
     ]
   },
   "src/pages/admin/DesignSystem.tsx": {
-    "file": "assets/DesignSystem-BSA3Mz-H.js",
+    "file": "assets/DesignSystem-rfxi2_rj.js",
     "name": "DesignSystem",
     "src": "src/pages/admin/DesignSystem.tsx",
     "isDynamicEntry": true,
     "imports": [
       "index.html",
+      "_lucide-react-CaFySrKr.js",
       "_react-router-Bkx0M3xE.js",
-      "_lucide-react-DCBvxLsg.js",
       "_supabase-DiOMTyHL.js"
     ]
   },
   "src/pages/admin/Users.tsx": {
-    "file": "assets/Users-CtFSXSID.js",
+    "file": "assets/Users-FfXxOzzi.js",
     "name": "Users",
     "src": "src/pages/admin/Users.tsx",
     "isDynamicEntry": true,
     "imports": [
       "index.html",
       "_react-router-Bkx0M3xE.js",
-      "_lucide-react-DCBvxLsg.js",
+      "_lucide-react-CaFySrKr.js",
       "_supabase-DiOMTyHL.js"
     ]
   },
   "src/pages/candidate/Insights.tsx": {
-    "file": "assets/Insights-BXhdvQp2.js",
+    "file": "assets/Insights-CaqHNBfz.js",
     "name": "Insights",
     "src": "src/pages/candidate/Insights.tsx",
     "isDynamicEntry": true,
     "imports": [
       "index.html",
       "_react-router-Bkx0M3xE.js",
-      "_lucide-react-DCBvxLsg.js",
-      "_supabase-DiOMTyHL.js"
-    ]
-  },
-  "src/pages/candidate/Vault.tsx": {
-    "file": "assets/Vault-Bt6qrUgr.js",
-    "name": "Vault",
-    "src": "src/pages/candidate/Vault.tsx",
-    "isDynamicEntry": true,
-    "imports": [
-      "index.html",
-      "_react-router-Bkx0M3xE.js",
-      "_lucide-react-DCBvxLsg.js",
+      "_lucide-react-CaFySrKr.js",
       "_supabase-DiOMTyHL.js"
     ]
   },
   "src/pages/employer/Applicants.tsx": {
-    "file": "assets/Applicants-M7yjvG6i.js",
+    "file": "assets/Applicants-DPZnyGJd.js",
     "name": "Applicants",
     "src": "src/pages/employer/Applicants.tsx",
     "isDynamicEntry": true,
     "imports": [
       "index.html",
       "_react-router-Bkx0M3xE.js",
-      "_lucide-react-DCBvxLsg.js",
+      "_lucide-react-CaFySrKr.js",
       "_supabase-DiOMTyHL.js"
     ]
   },
   "src/pages/employer/History.tsx": {
-    "file": "assets/History-C1WKWuUl.js",
+    "file": "assets/History-C-wMmuFR.js",
     "name": "History",
     "src": "src/pages/employer/History.tsx",
     "isDynamicEntry": true,
     "imports": [
       "index.html",
       "_react-router-Bkx0M3xE.js",
-      "_lucide-react-DCBvxLsg.js",
+      "_lucide-react-CaFySrKr.js",
       "_supabase-DiOMTyHL.js"
     ]
   },
   "src/pages/employer/Pricing.tsx": {
-    "file": "assets/Pricing-BsmKKppA.js",
+    "file": "assets/Pricing-_91TjMbd.js",
     "name": "Pricing",
     "src": "src/pages/employer/Pricing.tsx",
     "isDynamicEntry": true,
     "imports": [
       "index.html",
+      "_lucide-react-CaFySrKr.js",
       "_react-router-Bkx0M3xE.js",
-      "_lucide-react-DCBvxLsg.js",
       "_supabase-DiOMTyHL.js"
     ]
   },
   "src/pages/portal/ComplianceCenter.tsx": {
-    "file": "assets/ComplianceCenter-B9q0UXwt.js",
+    "file": "assets/ComplianceCenter-Ct2B_voM.js",
     "name": "ComplianceCenter",
     "src": "src/pages/portal/ComplianceCenter.tsx",
     "isDynamicEntry": true,
     "imports": [
       "index.html",
       "_react-router-Bkx0M3xE.js",
-      "_lucide-react-DCBvxLsg.js",
+      "_lucide-react-CaFySrKr.js",
       "_supabase-DiOMTyHL.js"
     ]
   },
   "src/pages/portal/Jobs.tsx": {
-    "file": "assets/Jobs-CxvB-Xn0.js",
+    "file": "assets/Jobs-It56JiCQ.js",
     "name": "Jobs",
     "src": "src/pages/portal/Jobs.tsx",
     "isDynamicEntry": true,
     "imports": [
       "index.html",
       "_react-router-Bkx0M3xE.js",
-      "_lucide-react-DCBvxLsg.js",
+      "_lucide-react-CaFySrKr.js",
       "_supabase-DiOMTyHL.js"
     ]
   },
   "src/pages/portal/NeuralDashboard.tsx": {
-    "file": "assets/NeuralDashboard-DKC_syED.js",
+    "file": "assets/NeuralDashboard-CKYHpuB5.js",
     "name": "NeuralDashboard",
     "src": "src/pages/portal/NeuralDashboard.tsx",
     "isDynamicEntry": true,
     "imports": [
       "index.html",
       "_react-router-Bkx0M3xE.js",
-      "_lucide-react-DCBvxLsg.js",
+      "_lucide-react-CaFySrKr.js",
       "_supabase-DiOMTyHL.js"
     ]
   },
   "src/pages/portal/Notifications.tsx": {
-    "file": "assets/Notifications-DBt1oxFk.js",
+    "file": "assets/Notifications-CcdfQ-9f.js",
     "name": "Notifications",
     "src": "src/pages/portal/Notifications.tsx",
     "isDynamicEntry": true,
     "imports": [
       "index.html",
       "_react-router-Bkx0M3xE.js",
-      "_lucide-react-DCBvxLsg.js",
+      "_lucide-react-CaFySrKr.js",
       "_supabase-DiOMTyHL.js"
     ]
   },
   "src/pages/portal/Profile.tsx": {
-    "file": "assets/Profile-C4Cq7vtS.js",
+    "file": "assets/Profile-DxgdUnak.js",
     "name": "Profile",
     "src": "src/pages/portal/Profile.tsx",
     "isDynamicEntry": true,
     "imports": [
       "index.html",
       "_react-router-Bkx0M3xE.js",
-      "_lucide-react-DCBvxLsg.js",
+      "_lucide-react-CaFySrKr.js",
       "_supabase-DiOMTyHL.js"
     ]
   },
   "src/pages/portal/Settings.tsx": {
-    "file": "assets/Settings-DEhzhl_a.js",
+    "file": "assets/Settings-DjcZiO_D.js",
     "name": "Settings",
     "src": "src/pages/portal/Settings.tsx",
     "isDynamicEntry": true,
     "imports": [
       "index.html",
-      "_lucide-react-DCBvxLsg.js",
+      "_lucide-react-CaFySrKr.js",
       "_react-router-Bkx0M3xE.js",
       "_supabase-DiOMTyHL.js"
     ]

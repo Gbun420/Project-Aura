@@ -1,42 +1,37 @@
-import { useNavigate, useSearchParams } from 'react-router-dom';
 import { ShieldCheck, Zap, Lock, Sparkles, Check } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
 
 export default function Pricing() {
-  const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
-
   const handleUpgrade = async () => {
     try {
       const { data: sessionData } = await supabase.auth.getSession();
       const token = sessionData.session?.access_token;
 
-      // Call the unified Hub action
-      const response = await fetch('/api/hiring/hub', {
+      // Call the Stripe checkout session creation endpoint
+      const response = await fetch('/api/billing/create-checkout-session', {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify({ 
-          action: 'UPGRADE_SUBSCRIPTION',
-          tier: 'pulse_pro',
-          metadata: {
-            source: searchParams.get('source') || 'direct',
-            campaignId: searchParams.get('campaign') || null
-          }
+          priceId: import.meta.env.VITE_STRIPE_PRICE_ID_PULSE_PRO,
+          successUrl: window.location.origin + '/portal/employer/applicants?session_id={CHECKOUT_SESSION_ID}',
+          cancelUrl: window.location.origin + '/portal/employer/pricing'
         })
       });
 
       if (response.ok) {
-        alert("AURA_PRO: Pioneer Subscription Activated. Identities Unlocked.");
-        navigate('/portal/employer/applicants');
-      } else {
         const data = await response.json();
-        alert(data.error || "Upgrade failed");
+        // Redirect to Stripe checkout
+        window.location.href = data.url;
+      } else {
+        const errorData = await response.json();
+        alert(errorData.error || "Failed to create checkout session");
       }
     } catch (err) {
       console.error("Upgrade error:", err);
+      alert("An error occurred while processing your upgrade");
     }
   };
 
