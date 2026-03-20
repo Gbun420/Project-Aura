@@ -12,9 +12,9 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'mask-icon.svg'],
       manifest: {
-        name: 'Nova Cloud: Sovereign Identity',
-        short_name: 'Nova',
-        description: '2026 High-performance recruitment platform for Malta.',
+        name: 'Nova Cloud | Sovereign Identity 2026',
+        short_name: 'Nova Cloud',
+        description: '2026 High-performance recruitment platform for Malta. Neural Matching and Compliance Vault integrated.',
         theme_color: '#0F1114',
         background_color: '#0F1114',
         icons: [
