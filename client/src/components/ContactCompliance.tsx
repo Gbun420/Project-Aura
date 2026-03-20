@@ -23,7 +23,7 @@ const ContactCompliance: React.FC = () => {
               <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4 flex items-center gap-2">
                 <Mail size={14} /> Primary Contact
               </h3>
-              <p className="text-lg font-semibold text-slate-900">aurajobs@proton.me</p>
+              <p className="text-lg font-semibold text-slate-900">novajobs@proton.me</p>
               <p className="text-sm text-slate-500 mt-1">Dedicated channel for regulatory, legal, and data protection inquiries.</p>
             </section>
 
@@ -67,7 +67,7 @@ const ContactCompliance: React.FC = () => {
               </h3>
               <p className="text-sm text-slate-600 italic">
                 Nova maintains a designated Compliance Officer for the 2026 permit crisis. 
-                All communications via <span className="font-semibold">aurajobs@proton.me</span> are routed through the secure legal vault.
+                All communications via <span className="font-semibold">novajobs@proton.me</span> are routed through the secure legal vault.
               </p>
             </section>
           </div>
@@ -75,7 +75,7 @@ const ContactCompliance: React.FC = () => {
 
         <div className="mt-10 pt-8 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-[10px] text-slate-400 uppercase tracking-[0.2em] font-bold">
-            Audit Trail Protocol Active: MT-2026.1-AURA
+            Audit Trail Protocol Active: MT-2026.1-NOVA
           </p>
           <button className="px-6 py-2 rounded-xl bg-slate-900 text-white text-[10px] font-bold uppercase tracking-widest hover:bg-slate-800 transition">
             Download Compliance Brief

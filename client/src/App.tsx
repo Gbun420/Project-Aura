@@ -58,7 +58,7 @@ export default function App() {
           <>
             <SEO 
               title="Compliance" 
-              description="Aura Compliance Vault - Blockchain-backed verification for employment compliant with Maltese regulations and Identità standards."
+              description="Nova Compliance Vault - Blockchain-backed verification for employment compliant with Maltese regulations and Identità standards."
               jsonLd={{
                 "@context": "https://schema.org",
                 "@type": "BreadcrumbList",
@@ -66,12 +66,12 @@ export default function App() {
                   "@type": "ListItem",
                   "position": 1,
                   "name": "Home",
-                  "item": "https://project-aura-one.vercel.app/"
+                  "item": "https://nova-sovereign.mt/"
                 },{
                   "@type": "ListItem",
                   "position": 2,
                   "name": "Compliance",
-                  "item": "https://project-aura-one.vercel.app/compliance"
+                  "item": "https://nova-sovereign.mt/compliance"
                 }]
               }}
             />

@@ -1,19 +1,18 @@
 import { Outlet, useLocation } from 'react-router-dom';
 import Sidebar from '../components/Sidebar';
 import PortalHeader from '../components/PortalHeader';
-import type { Role } from '../types/nova';
+import type { NovaRole } from '../types/nova';
 
-const getRoleFromPath = (pathname: string): Role | 'platform_owner' => {
+const getRoleFromPath = (pathname: string): NovaRole => {
   const [, base, role] = pathname.split('/');
   if (base !== 'portal') return 'candidate';
-  if (role === 'admin' || role === 'employer' || role === 'candidate' || role === 'platform_owner') return role as Role | 'platform_owner';
+  if (role === 'admin' || role === 'employer' || role === 'candidate' || role === 'platform_owner') return role as NovaRole;
   return 'candidate';
 };
 
 export default function PortalLayout() {
   const location = useLocation();
-  const rawRole = getRoleFromPath(location.pathname);
-  const role: Role = rawRole === 'platform_owner' ? 'admin' : (rawRole as Role);
+  const role = getRoleFromPath(location.pathname);
 
   return (
     <div className="min-h-screen bg-[#050505] text-slate-200 font-manrope relative overflow-hidden flex">

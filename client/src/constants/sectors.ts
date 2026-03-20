@@ -1,4 +1,4 @@
-import type { Sector } from '../types/aura';
+import type { Sector } from '../types/nova';
 
 export const SECTOR_CONFIG: Record<Sector, { color: string; icon: string; fastTrack: boolean }> = {
   Healthcare: { color: '#ef4444', icon: 'HeartPulse', fastTrack: true },

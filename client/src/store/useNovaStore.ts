@@ -20,7 +20,7 @@ interface NovaState {
   currentStepId: number;
   documents: Record<string, boolean>;
   jobs: Job[];
-  novaScore: number; // Renamed from auraScore
+  novaScore: number;
   activeManifests: { trackingId: string; jobId: string }[];
   permit: { status: 'IDLE' | 'GRANTED'; data: PermitData | null };
   isProductionReady: boolean;

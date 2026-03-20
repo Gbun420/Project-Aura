@@ -1,6 +1,5 @@
 import { Search, Bell, User, LogOut } from 'lucide-react';
 import { useAuth } from '../hooks/useAuth';
-import { useAuth } from '../hooks/useAuth';
 import type { NovaRole } from '../types/nova.js';
 
 const ROLE_LABEL: Record<NovaRole, string> = {

@@ -9,7 +9,7 @@ export interface Job {
   company: string;
   salary_range: string;
   location: string;
-  nova_req: string[]; // Renamed from aura_req
+  nova_req: string[];
   permit_type: 'KEI' | 'SinglePermit' | 'EUBlueCard';
   velocity_score: number;
   isApplied?: boolean;

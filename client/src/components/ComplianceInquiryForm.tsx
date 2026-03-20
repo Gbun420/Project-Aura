@@ -10,13 +10,13 @@ const ComplianceInquiryForm: React.FC = () => {
   });
   const [submitted, setSubmitted] = useState(false);
   const [referenceId] = useState(() => 
-    `AURA-REG-${Math.random().toString(36).substr(2, 6).toUpperCase()}`
+    `NOVA-REG-${Math.random().toString(36).substr(2, 6).toUpperCase()}`
   );
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // Simulate API call
-    console.log('Sending compliance inquiry to aurajobs@proton.me:', formData);
+    console.log('Sending compliance inquiry to novajobs@proton.me:', formData);
     setSubmitted(true);
   };
 
@@ -29,7 +29,7 @@ const ComplianceInquiryForm: React.FC = () => {
         <h3 className="text-xl font-semibold text-slate-900 mb-2">Inquiry Logged Successfully</h3>
         <p className="text-slate-600 mb-6">
           Your regulatory inquiry has been cryptographically signed and routed to 
-          <span className="font-semibold ml-1">aurajobs@proton.me</span>. 
+          <span className="font-semibold ml-1">novajobs@proton.me</span>. 
           Expect a response within 48 hours.
         </p>
         <p className="text-[10px] text-emerald-600 font-bold uppercase tracking-widest">
