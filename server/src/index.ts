@@ -365,9 +365,9 @@ app.post('/api/billing/create-checkout-session', authGuard as any, async (req, r
       mode: 'subscription',
       success_url: successUrl || `${req.headers.origin}/portal/employer/applicants?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: cancelUrl || `${req.headers.origin}/portal/employer/pricing`,
-      client_reference_id: auth.user?.id,
+      client_reference_id: auth.user?.id || undefined,
       metadata: { userId: auth.user?.id || '' },
-    });
+    } as Stripe.Checkout.SessionCreateParams);
 
     res.json({ url: session.url });
   } catch (err: any) {
