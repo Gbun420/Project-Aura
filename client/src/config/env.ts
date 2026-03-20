@@ -27,7 +27,7 @@ export const env = {
   hfToken: import.meta.env.VITE_HF_TOKEN as string | undefined,
   stripePriceIdPro: import.meta.env.VITE_STRIPE_PRICE_ID_PRO as string | undefined,
   stripePriceIdPulsePro: import.meta.env.VITE_STRIPE_PRICE_ID_PULSE_PRO as string | undefined,
-  apiUrl: getEnvVar('VITE_API_URL', false) || 'http://localhost:3001',
+  apiUrl: import.meta.env.VITE_API_URL || 'https://project-aura-backend-cw7d.onrender.com',
   isDev: import.meta.env.DEV,
   isProd: import.meta.env.PROD,
 };

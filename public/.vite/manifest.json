@@ -1,6 +1,6 @@
 {
-  "_env-CM2MrYzp.js": {
-    "file": "assets/env-CM2MrYzp.js",
+  "_env-C0vctJFp.js": {
+    "file": "assets/env-C0vctJFp.js",
     "name": "env"
   },
   "_lucide-react-BJ6ggJWf.js": {
@@ -19,7 +19,7 @@
     "name": "supabase"
   },
   "index.html": {
-    "file": "assets/index-B7k6MNiK.js",
+    "file": "assets/index-zGMCHkGs.js",
     "name": "index",
     "src": "index.html",
     "isEntry": true,
@@ -49,7 +49,7 @@
     ]
   },
   "src/components/CookieConsent.tsx": {
-    "file": "assets/CookieConsent-CmVQAAdz.js",
+    "file": "assets/CookieConsent-9BARnqnF.js",
     "name": "CookieConsent",
     "src": "src/components/CookieConsent.tsx",
     "isDynamicEntry": true,
@@ -60,7 +60,7 @@
     ]
   },
   "src/pages/NotFound.tsx": {
-    "file": "assets/NotFound-Dshp6mOW.js",
+    "file": "assets/NotFound-BxKAm_vc.js",
     "name": "NotFound",
     "src": "src/pages/NotFound.tsx",
     "isDynamicEntry": true,
@@ -71,7 +71,7 @@
     ]
   },
   "src/pages/admin/Audit.tsx": {
-    "file": "assets/Audit-Cx1KdaCS.js",
+    "file": "assets/Audit-CWjEuC6E.js",
     "name": "Audit",
     "src": "src/pages/admin/Audit.tsx",
     "isDynamicEntry": true,
@@ -82,7 +82,7 @@
     ]
   },
   "src/pages/admin/DesignSystem.tsx": {
-    "file": "assets/DesignSystem-CswyOJqx.js",
+    "file": "assets/DesignSystem-B3dBAK-p.js",
     "name": "DesignSystem",
     "src": "src/pages/admin/DesignSystem.tsx",
     "isDynamicEntry": true,
@@ -93,7 +93,7 @@
     ]
   },
   "src/pages/admin/Users.tsx": {
-    "file": "assets/Users-DwVAL9Xt.js",
+    "file": "assets/Users-HT03GoPP.js",
     "name": "Users",
     "src": "src/pages/admin/Users.tsx",
     "isDynamicEntry": true,
@@ -104,7 +104,7 @@
     ]
   },
   "src/pages/candidate/Insights.tsx": {
-    "file": "assets/Insights-BlqTvlxB.js",
+    "file": "assets/Insights-CXzjs76f.js",
     "name": "Insights",
     "src": "src/pages/candidate/Insights.tsx",
     "isDynamicEntry": true,
@@ -115,43 +115,43 @@
     ]
   },
   "src/pages/employer/Applicants.tsx": {
-    "file": "assets/Applicants-DJDhgUN0.js",
+    "file": "assets/Applicants-BVYVZIBx.js",
     "name": "Applicants",
     "src": "src/pages/employer/Applicants.tsx",
     "isDynamicEntry": true,
     "imports": [
       "index.html",
       "_react-router-CLnkN5Me.js",
-      "_env-CM2MrYzp.js",
+      "_env-C0vctJFp.js",
       "_lucide-react-BJ6ggJWf.js"
     ]
   },
   "src/pages/employer/History.tsx": {
-    "file": "assets/History-CFYSJj6T.js",
+    "file": "assets/History-CyBb3-O_.js",
     "name": "History",
     "src": "src/pages/employer/History.tsx",
     "isDynamicEntry": true,
     "imports": [
       "index.html",
       "_react-router-CLnkN5Me.js",
-      "_env-CM2MrYzp.js",
+      "_env-C0vctJFp.js",
       "_lucide-react-BJ6ggJWf.js"
     ]
   },
   "src/pages/employer/Pricing.tsx": {
-    "file": "assets/Pricing-Cq_Fqfhj.js",
+    "file": "assets/Pricing-Bq1FSoqK.js",
     "name": "Pricing",
     "src": "src/pages/employer/Pricing.tsx",
     "isDynamicEntry": true,
     "imports": [
       "index.html",
-      "_env-CM2MrYzp.js",
+      "_env-C0vctJFp.js",
       "_react-router-CLnkN5Me.js",
       "_lucide-react-BJ6ggJWf.js"
     ]
   },
   "src/pages/portal/ComplianceCenter.tsx": {
-    "file": "assets/ComplianceCenter-BUmR1JjT.js",
+    "file": "assets/ComplianceCenter-FwhD54k3.js",
     "name": "ComplianceCenter",
     "src": "src/pages/portal/ComplianceCenter.tsx",
     "isDynamicEntry": true,
@@ -162,19 +162,19 @@
     ]
   },
   "src/pages/portal/Jobs.tsx": {
-    "file": "assets/Jobs-kTmiVRRN.js",
+    "file": "assets/Jobs-CedAcpIX.js",
     "name": "Jobs",
     "src": "src/pages/portal/Jobs.tsx",
     "isDynamicEntry": true,
     "imports": [
       "index.html",
       "_react-router-CLnkN5Me.js",
-      "_env-CM2MrYzp.js",
+      "_env-C0vctJFp.js",
       "_lucide-react-BJ6ggJWf.js"
     ]
   },
   "src/pages/portal/NeuralDashboard.tsx": {
-    "file": "assets/NeuralDashboard-B3bqBv9W.js",
+    "file": "assets/NeuralDashboard-BD51gR76.js",
     "name": "NeuralDashboard",
     "src": "src/pages/portal/NeuralDashboard.tsx",
     "isDynamicEntry": true,
@@ -185,7 +185,7 @@
     ]
   },
   "src/pages/portal/Notifications.tsx": {
-    "file": "assets/Notifications-D9h4JywY.js",
+    "file": "assets/Notifications-DrEMvdNI.js",
     "name": "Notifications",
     "src": "src/pages/portal/Notifications.tsx",
     "isDynamicEntry": true,
@@ -196,7 +196,7 @@
     ]
   },
   "src/pages/portal/Profile.tsx": {
-    "file": "assets/Profile-D8PP23Zz.js",
+    "file": "assets/Profile-D6D7ncMh.js",
     "name": "Profile",
     "src": "src/pages/portal/Profile.tsx",
     "isDynamicEntry": true,
@@ -207,7 +207,7 @@
     ]
   },
   "src/pages/portal/Settings.tsx": {
-    "file": "assets/Settings-Bj1JvPRg.js",
+    "file": "assets/Settings-CIizlXjY.js",
     "name": "Settings",
     "src": "src/pages/portal/Settings.tsx",
     "isDynamicEntry": true,
