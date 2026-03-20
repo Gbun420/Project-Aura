@@ -80,13 +80,13 @@ export default function App() {
         } />
         <Route path="/login" element={
           <>
-            <SEO title="Login" description="Secure access to your Aura Cloud dashboard. Neural matching and compliance management." />
+            <SEO title="Login" description="Secure access to your Nova dashboard. Neural matching and compliance management." />
             <Login />
           </>
         } />
         <Route path="/register" element={
           <>
-            <SEO title="Join Aura" description="Create your sovereign identity and join the future of work in Malta. 2026 talent infrastructure ready." />
+            <SEO title="Join Nova" description="Create your account and join the future of work in Malta." />
             <Register />
           </>
         } />

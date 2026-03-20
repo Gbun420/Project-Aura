@@ -9,8 +9,8 @@ const Compliance: React.FC = () => {
       <header className="bg-white border-b border-slate-200 sticky top-0 z-30">
         <div className="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
           <div className="flex items-center gap-3">
-            <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-[#4285F4] via-[#9B72CB] to-[#D96570]" />
-            <span className="font-semibold text-slate-900">Aura Compliance</span>
+            <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-indigo-500 via-cyan-500 to-indigo-800" />
+            <span className="font-semibold text-slate-900">Nova Compliance</span>
           </div>
           <a href="/" className="text-sm font-medium text-slate-500 hover:text-slate-900">
             Return to Home
@@ -25,7 +25,7 @@ const Compliance: React.FC = () => {
             Regulatory & Compliance Framework
           </h1>
           <p className="text-lg text-slate-600 leading-relaxed">
-            Project Aura operates under strict adherence to the <span className="font-semibold text-slate-900">Maltese Employment Agencies Regulations 2023 (Legal Notice 270 of 2023)</span> and GDPR standards. Our infrastructure is calibrated for the 2026 Sovereign Talent ecosystem.
+            Nova operates under strict adherence to the <span className="font-semibold text-slate-900">Maltese Employment Agencies Regulations 2023 (Legal Notice 270 of 2023)</span> and GDPR standards. Our infrastructure is calibrated for the modern talent ecosystem.
           </p>
         </div>
 
@@ -72,7 +72,7 @@ const Compliance: React.FC = () => {
               <h2 className="text-xl font-semibold text-slate-900">Identità Compliance</h2>
             </div>
             <p className="text-sm text-slate-600 mb-6">
-              Aura directly integrates with Identità requirements for Third Country Nationals (TCNs).
+              Nova directly integrates with Identità requirements for Third Country Nationals (TCNs).
             </p>
             <div className="space-y-3">
               <div className="flex items-center justify-between p-3 bg-slate-50 rounded-lg border border-slate-100">

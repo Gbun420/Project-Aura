@@ -22,10 +22,9 @@ export default function Register() {
       return;
     }
 
-    // Modern 2026 Password Complexity Check (Hardened Grid v1.3)
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
     if (!passwordRegex.test(formData.password)) {
-      setErrorMsg('IDENTITY_REJECTED: Credential requires 8+ chars, 1 uppercase, 1 number, and 1 symbol.');
+      setErrorMsg('Password requires 8+ chars, 1 uppercase, 1 number, and 1 symbol.');
       setLoading(false);
       return;
     }
@@ -34,7 +33,7 @@ export default function Register() {
       email: formData.email,
       password: formData.password,
       options: {
-        emailRedirectTo: 'https://aura-cloud-2026.vercel.app',
+        emailRedirectTo: 'https://project-nova-one.vercel.app',
         data: {
           role,
           company_name: role === 'employer' ? formData.company.trim() : null,
@@ -47,12 +46,12 @@ export default function Register() {
 
     if (error) {
         if (error.status === 422) {
-          setErrorMsg('IDENTITY_CONFLICT: Complexity failure or existing email. Use a stronger unique password.');
+          setErrorMsg('Email taken or password too weak.');
         } else {
-          setErrorMsg(`AUTH_ERROR: ${error.message.toUpperCase()}`);
+          setErrorMsg(error.message);
         }
     } else {
-        alert("Aura Handshake Initiated! Please check your mission email for the verification link.");
+        alert("Registration complete! Please check your email for the verification link.");
         navigate('/login');
     }
     setLoading(false);
@@ -65,8 +64,8 @@ export default function Register() {
       
       <div className="w-full max-w-xl aura-glass-card rounded-[2.5rem] p-10 shadow-2xl relative z-10">
         <div className="text-center mb-10">
-          <div className="inline-block px-3 py-1 bg-aura-accent/20 text-aura-pulse text-[10px] font-black rounded-full mb-4 tracking-[0.3em] uppercase">Aura_v1.2_Sovereign</div>
-          <h2 className="text-4xl font-black text-white tracking-tight">Create Identity</h2>
+          <div className="inline-block px-3 py-1 bg-indigo-500/20 text-indigo-400 text-[10px] font-black rounded-full mb-4 tracking-[0.3em] uppercase">Nova Platform</div>
+          <h2 className="text-4xl font-black text-white tracking-tight">Create Account</h2>
         </div>
 
         {errorMsg && (
@@ -94,7 +93,7 @@ export default function Register() {
 
         <form onSubmit={handleRegister} className="space-y-6">
           <div className="space-y-2">
-            <label className="text-[10px] font-black text-slate-500 ml-4 tracking-[0.2em] uppercase">Mission_Email</label>
+            <label className="text-[10px] font-black text-slate-500 ml-4 tracking-[0.2em] uppercase">Email Address</label>
             <input 
               type="email" 
               placeholder="Email Address" 
@@ -106,27 +105,27 @@ export default function Register() {
           </div>
 
           <div className="space-y-2">
-            <label className="text-[10px] font-black text-slate-500 ml-4 tracking-[0.2em] uppercase">Secure_Credential</label>
+            <label className="text-[10px] font-black text-slate-500 ml-4 tracking-[0.2em] uppercase">Password</label>
             <input 
               type="password" 
-              placeholder="Sovereign Password" 
+              placeholder="Password" 
               className="w-full aura-input rounded-2xl p-4 outline-none transition-all"
               required 
               autoComplete="new-password"
               onChange={e => setFormData({...formData, password: e.target.value})} 
             />
-            <span className="text-[9px] text-aura-pulse ml-4 mt-1 block font-mono uppercase tracking-widest font-bold">
-              IDENTITY_REQUIREMENT: 8+ Chars, 1 Upper, 1 Number, 1 Symbol
+            <span className="text-[9px] text-indigo-400 ml-4 mt-1 block font-mono uppercase tracking-widest font-bold">
+              Requirements: 8+ Chars, 1 Upper, 1 Number, 1 Symbol
             </span>
 
           </div>
 
           {role === 'employer' && (
             <div className="space-y-2 animate-in fade-in slide-in-from-top-4 duration-500">
-              <label className="text-[10px] font-black text-gemini-purple ml-4 tracking-[0.2em] uppercase">Company_Identity</label>
+              <label className="text-[10px] font-black text-gemini-purple ml-4 tracking-[0.2em] uppercase">Company Name</label>
               <input 
                 type="text" 
-                placeholder="e.g. Aura iGaming Malta" 
+                placeholder="e.g. Nova Inc." 
                 className="w-full aura-input border-gemini-purple/30 rounded-2xl p-4 outline-none transition-all" 
                 required 
                 onChange={e => setFormData({...formData, company: e.target.value})} 
@@ -136,14 +135,14 @@ export default function Register() {
 
           <button 
             disabled={loading} 
-            className="w-full bg-gradient-to-r from-[#4F46E5] to-[#22D3EE] text-white font-black py-5 rounded-2xl hover:brightness-110 active:scale-[0.98] transition-all mt-4 shadow-[0_0_20px_rgba(79,70,229,0.4)] disabled:opacity-50 tracking-[0.2em] text-[11px] uppercase"
+            className="w-full bg-gradient-to-r from-indigo-600 to-cyan-500 text-white font-black py-5 rounded-2xl hover:brightness-110 active:scale-[0.98] transition-all mt-4 shadow-[0_0_20px_rgba(79,70,229,0.4)] disabled:opacity-50 tracking-[0.2em] text-[11px] uppercase"
           >
-            {loading ? "COMMITTING_TO_LEDGER..." : "Register_Identity_Pulse"}
+            {loading ? "Creating Account..." : "Register Account"}
           </button>
         </form>
 
         <p className="text-center text-slate-500 mt-8 text-[10px] font-black tracking-[0.2em] uppercase">
-          Already Identified? <Link to="/login" className="text-gemini-blue hover:underline">Access_Portal</Link>
+          Already have an account? <Link to="/login" className="text-gemini-blue hover:underline">Log in</Link>
         </p>
       </div>
     </div>

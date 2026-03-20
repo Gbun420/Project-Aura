@@ -3,8 +3,8 @@ import { useAuth } from '../hooks/useAuth';
 import type { Role } from '../types/aura.js';
 
 const ROLE_LABEL: Record<Role, string> = {
-  admin: 'Careers.mt Admin',
-  employer: 'Careers.mt Employer',
+  admin: 'Nova Admin',
+  employer: 'Nova Employer',
   candidate: 'Candidate Profile',
 };
 

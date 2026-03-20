@@ -14,7 +14,7 @@ type AssistantProps = {
 
 export default function AuraAssistant({ candidateContext, onClose, onUpgrade }: AssistantProps) {
   const [messages, setMessages] = useState<{ role: 'user' | 'assistant', text: string }[]>([
-    { role: 'assistant', text: "Aura Intelligence Online. How can I facilitate this match?" }
+    { role: 'assistant', text: "Nova Assistant Online. How can I help?" }
   ]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
@@ -50,10 +50,10 @@ export default function AuraAssistant({ candidateContext, onClose, onUpgrade }: 
 
   return (
     <div className="fixed bottom-6 right-6 w-96 bg-[#0F1114] border border-white/10 rounded-[2rem] shadow-2xl z-50 overflow-hidden flex flex-col animate-in slide-in-from-bottom-6">
-      <div className="bg-gemini-gradient p-4 flex items-center justify-between">
+      <div className="bg-gradient-to-r from-indigo-600 to-cyan-500 p-4 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Sparkles size={16} className="text-white" />
-          <span className="text-xs font-black text-white uppercase tracking-widest">Aura_Assistant</span>
+          <span className="text-xs font-black text-white uppercase tracking-widest">Nova Assistant</span>
         </div>
         <button onClick={onClose} aria-label="Close Assistant" className="text-white/60 hover:text-white transition-colors">
           <X size={18} />
@@ -84,9 +84,9 @@ export default function AuraAssistant({ candidateContext, onClose, onUpgrade }: 
         {!candidateContext.isPro && (
           <button 
             onClick={onUpgrade}
-            className="w-full bg-white text-black py-2 rounded-xl text-[10px] font-black uppercase hover:opacity-90 transition-all tracking-widest"
+            className="w-full bg-indigo-600 text-white py-2 rounded-xl text-[10px] font-black uppercase hover:opacity-90 transition-all tracking-widest"
           >
-            Pioneer_Unlock_Special (€29)
+            Upgrade to Pro (€49)
           </button>
         )}
         <div className="flex gap-2">

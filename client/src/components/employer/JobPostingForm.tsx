@@ -112,7 +112,7 @@ export default function JobPostingForm() {
       setLabourMarketTest(false);
       setGdprConsent(false);
       setRegulatoryAck(false);
-      setNotice('Vacancy published to Aura Network.');
+      setNotice('Vacancy published to Nova Network.');
     } catch (error) {
       setNotice(error instanceof Error ? error.message : 'Unable to publish vacancy');
     } finally {

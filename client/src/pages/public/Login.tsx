@@ -44,13 +44,13 @@ export default function Login() {
       <div className="relative w-full max-w-md rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl p-8 shadow-2xl">
         <div className="text-center mb-8">
           <Logo className="mx-auto text-white" size={48} />
-          <h2 className="mt-4 text-3xl font-semibold tracking-tight">Access AURA_CORE</h2>
-          <p className="mt-2 text-sm text-slate-400">Initialize your session to continue.</p>
+          <h2 className="mt-4 text-3xl font-semibold tracking-tight">Access Nova</h2>
+          <p className="mt-2 text-sm text-slate-400">Sign in to continue.</p>
         </div>
 
         <form className="space-y-4" onSubmit={handleLogin}>
           <label className="block">
-            <span className="text-xs uppercase tracking-[0.2em] text-slate-400">Identity (Email)</span>
+            <span className="text-xs uppercase tracking-[0.2em] text-slate-400">Email Address</span>
             <input
               type="email"
               required
@@ -63,7 +63,7 @@ export default function Login() {
           </label>
 
           <label className="block">
-            <span className="text-xs uppercase tracking-[0.2em] text-slate-400">Access Key</span>
+            <span className="text-xs uppercase tracking-[0.2em] text-slate-400">Password</span>
             <input
               type="password"
               required
@@ -86,14 +86,14 @@ export default function Login() {
             disabled={loading}
             className="w-full rounded-xl bg-gradient-to-r from-[#4285F4] via-[#9B72CB] to-[#D96570] py-3 text-sm font-semibold text-white shadow-lg shadow-purple-500/20 transition hover:opacity-90 disabled:opacity-60"
           >
-            {loading ? 'Authenticating…' : 'Authenticate'}
+            {loading ? 'Signing in…' : 'Sign In'}
           </button>
         </form>
 
         <div className="mt-6 text-center text-xs text-slate-400">
-          <span>Need access?</span>{' '}
+          <span>Need an account?</span>{' '}
           <Link to="/register" className="text-[#4285F4] font-bold hover:underline">
-            Register Mission Profile
+            Register here
           </Link>
         </div>
       </div>

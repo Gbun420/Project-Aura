@@ -51,7 +51,7 @@ export default function CandidateInsights() {
             </div>
             <h3 className="text-sm font-black text-white uppercase tracking-widest mb-4">Neural_Match_Summary</h3>
             <p className="text-indigo-200/70 text-sm leading-relaxed max-w-xl">
-              Based on your Skills Pass v2026, your match profile is high for <span className="text-white font-bold italic">Full-stack React Engineers</span> in the iGaming sector. Aura recommends sharpening your Node.js edge-function expertise to increase match velocity.
+              Based on your Skills Pass v2026, your match profile is high for <span className="text-white font-bold italic">Full-stack React Engineers</span> in the iGaming sector. Nova recommends sharpening your Node.js edge-function expertise to increase match velocity.
             </p>
           </div>
 

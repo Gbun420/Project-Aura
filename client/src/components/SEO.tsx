@@ -16,18 +16,18 @@ interface SEOProps {
 
 const SEO = ({
   title,
-  description = "2026 High-performance recruitment platform for Malta. Neural Matching and Compliance Vault integrated.",
-  canonical = "https://project-aura-one.vercel.app/",
+  description = "The intelligent talent network for Malta. Discover the future of hiring with Nova.",
+  canonical = "https://project-nova-one.vercel.app/",
   ogTitle,
   ogDescription,
-  ogImage = "https://project-aura-one.vercel.app/og-image.png",
+  ogImage = "https://project-nova-one.vercel.app/og-image.png",
   twitterTitle,
   twitterDescription,
-  twitterImage = "https://project-aura-one.vercel.app/og-image.png",
+  twitterImage = "https://project-nova-one.vercel.app/og-image.png",
   jsonLd,
   noindex = false,
 }: SEOProps) => {
-  const siteName = 'Aura Cloud';
+  const siteName = 'Nova';
   const fullTitle = title ? `${title} | ${siteName}` : siteName;
 
   return (

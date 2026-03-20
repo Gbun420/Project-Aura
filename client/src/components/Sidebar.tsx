@@ -60,7 +60,7 @@ export default function Sidebar({ role }: { role: Role }) {
             <Logo size={42} className="relative z-10 drop-shadow-[0_0_10px_rgba(79,70,229,0.5)] text-white" />
           </div>
           <div>
-            <p className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500">Careers.mt</p>
+            <p className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500">Nova</p>
             <p className="text-xs font-black text-white uppercase tracking-widest">{currentPortal.label}</p>
           </div>
         </div>

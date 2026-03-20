@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { ArrowRight as LandingArrowRight, Sparkles as LandingSparkles, ShieldCheck as LandingShieldCheck, Users as LandingUsers, Wand2 as LandingWand2, Brain as LandingBrain, FileCheck as LandingFileCheck } from 'lucide-react';
+import { ArrowRight as LandingArrowRight, Sparkles as LandingSparkles, ShieldCheck as LandingShieldCheck, Users as LandingUsers, Wand2 as LandingWand2, FileCheck as LandingFileCheck } from 'lucide-react';
 import ComplianceVerification from '../../components/ComplianceVerification';
 import { Logo } from '../../components/Logo';
 import { useState } from 'react';
@@ -106,8 +106,8 @@ export default function PublicLanding() {
           <div className="flex items-center gap-3">
             <Logo size={42} className="text-slate-900 drop-shadow-sm" />
             <div>
-              <p className="text-xs uppercase tracking-[0.3em] text-slate-400">Careers</p>
-              <p className="text-lg font-semibold">.mt</p>
+              <p className="text-xs uppercase tracking-[0.3em] text-slate-400">Welcome to</p>
+              <p className="text-lg font-semibold">Nova</p>
             </div>
           </div>
           <nav className="hidden md:flex items-center gap-8 text-sm text-slate-600 font-medium">
@@ -155,13 +155,13 @@ export default function PublicLanding() {
             <div className="flex flex-col lg:flex-row items-start lg:items-center gap-16">
               <div className="flex-1">
                 <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-xs font-semibold text-slate-600 shadow-sm">
-                   <LandingSparkles size={14} className="text-[#4285F4]" />
-                  The Premier Malta Job Board
+                   <LandingSparkles size={14} className="text-indigo-600" />
+                  Malta's Intelligent Talent Network
                 </div>
                 <h1 className="mt-6 text-5xl lg:text-6xl font-semibold tracking-tight text-slate-900 font-['Space_Grotesk']">
-                  Careers.mt: Hire & find jobs
-                  <span className="text-[#4285F4] block mt-2">
-                    in Malta, faster.
+                  Welcome to Nova.
+                  <span className="text-indigo-600 block mt-2">
+                    Hire smarter, faster.
                   </span>
                 </h1>
                 <p className="mt-6 text-lg text-slate-600 max-w-xl">
@@ -272,7 +272,7 @@ export default function PublicLanding() {
                 { 
                    icon: LandingWand2, 
                   title: 'Workflow Automation', 
-                  copy: 'From intake to offer, every step is orchestrated inside Careers.mt.',
+                  copy: 'From intake to offer, every step is orchestrated inside Nova.',
                   badge: 'Powerful Tools'
                 },
               ].map(({ icon: Icon, title, copy, badge }) => (
@@ -324,7 +324,7 @@ export default function PublicLanding() {
                   </span>
                 </h2>
                 <p className="text-sm text-slate-600 mt-1">
-                  High-signal roles curated by Careers.mt with deep local insights.
+                  High-signal roles curated by Nova with deep local insights.
                 </p>
               </div>
               <Link to="/portal?role=candidate" className="text-sm font-semibold text-[#4285F4] hover:text-[#2f6fe0]">
@@ -407,7 +407,7 @@ export default function PublicLanding() {
               <div>
                 <h2 className="text-3xl font-semibold text-slate-900 font-['Space_Grotesk']">One portal. Three command centers.</h2>
                 <p className="mt-4 text-slate-600">
-                  Careers.mt keeps candidates, employers, and administrators in sync with a single secure workspace.
+                  Nova keeps candidates, employers, and administrators in sync with a single secure workspace.
                   Roles automatically route to the correct dashboard without manual switching.
                 </p>
                 <div className="mt-6 flex flex-wrap gap-3">
@@ -424,7 +424,7 @@ export default function PublicLanding() {
               </div>
               <div className="rounded-3xl border border-slate-200 bg-blue-50 p-6">
                 <div className="rounded-2xl bg-white p-6 shadow-sm">
-                  <p className="text-xs uppercase tracking-[0.3em] text-slate-400">Careers.mt</p>
+                  <p className="text-xs uppercase tracking-[0.3em] text-slate-400">Nova Pulse</p>
                   <h3 className="mt-3 text-xl font-semibold text-slate-900">Unified hiring intelligence</h3>
                   <p className="mt-2 text-sm text-slate-600">
                     Built for scale with smart compliance, audit trails, and talent analytics.
@@ -449,14 +449,14 @@ export default function PublicLanding() {
           <div className="max-w-6xl mx-auto px-6 py-12">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-12 text-xs text-slate-500 mb-8 border-b border-slate-100 pb-8">
               <div>
-                <h4 className="font-bold text-slate-900 uppercase tracking-widest mb-4">Careers.mt Platform</h4>
+                <h4 className="font-bold text-slate-900 uppercase tracking-widest mb-4">Nova Platform</h4>
                 <p className="leading-relaxed">
                   The premier recruitment platform calibrated for the Maltese labor market. 
                   Built for agencies and employers who prioritize compliance and speed.
                 </p>
                 <div className="mt-3 flex items-center gap-2">
                    <LandingSparkles size={12} className="text-[#4285F4]" />
-                  <span className="text-xs font-semibold">Careers Platform Active</span>
+                  <span className="text-xs font-semibold">Nova Core Active</span>
                 </div>
               </div>
               <div>
@@ -477,14 +477,14 @@ export default function PublicLanding() {
                 <p className="leading-relaxed mb-2">
                   GDPR Article 13/14 Compliant. All secure candidate data processed locally.
                 </p>
-                <p className="italic mb-2">Data Controller: Careers.mt</p>
+                <p className="italic mb-2">Data Controller: Nova</p>
                 <div className="text-xs text-slate-400">
                   <span className="font-semibold">Security:</span> AES-256 Encryption
                 </div>
               </div>
             </div>
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-[10px] text-slate-400 uppercase tracking-widest">
-              <span>Careers.mt • Malta • All rights reserved</span>
+              <span>Nova • Malta • All rights reserved</span>
               <span>Compliance-ready. Built for scale.</span>
             </div>
           </div>

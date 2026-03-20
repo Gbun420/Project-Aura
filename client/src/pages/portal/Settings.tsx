@@ -115,7 +115,7 @@ export default function Settings() {
             onClick={handleSignOut}
             className="text-red-400/60 hover:text-red-400 text-[10px] font-black uppercase tracking-[0.2em] transition-colors py-4"
           >
-            Terminate_Aura_Session
+            Terminate Session
           </button>
         </div>
       </div>

@@ -106,7 +106,7 @@ export default function Pricing() {
               Unlimited Applications
             </div>
             
-            <h3 className="text-xl font-bold mb-2">Careers Pro</h3>
+            <h3 className="text-xl font-bold mb-2">Nova Pro</h3>
             <div className="flex items-baseline gap-2 mb-6">
               <span className="text-4xl font-black">€49</span>
               <span className="text-blue-400 text-sm font-bold">/mo</span>
