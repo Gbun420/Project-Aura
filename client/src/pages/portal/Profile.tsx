@@ -3,29 +3,61 @@ import {
   User,
   Mail,
   Shield,
-  ShieldCheck,
   Key,
-  Globe,
-  Camera
+  Camera,
+  Check,
+  Loader2
 } from 'lucide-react';
 import { useAuth } from '../../hooks/useAuth';
+import { supabase } from '../../lib/supabase';
 import SEO from '../../components/SEO';
 
 export default function Profile() {
-  const { user, profile } = useAuth();
+  const { user, profile, role } = useAuth();
   const [isEditing, setIsEditing] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [saved, setSaved] = useState(false);
+  const [fullName, setFullName] = useState(profile?.full_name || '');
+
+  const handleSave = async () => {
+    if (!user) return;
+    setSaving(true);
+    setSaved(false);
+
+    try {
+      const { error } = await supabase
+        .from('profiles')
+        .update({ full_name: fullName })
+        .eq('id', user.id);
+
+      if (error) {
+        console.error('Profile update error:', error);
+        alert('Failed to update profile: ' + error.message);
+      } else {
+        setSaved(true);
+        setIsEditing(false);
+        setTimeout(() => setSaved(false), 3000);
+      }
+    } catch (err) {
+      console.error('Profile save error:', err);
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const displayRole = role === 'platform_owner' ? 'Admin' : (role || 'Candidate');
 
   return (
     <div className="max-w-4xl mx-auto space-y-10 animate-in slide-in-from-bottom-6 duration-700">
-      <SEO title="Identity Manifest" noindex />
+      <SEO title="Profile" noindex />
       {/* Header */}
       <div>
         <h1 className="text-3xl font-black text-white tracking-tight flex items-center gap-3">
            <User className="text-purple-400" size={32} />
-          Identity Manifest
+          Profile
         </h1>
         <p className="text-slate-400 font-medium mt-1 uppercase tracking-widest text-[10px]">
-          Manage your sovereign digital presence
+          Manage your account details
         </p>
       </div>
 
@@ -49,15 +81,16 @@ export default function Profile() {
             </div>
             
             <h3 className="text-lg font-bold text-white uppercase tracking-tight">{profile?.full_name || 'Nova User'}</h3>
-            <p className="text-slate-500 font-mono text-[10px] uppercase tracking-[0.2em] mt-1">{profile?.role || 'SYETEM_ADMIN'}</p>
+            <p className="text-slate-500 font-mono text-[10px] uppercase tracking-[0.2em] mt-1">{displayRole}</p>
             
-            <div className="mt-8 pt-8 border-t border-white/5 w-full space-y-4">
+            <div className="mt-8 pt-8 border-t border-white/5 w-full space-y-3">
               <div className="flex items-center justify-between text-xs">
-                <span className="text-slate-500 font-bold uppercase tracking-widest text-[10px]">TRUST_SCORE</span>
-                <span className="text-emerald-400 font-mono">98.2%</span>
+                <span className="text-slate-500 font-bold uppercase tracking-widest text-[10px]">ACCOUNT_STATUS</span>
+                <span className="text-emerald-400 font-mono text-[10px]">Active</span>
               </div>
-              <div className="w-full h-1 bg-white/5 rounded-full overflow-hidden">
-                <div className="w-[98%] h-full bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.5)]"></div>
+              <div className="flex items-center justify-between text-xs">
+                <span className="text-slate-500 font-bold uppercase tracking-widest text-[10px]">SUBSCRIPTION</span>
+                <span className="text-blue-400 font-mono text-[10px]">{profile?.subscription_tier || 'Free'}</span>
               </div>
             </div>
           </div>
@@ -67,45 +100,57 @@ export default function Profile() {
         <div className="space-y-6">
           <div className="p-8 rounded-[2.5rem] bg-white/5 border border-white/10 space-y-8">
             <div className="flex items-center justify-between">
-              <h2 className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Account_Parameters</h2>
-              <button 
-                title={isEditing ? 'Revert changes' : 'Modify manifest'}
-                aria-label={isEditing ? 'Revert changes' : 'Modify manifest'}
-                onClick={() => setIsEditing(!isEditing)}
-                className="text-purple-400 text-[10px] font-black uppercase tracking-widest hover:text-purple-300 transition-colors"
-              >
-                {isEditing ? 'REVERT_CHANGES' : 'MODIFY_MANIFEST'}
-              </button>
+              <h2 className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Account Details</h2>
+              <div className="flex items-center gap-3">
+                {saved && (
+                  <span className="text-emerald-400 text-[10px] font-black uppercase tracking-widest flex items-center gap-1">
+                    <Check size={12} /> Saved
+                  </span>
+                )}
+                <button 
+                  title={isEditing ? 'Cancel editing' : 'Edit profile'}
+                  aria-label={isEditing ? 'Cancel editing' : 'Edit profile'}
+                  onClick={() => {
+                    if (isEditing) {
+                      setFullName(profile?.full_name || '');
+                    }
+                    setIsEditing(!isEditing);
+                  }}
+                  className="text-purple-400 text-[10px] font-black uppercase tracking-widest hover:text-purple-300 transition-colors"
+                >
+                  {isEditing ? 'CANCEL' : 'EDIT'}
+                </button>
+              </div>
             </div>
 
             <div className="grid gap-6">
               <div className="space-y-2">
-                <label htmlFor="identity_email" className="text-[10px] font-black text-slate-500 uppercase tracking-widest px-1">IDENTITY_EMAIL</label>
+                <label htmlFor="identity_email" className="text-[10px] font-black text-slate-500 uppercase tracking-widest px-1">EMAIL</label>
                 <div className="relative group">
-                  <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-600 group-focus-within:text-purple-400 transition-colors" size={16} />
+                  <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-600" size={16} />
                   <input 
                     id="identity_email"
                     type="email" 
                     value={user?.email || ''} 
                     disabled 
-                    title="Identity Email (Immutable)"
-                    placeholder="identity@aura.network"
+                    title="Email (cannot be changed)"
                     className="w-full bg-white/5 border border-white/10 rounded-2xl py-3 pl-12 pr-4 text-sm text-slate-400 font-mono focus:outline-none cursor-not-allowed"
                   />
                 </div>
               </div>
 
               <div className="space-y-2">
-                <label htmlFor="full_legal_name" className="text-[10px] font-black text-slate-500 uppercase tracking-widest px-1">FULL_LEGAL_NAME</label>
+                <label htmlFor="full_name" className="text-[10px] font-black text-slate-500 uppercase tracking-widest px-1">FULL NAME</label>
                 <div className="relative group">
                   <User className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-600 group-focus-within:text-purple-400 transition-colors" size={16} />
                   <input 
-                    id="full_legal_name"
+                    id="full_name"
                     type="text" 
-                    defaultValue={profile?.full_name || ''} 
+                    value={fullName}
+                    onChange={(e) => setFullName(e.target.value)}
                     disabled={!isEditing}
-                    title="Full Legal Name"
-                    placeholder="Enter full legal name"
+                    title="Full Name"
+                    placeholder="Enter your full name"
                     className="w-full bg-white/5 border border-white/10 rounded-2xl py-3 pl-12 pr-4 text-sm text-white font-mono focus:outline-none focus:border-purple-500/50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                   />
                 </div>
@@ -113,32 +158,30 @@ export default function Profile() {
 
               <div className="grid md:grid-cols-2 gap-6">
                 <div className="space-y-2">
-                  <label htmlFor="sovereign_role" className="text-[10px] font-black text-slate-500 uppercase tracking-widest px-1">SOVEREIGN_ROLE</label>
+                  <label htmlFor="role_display" className="text-[10px] font-black text-slate-500 uppercase tracking-widest px-1">ROLE</label>
                   <div className="relative group">
-                    <Shield className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-600 transition-colors" size={16} />
+                    <Shield className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-600" size={16} />
                     <input 
-                      id="sovereign_role"
+                      id="role_display"
                       type="text" 
-                      value={profile?.role || ''} 
+                      value={displayRole}
                       disabled 
-                      title="Sovereign Role (System Managed)"
-                      placeholder="Access Tier"
+                      title="Role (system managed)"
                       className="w-full bg-white/5 border border-white/10 rounded-2xl py-3 pl-12 pr-4 text-sm text-slate-400 font-mono focus:outline-none cursor-not-allowed uppercase"
                     />
                   </div>
                 </div>
 
                 <div className="space-y-2">
-                  <label htmlFor="system_access_key" className="text-[10px] font-black text-slate-500 uppercase tracking-widest px-1">SYSTEM_ACCESS_KEY</label>
+                  <label htmlFor="access_key" className="text-[10px] font-black text-slate-500 uppercase tracking-widest px-1">USER ID</label>
                   <div className="relative group">
-                    <Key className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-600 transition-colors" size={16} />
+                    <Key className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-600" size={16} />
                     <input 
-                      id="system_access_key"
-                      type="password" 
-                      value="********" 
+                      id="access_key"
+                      type="text" 
+                      value={user?.id?.slice(0, 12) + '...' || ''} 
                       disabled 
-                      title="System Access Key (Encrypted)"
-                      placeholder="Security Token"
+                      title="User ID"
                       className="w-full bg-white/5 border border-white/10 rounded-2xl py-3 pl-12 pr-4 text-sm text-slate-400 font-mono focus:outline-none cursor-not-allowed"
                     />
                   </div>
@@ -148,25 +191,20 @@ export default function Profile() {
 
             {isEditing && (
               <button 
-                title="Commit Identity Sync"
-                className="w-full py-4 bg-purple-600 hover:bg-purple-500 text-white rounded-2xl text-xs font-black uppercase tracking-widest transition-all shadow-lg shadow-purple-500/20"
+                onClick={handleSave}
+                disabled={saving}
+                className="w-full py-4 bg-purple-600 hover:bg-purple-500 text-white rounded-2xl text-xs font-black uppercase tracking-widest transition-all shadow-lg shadow-purple-500/20 disabled:opacity-50 flex items-center justify-center gap-2"
               >
-                COMMIT_IDENTITY_SYNC
+                {saving ? (
+                  <>
+                    <Loader2 size={14} className="animate-spin" />
+                    Saving...
+                  </>
+                ) : (
+                  'Save Changes'
+                )}
               </button>
             )}
-          </div>
-
-          <div className="p-8 rounded-[2.5rem] bg-emerald-500/5 border border-emerald-500/10 flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <div className="p-3 bg-emerald-500/20 rounded-2xl text-emerald-400">
-                <ShieldCheck size={24} />
-              </div>
-              <div>
-                <h4 className="text-white font-bold uppercase tracking-tight text-sm">Identità_Verified</h4>
-                <p className="text-emerald-400/60 text-[10px] uppercase font-bold tracking-[0.1em]">Your account is compliant with Maltese iGaming standards.</p>
-              </div>
-            </div>
-            <Globe className="text-emerald-500/20" size={32} />
           </div>
         </div>
       </div>
