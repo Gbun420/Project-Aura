@@ -1,6 +1,7 @@
 import { Search, Bell, User, LogOut } from 'lucide-react';
 import { useAuth } from '../hooks/useAuth';
 import type { NovaRole } from '../types/nova.js';
+import { Link } from 'react-router-dom';
 
 const ROLE_LABEL: Record<NovaRole, string> = {
   admin: 'Nova Admin',
@@ -26,7 +27,8 @@ export default function PortalHeader({ role }: { role: NovaRole }) {
       </div>
 
       <div className="flex items-center gap-6">
-        <button 
+        <Link 
+          to={`/portal/${role}/notifications`}
           title="View notifications"
           aria-label="View notifications"
           className="relative p-2 rounded-xl text-slate-500 hover:text-white hover:bg-white/5 transition-all"
@@ -34,7 +36,7 @@ export default function PortalHeader({ role }: { role: NovaRole }) {
           <Bell size={18} />
           <span className="sr-only">View notifications</span>
           <span className="absolute top-1.5 right-1.5 h-2 w-2 bg-nova-accent rounded-full border-2 border-nova-base animate-pulse" />
-        </button>
+        </Link>
         
         <div className="h-8 w-px bg-white/5" />
 
