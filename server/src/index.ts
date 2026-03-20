@@ -6,6 +6,8 @@ import dotenv from 'dotenv';
 import rateLimit from 'express-rate-limit';
 import admin from 'firebase-admin';
 import Stripe from 'stripe';
+import crypto from 'crypto';
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
 // Import Nova Hardened Subsystems
 import { SovereignVault } from './core/security/Vault.js';
@@ -116,127 +118,147 @@ app.get('/api/health', (req, res) => {
   res.status(200).json({ status: 'NOVA_CORE_ONLINE', timestamp: new Date() });
 });
 
-// 6. Neural Endpoints: The Hard Logic
-// ------------------------------------------------------------------
+// ANONYMIZATION UTILITY
+const anonymizeCandidate = (candidate: any, isPro: boolean, employerId: string) => {
+  if (isPro) return candidate;
+  const salt = process.env.ANONYMIZATION_SALT || 'nova_default_salt_2026';
+  const hash = crypto.createHash('sha256').update(candidate.id + employerId + salt).digest('hex').slice(0, 8).toUpperCase();
+  return {
+    ...candidate,
+    id: `nova_${hash}`,
+    full_name: `Nova Candidate ${hash}`,
+    email: null,
+    phone: null,
+    resume_text: candidate.resume_text ? candidate.resume_text.slice(0, 200) + "..." : "Unlock Pro to view verified resume history.",
+    compliance_status: candidate.tcn_status,
+    _metadata: {
+      blurred: true,
+      upgrade_prompt: "PIONEER_OFFER: Subscribe to Pulse Pro for €29/mo (was €49) to unlock direct contact",
+      match_quality: candidate.match_score 
+    }
+  };
+};
 
-// Initiate Handshake (Protected)
-app.post('/api/hiring/start', authGuard as any, async (req, res) => {
+// HIRING HUB
+app.post('/api/hiring/hub', authGuard as any, async (req, res) => {
+  const { action, jobId, applicationId, newStatus, finalSalary, matchScore } = req.body;
+  const auth = (req as AuthRequest);
+
   try {
-    const { candidateId } = req.body;
-    const employerId = (req as AuthRequest).user?.id; 
-    if (!employerId) throw new Error("UNAUTHORIZED_CONTEXT: Employer ID missing.");
-
-    // Note: BountyGuardian.logHandshake now handles Firestore internally
-    const signature = await BountyGuardian.logHandshake(null, employerId, candidateId);
-    res.json({ success: true, hash: signature });
-  } catch (error: any) {
-    res.status(400).json({ success: false, error: error.message });
-  }
-});
-
-// Finalize Introduction (Protected)
-app.post('/api/billing/finalize', authGuard as any, async (req, res) => {
-  try {
-    const { candidateId } = req.body;
-    const employerId = (req as AuthRequest).user?.id;
-    if (!employerId) throw new Error("UNAUTHORIZED_CONTEXT: Employer ID missing.");
-    
-    // 1. Mark Ledger as Released in Firestore
-    const ledgerSnap = await firestore.collection('introduction_ledger')
-      .where('candidateId', '==', candidateId)
-      .where('employerId', '==', employerId)
-      .where('feeStatus', '==', 'LOCKED')
-      .get();
-
-    if (ledgerSnap.empty) {
-      throw new Error("LEDGER_UPDATE_FAILED: No active introduction found.");
+    if (action === "LIST_VACANCIES") {
+      const snapshot = await firestore.collection("vacancies").where("status", "==", "published").orderBy("created_at", "desc").get();
+      const vacancies = await Promise.all(snapshot.docs.map(async (doc) => {
+        const data = doc.data();
+        let companyName = "Unknown";
+        if (data.employer_id) {
+          const empDoc = await firestore.collection("profiles").doc(data.employer_id).get();
+          companyName = empDoc.exists ? (empDoc.data()?.company_name || "Nova Partner") : "Nova Partner";
+        }
+        return { id: doc.id, ...data, employer: { company_name: companyName } };
+      }));
+      return res.json({ vacancies });
     }
 
-    const batch = firestore.batch();
-    ledgerSnap.docs.forEach(doc => {
-      batch.update(doc.ref, { feeStatus: 'RELEASED', releasedAt: new Date().toISOString() });
-    });
-    await batch.commit();
-
-    // 2. Generate and Seal Manifest
-    const rawManifest = await ManifestGenerator.generate(null, candidateId, employerId);
-    const sealedPayload = SovereignVault.sealManifest(rawManifest.payload);
-    
-    // Log to Immutable Audit Trail
-    await AuditTrailService.logEvent('RELEASE', { candidateId, employerId, manifestId: rawManifest.manifestId });
-
-    res.json({ success: true, manifest: { ...rawManifest, payload: sealedPayload } });
-  } catch (error: any) {
-    res.status(400).json({ success: false, error: error.message });
-  }
-});
-
-// Create Stripe Checkout Session (Protected)
-app.post('/api/billing/create-checkout-session', authGuard as any, async (req, res) => {
-  try {
-    const { priceId, successUrl, cancelUrl } = req.body;
-    const user = (req as AuthRequest).user;
-
-    if (!priceId) {
-      return res.status(400).json({ error: "MISSING_PRICE_ID" });
+    if (action === "CREATE_VACANCY") {
+      const { title, description, complianceScore } = req.body;
+      const score = Number(complianceScore ?? 0);
+      const status = score >= 85 ? "published" : score > 0 ? "flagged" : "draft";
+      const docRef = await firestore.collection("vacancies").add({
+        employer_id: auth.user?.id,
+        title,
+        description,
+        compliance_score: score,
+        status,
+        created_at: new Date().toISOString(),
+        last_activity_at: new Date().toISOString()
+      });
+      return res.json({ vacancy: { id: docRef.id } });
     }
 
-    const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
-    if (!stripeSecretKey) {
-      return res.status(500).json({ error: "PAYMENT_GATEWAY_NOT_CONFIGURED" });
+    if (action === "LIST_APPLICANTS") {
+      if (!jobId) return res.status(400).json({ error: "MISSING_JOB_ID" });
+      const jobSnap = await firestore.collection("vacancies").doc(jobId).get();
+      if (!jobSnap.exists || jobSnap.data()?.employer_id !== auth.user?.id) {
+        return res.status(403).json({ error: "UNAUTHORIZED_JOB_ACCESS" });
+      }
+      const employerSnap = await firestore.collection("profiles").doc(auth.user?.id!).get();
+      const isPro = ['pro', 'pulse_pro', 'enterprise'].includes(employerSnap.data()?.subscription_tier || '');
+      
+      const appSnap = await firestore.collection("applications").where("job_id", "==", jobId).orderBy("match_score", "desc").get();
+      const applicants = await Promise.all(appSnap.docs.map(async (doc) => {
+        const appData = doc.data();
+        const candSnap = await firestore.collection("profiles").doc(appData.candidate_id).get();
+        if (!candSnap.exists) return null;
+        const anonymized = anonymizeCandidate({ ...candSnap.data(), id: candSnap.id, match_score: appData.match_score }, isPro, auth.user?.id!);
+        return { id: doc.id, ...appData, candidate: anonymized };
+      }));
+      return res.json({ applicants: applicants.filter(Boolean), metadata: { isBlurred: !isPro } });
     }
 
-    const stripe = new Stripe(stripeSecretKey, {
-      apiVersion: '2023-10-16' as any,
-    });
+    if (action === "UPDATE_APPLICATION_STATUS") {
+      await firestore.collection("applications").doc(applicationId).update({ status: newStatus, updated_at: new Date().toISOString() });
+      return res.json({ success: true });
+    }
 
-    const session = await stripe.checkout.sessions.create({
-      payment_method_types: ['card'],
-      line_items: [
-        {
-          price: priceId,
-          quantity: 1,
-        },
-      ],
-      mode: 'subscription',
-      success_url: (successUrl as string) || `${req.headers.origin}/portal/employer/applicants?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: (cancelUrl as string) || `${req.headers.origin}/portal/employer/pricing`,
-      ...(user?.id ? { client_reference_id: user.id } : {}),
-      metadata: {
-        userId: user?.id || '',
-      },
-    });
+    if (action === "COMMIT_TO_LEDGER") {
+      const appSnap = await firestore.collection("applications").doc(applicationId).get();
+      const successHash = crypto.createHash('sha256').update(`${applicationId}${finalSalary}${Date.now()}`).digest('hex');
+      await firestore.collection("introduction_ledger").add({
+        applicationId, employerId: auth.user?.id, candidateId: appSnap.data()?.candidate_id,
+        final_salary: finalSalary, success_hash: successHash, feeStatus: 'RELEASED',
+        created_at: new Date().toISOString()
+      });
+      return res.json({ status: 'COMMITTED', hash: successHash });
+    }
 
-    res.json({ url: session.url });
-  } catch (error: any) {
-    console.error("STRIPE_SESSION_ERR:", error);
-    res.status(500).json({ error: error.message });
+    res.status(400).json({ error: "INVALID_ACTION" });
+  } catch (err: any) {
+    res.status(500).json({ error: err.message });
   }
 });
 
-// Live Compliance Pulse (Protected)
-app.get('/api/hiring/pulse', authGuard as any, async (req, res) => {
-  try {
-    const employerId = (req as AuthRequest).user?.id;
-    if (!employerId) throw new Error("UNAUTHORIZED_CONTEXT: Employer ID missing.");
+// NEURAL CORE
+app.post('/api/ai/neural', authGuard as any, async (req, res) => {
+  const apiKey = process.env.GEMINI_API_KEY;
+  if (!apiKey) return res.status(500).json({ error: "GEMINI_KEY_MISSING" });
+  
+  const { action, payload, content } = req.body;
+  const genAI = new GoogleGenerativeAI(apiKey);
+  const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-    const pulseData = await PulseAggregator.getEmployerPulse(null, employerId);
-    res.json({ success: true, pulseData });
-  } catch (error: any) {
-    res.status(500).json({ success: false, error: error.message });
+  try {
+    if (action === "ANALYZE_COMPLIANCE") {
+      const prompt = `Analyze job description for Maltese DIER compliance. JSON only: {"score": number, "flags": string[]}. Content: ${JSON.stringify(content)}`;
+      const result = await model.generateContent(prompt);
+      const text = (await result.response).text().replace(/```json|```/g, "").trim();
+      return res.json(JSON.parse(text));
+    }
+
+    if (action === "CONVERSATIONAL_ACTION") {
+      const prompt = `You are Nova Assistant. Helping employer with candidate ${payload?.context?.candidateId}. User: ${payload?.message}`;
+      const result = await model.generateContent(prompt);
+      return res.json({ reply: (await result.response).text().trim() });
+    }
+
+    res.status(400).json({ error: "INVALID_ACTION" });
+  } catch (err: any) {
+    res.status(500).json({ error: err.message });
   }
 });
 
-// DIER Regulatory Shield Export (Protected)
-app.get('/api/hiring/audit', authGuard as any, async (req, res) => {
+// COMPLIANCE
+app.post('/api/compliance', authGuard as any, async (req, res) => {
+  const { action, payload } = req.body;
   try {
-    const employerId = (req as AuthRequest).user?.id;
-    if (!employerId) throw new Error("UNAUTHORIZED_CONTEXT: Employer ID missing.");
-
-    const auditLog = await AuditExportService.generateAuditLog(null, employerId);
-    res.json({ success: true, auditLog });
-  } catch (error: any) {
-    res.status(500).json({ success: false, error: error.message });
+    if (action === "VERIFY_LICENSE") {
+      const docId = payload?.trackingId || payload?.employerId;
+      const snap = await firestore.collection('employer_licenses').doc(docId).get();
+      if (!snap.exists) return res.status(404).json({ error: "LICENSE_NOT_FOUND" });
+      return res.json(snap.data());
+    }
+    res.status(400).json({ error: "INVALID_ACTION" });
+  } catch (err: any) {
+    res.status(500).json({ error: err.message });
   }
 });
 
