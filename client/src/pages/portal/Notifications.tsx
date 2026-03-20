@@ -44,7 +44,7 @@ export default function Notifications() {
         const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 
         if (data) {
-          const mapped = data.map(item: any => ({
+          const mapped = data.map((item: any) => ({
             id: item.id,
             type: item.action?.toLowerCase().includes('match') ? 'neural' : 
                   item.action?.toLowerCase().includes('compliance') ? 'compliance' : 'system',

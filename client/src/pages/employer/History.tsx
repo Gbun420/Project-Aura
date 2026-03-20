@@ -1,8 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Clock, Hash, CheckCircle2, AlertCircle } from 'lucide-react';
 import { useAuth } from '../../hooks/useAuth';
-import { db } from '../../lib/firebase';
-import { collection, query, where, getDocs, orderBy } from 'firebase/firestore';
 
 interface LedgerEntry {
   hash: string;
@@ -15,35 +13,42 @@ interface LedgerEntry {
 
 export default function EmployerHistory() {
   const { user } = useAuth();
-  const [entries, setEntries] = useState<LedgerEntry[]>([]);
+  const [history, setHistory] = useState<LedgerEntry[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    async function fetchHistory() {
+    const loadHistory = async () => {
       if (!user) {
         setLoading(false);
         return;
       }
       setLoading(true);
+      setError(null);
       try {
-        const q = query(
-          collection(db, 'introduction_ledger'),
-          where('employer_id', '==', user.uid),
-          orderBy('notified_at', 'desc')
-        );
-        const snapshot = await getDocs(q);
-        const data = snapshot.docs.map(doc => ({ ...doc.data() })) as LedgerEntry[];
-        
-        if (data) {
-          setEntries(data);
+        const token = await user.getIdToken();
+        const response = await fetch('/api/hiring/hub', {
+          method: 'POST',
+          headers: { 
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify({ action: 'GET_LEDGER_HISTORY' })
+        });
+        const data = await response.json();
+        if (response.ok) {
+          setHistory(data.history || []);
+        } else {
+          setError(data.error || "An unknown error occurred.");
         }
       } catch (err) {
-        console.error('History fetch error:', err);
+        console.error("Ledger history error:", err);
+        setError("Failed to sync with neural ledger");
       } finally {
         setLoading(false);
       }
-    }
-    fetchHistory();
+    };
+    loadHistory();
   }, [user]);
 
   const getStatusBadge = (status: string | null) => {
@@ -74,7 +79,7 @@ export default function EmployerHistory() {
           <div className="w-12 h-12 border-4 border-blue-500/20 border-t-blue-500 rounded-full animate-spin"></div>
           <span className="text-xs font-mono text-slate-500 uppercase tracking-widest">Loading history...</span>
         </div>
-      ) : entries.length === 0 ? (
+      ) : history.length === 0 ? (
         <div className="p-20 border-2 border-dashed border-white/5 rounded-[3rem] text-center">
           <Clock className="mx-auto text-slate-600 mb-4" size={32} />
           <h3 className="text-white font-bold mb-2 uppercase tracking-tight">No History Yet</h3>
@@ -82,7 +87,7 @@ export default function EmployerHistory() {
         </div>
       ) : (
         <div className="space-y-4">
-          {entries.map((entry) => {
+          {history.map((entry) => {
             const status = getStatusBadge(entry.fee_status);
             const StatusIcon = status.icon;
             return (

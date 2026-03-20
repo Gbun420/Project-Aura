@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { supabase } from '../lib/supabase';
+import { db } from '../lib/firebase';
+import { collection, query, where, getDocs } from 'firebase/firestore';
 
 interface ComplianceDocument {
   id: string;
@@ -20,15 +21,16 @@ export function ComplianceStatus({ profileId }: ComplianceStatusProps) {
   useEffect(() => {
     async function fetchDocuments() {
       setLoading(true);
-      const { data, error } = await supabase
-        .from('compliance_documents')
-        .select('*')
-        .eq('profile_id', profileId);
-
-      if (error) {
-        console.error('Error fetching compliance docs:', error);
-      } else if (data) {
-        setDocuments(data);
+      try {
+        const q = query(
+          collection(db, 'compliance_documents'),
+          where('profile_id', '==', profileId)
+        );
+        const snapshot = await getDocs(q);
+        const docs = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })) as ComplianceDocument[];
+        setDocuments(docs);
+      } catch (err) {
+        console.error('Error fetching compliance docs:', err);
       }
       setLoading(false);
     }

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { supabase } from '../../lib/supabase';
+import { db } from '../../lib/firebase';
+import { collection, query, orderBy, limit, onSnapshot, doc, updateDoc } from 'firebase/firestore';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Shield, Zap, AlertCircle, CheckCircle2, FileSearch, Gavel, X, Save, ExternalLink } from 'lucide-react';
 
@@ -25,39 +26,20 @@ export const LiveOCRMonitor: React.FC = () => {
   });
 
   useEffect(() => {
-    const fetchRecentLogs = async () => {
-      const { data } = await supabase
-        .from('compliance_documents')
-        .select('*')
-        .order('created_at', { ascending: false })
-        .limit(10);
-      
-      if (data) setLogs(data);
-    };
+    const q = query(
+      collection(db, 'compliance_documents'),
+      orderBy('created_at', 'desc'),
+      limit(10)
+    );
 
-    fetchRecentLogs();
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const docs = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })) as OCRLog[];
+      setLogs(docs);
+    }, (error) => {
+      console.error("OCR_STREAM_ERR:", error);
+    });
 
-    const subscription = supabase
-      .channel('live-ocr-stream')
-      .on('postgres_changes', { 
-        event: 'INSERT', 
-        schema: 'public', 
-        table: 'compliance_documents' 
-      }, payload => {
-        setLogs(prev => [payload.new as OCRLog, ...prev].slice(0, 10));
-      })
-      .on('postgres_changes', { 
-        event: 'UPDATE', 
-        schema: 'public', 
-        table: 'compliance_documents' 
-      }, payload => {
-        setLogs(prev => prev.map(log => log.id === payload.new.id ? (payload.new as OCRLog) : log));
-      })
-      .subscribe();
-
-    return () => {
-      supabase.removeChannel(subscription);
-    };
+    return () => unsubscribe();
   }, []);
 
   const handleAudit = (log: OCRLog) => {
@@ -71,20 +53,17 @@ export const LiveOCRMonitor: React.FC = () => {
   const saveAudit = async () => {
     if (!selectedLog) return;
 
-    const { error } = await supabase
-      .from('compliance_documents')
-      .update({
+    try {
+      const docRef = doc(db, 'compliance_documents', selectedLog.id);
+      await updateDoc(docRef, {
         expiry_date: auditForm.expiry_date || null,
         pulse_status: auditForm.pulse_status,
         requires_manual_review: false,
         updated_at: new Date().toISOString(),
-      })
-      .eq('id', selectedLog.id);
-
-    if (!error) {
+      });
       setSelectedLog(null);
-    } else {
-      console.error('Audit Save Failed:', error);
+    } catch (err) {
+      console.error('Audit Save Failed:', err);
     }
   };
 

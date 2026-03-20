@@ -49,7 +49,7 @@ export default function ComplianceCenter() {
               </button>
             </div>
             
-            {user && <ComplianceStatus profileId={user.id} />}
+            {user && <ComplianceStatus profileId={user.uid} />}
           </div>
         </div>
 
