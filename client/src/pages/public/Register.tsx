@@ -1,6 +1,8 @@
 import { useState } from 'react';
-import { supabase } from '../../lib/supabase';
 import { useNavigate, Link, useSearchParams } from 'react-router-dom';
+import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
+import { doc, setDoc, serverTimestamp } from 'firebase/firestore';
+import { auth, db } from '../../lib/firebase';
 import { Logo } from '../../components/Logo';
 
 export default function Register() {
@@ -30,31 +32,37 @@ export default function Register() {
       return;
     }
 
-    const { error } = await supabase.auth.signUp({
-      email: formData.email,
-      password: formData.password,
-      options: {
-        emailRedirectTo: `${window.location.origin}/login`,
-        data: {
-          role,
-          company_name: role === 'employer' ? formData.company.trim() : null,
-          acquisition_source: searchParams.get('source') || 'direct',
-          campaign_id: searchParams.get('campaign') || null,
-          full_name: formData.email.split('@')[0]
-        }
-      }
-    });
+    try {
+      const { user } = await createUserWithEmailAndPassword(auth, formData.email, formData.password);
+      
+      const fullName = formData.email.split('@')[0];
+      await updateProfile(user, { displayName: fullName });
 
-    if (error) {
-      if (error.status === 422) {
-        setErrorMsg('Email already taken or password too weak.');
+      // Create profile document in Firestore
+      await setDoc(doc(db, 'profiles', user.uid), {
+        id: user.uid,
+        email: formData.email,
+        full_name: fullName,
+        role,
+        company_name: role === 'employer' ? formData.company.trim() : null,
+        acquisition_source: searchParams.get('source') || 'direct',
+        campaign_id: searchParams.get('campaign') || null,
+        created_at: serverTimestamp(),
+        updated_at: serverTimestamp(),
+      });
+
+      setSuccess(true);
+    } catch (err) {
+      const error = err as { code?: string; message: string };
+      console.error('Registration error:', error);
+      if (error.code === 'auth/email-already-in-use') {
+        setErrorMsg('Email already taken.');
       } else {
         setErrorMsg(error.message);
       }
-    } else {
-      setSuccess(true);
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   if (success) {

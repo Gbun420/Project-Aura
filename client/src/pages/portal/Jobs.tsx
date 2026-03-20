@@ -1,6 +1,13 @@
 import { useState, useEffect } from 'react';
 import { Briefcase, Plus, Filter, Search, MoreVertical, ExternalLink } from 'lucide-react';
-import { supabase } from '../../lib/supabase';
+import { 
+  collection, 
+  query, 
+  where, 
+  getDocs, 
+  orderBy as fsOrderBy 
+} from 'firebase/firestore';
+import { db } from '../../lib/firebase';
 import { useAuth } from '../../hooks/useAuth';
 import SEO from '../../components/SEO';
 import JobPostingForm from '../../components/employer/JobPostingForm';
@@ -29,23 +36,30 @@ export default function Jobs() {
       setLoading(true);
       
       try {
-        let query = supabase.from('vacancies').select('*');
+        const vacanciesRef = collection(db, 'vacancies');
+        let q;
         
         if (role === 'candidate') {
-          // Candidates see all published jobs
-          query = query.eq('status', 'published');
+          q = query(
+            vacanciesRef, 
+            where('status', '==', 'published'),
+            fsOrderBy('created_at', 'desc')
+          );
         } else {
-          // Employers and Admins see their own jobs
-          query = query.eq('employer_id', user.id);
+          q = query(
+            vacanciesRef, 
+            where('employer_id', '==', user.uid),
+            fsOrderBy('created_at', 'desc')
+          );
         }
 
-        const { data, error } = await query.order('created_at', { ascending: false });
-
-        if (error) {
-          console.error('Error fetching jobs:', error);
-        } else if (data) {
-          setVacancies(data);
-        }
+        const querySnapshot = await getDocs(q);
+        const data = querySnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        })) as Vacancy[];
+        
+        setVacancies(data);
       } catch (err) {
         console.error('Error in fetchJobs:', err);
       } finally {

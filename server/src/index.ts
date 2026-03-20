@@ -4,6 +4,7 @@ import { Server } from 'socket.io';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import rateLimit from 'express-rate-limit';
+import admin from 'firebase-admin';
 import { createClient } from '@supabase/supabase-js';
 import Stripe from 'stripe';
 
@@ -22,7 +23,13 @@ import { ShadowMonitor } from './workers/ShadowMonitor.js';
 dotenv.config();
 const PORT = process.env.PORT || 3001;
 
-// 1. Initialize Supabase Auth Client
+// 1. Initialize Firebase Admin
+admin.initializeApp({
+  credential: admin.credential.applicationDefault(),
+  // For local development, you should set GOOGLE_APPLICATION_CREDENTIALS env var
+});
+
+// Keep Supabase for legacy data access or migration if needed
 const supabase = createClient(
   process.env.SUPABASE_URL || '',
   process.env.SUPABASE_ANON_KEY || ''
@@ -57,7 +64,7 @@ app.use('/api/', apiLimiter);
 
 interface AuthUser {
   id: string;
-  email?: string;
+  email?: string | undefined;
 }
 
 interface AuthRequest extends express.Request {
@@ -76,14 +83,17 @@ const authGuard = async (req: AuthRequest, res: express.Response, next: express.
     return res.status(401).json({ error: "UNAUTHORIZED_ACCESS: Malformed Token." });
   }
 
-  const { data: { user }, error } = await supabase.auth.getUser(token);
-
-  if (error || !user) {
+  try {
+    const decodedToken = await admin.auth().verifyIdToken(token);
+    req.user = {
+      id: decodedToken.uid,
+      email: decodedToken.email
+    };
+    next();
+  } catch (err) {
+    console.error("AUTH_GUARD_ERR:", err);
     return res.status(401).json({ error: "UNAUTHORIZED_ACCESS: Invalid or Expired Token." });
   }
-
-  req.user = user as AuthUser;
-  next();
 };
 
 // 5. CI/CD Health Endpoint

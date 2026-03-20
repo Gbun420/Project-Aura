@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { Settings as SettingsIcon, LogOut, Loader2, Shield } from 'lucide-react';
 import { useAuth } from '../../hooks/useAuth';
-import { supabase } from '../../lib/supabase';
+import { signOut } from 'firebase/auth';
+import { auth } from '../../lib/firebase';
 
 export default function Settings() {
   const { user, profile, role } = useAuth();
@@ -9,7 +10,7 @@ export default function Settings() {
 
   const handleSignOut = async () => {
     setSigningOut(true);
-    await supabase.auth.signOut();
+    await signOut(auth);
     window.location.href = '/login';
   };
 

@@ -1,40 +1,60 @@
-import { supabase } from '../lib/supabase';
+import { doc, updateDoc } from 'firebase/firestore';
+import { auth, db } from '../lib/firebase';
 
 export async function generateEmbedding(text: string, recordId: string, table: string) {
-  const { data, error } = await supabase.functions.invoke('generate-embedding', {
-    body: { text, recordId, table },
+  const token = await auth.currentUser?.getIdToken();
+  
+  const response = await fetch('/api/ai/neural', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      ...(token ? { Authorization: `Bearer ${token}` } : {})
+    },
+    body: JSON.stringify({
+      action: 'GENERATE_EMBEDDING',
+      text,
+      recordId,
+      table
+    }),
   });
 
-  if (error) {
-    console.error('Error calling generate-embedding:', error);
-    throw error;
+  const data = await response.json();
+  if (!response.ok) {
+    throw new Error(data?.error || 'Failed to generate embedding');
   }
 
-  // Update the record with the new embedding
+  // Update the record with the new embedding in Firestore
   const updateColumn = table === 'vacancies' ? 'job_embedding' : 'embedding';
-  const { error: updateError } = await supabase
-    .from(table)
-    .update({ [updateColumn]: data.embedding })
-    .eq('id', recordId);
-
-  if (updateError) {
-    console.error(`Error updating ${table} with embedding:`, updateError);
-    throw updateError;
+  const docRef = doc(db, table, recordId);
+  
+  try {
+    await updateDoc(docRef, { [updateColumn]: data.embedding });
+  } catch (err) {
+    console.error(`Error updating ${table} with embedding:`, err);
+    throw err;
   }
 
   return data.embedding;
 }
 
 export async function getMatchScore(profileId: string, jobId: string) {
-  const { data, error } = await supabase.rpc('calculate_match', { 
-    profile_id: profileId, 
-    vacancy_id: jobId 
-  });
+  const token = await auth.currentUser?.getIdToken();
+  
+  try {
+    const response = await fetch('/api/neural/match', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        ...(token ? { Authorization: `Bearer ${token}` } : {})
+      },
+      body: JSON.stringify({ profileId, jobId }),
+    });
 
-  if (error) {
-    console.error('Error fetching match score:', error);
+    const data = await response.json();
+    if (!response.ok) throw new Error(data?.error || 'Match calculation failed');
+    return data.score;
+  } catch (err) {
+    console.error('Error fetching match score:', err);
     return 0;
   }
-
-  return data;
 }

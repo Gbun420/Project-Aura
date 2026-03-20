@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { supabase } from '../../lib/supabase';
+import { auth } from '../../lib/firebase';
 import { ShieldCheck } from 'lucide-react';
 
 type ComplianceAnalysis = {
@@ -33,8 +33,7 @@ export default function JobPostingForm({ onClose }: { onClose?: () => void }) {
     setIsAnalyzing(true);
     setNotice(null);
     try {
-      const { data: sessionData } = await supabase.auth.getSession();
-      const token = sessionData.session?.access_token;
+      const token = await auth.currentUser?.getIdToken();
 
       const response = await fetch('/api/ai/neural', {
         method: 'POST',
@@ -80,8 +79,7 @@ export default function JobPostingForm({ onClose }: { onClose?: () => void }) {
 
     setIsSubmitting(true);
     try {
-      const { data } = await supabase.auth.getSession();
-      const token = data.session?.access_token;
+      const token = await auth.currentUser?.getIdToken();
       if (!token) {
         throw new Error('Authentication required. Please log in again.');
       }

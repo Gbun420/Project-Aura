@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../../lib/firebase';
 import { useAuth } from '../../hooks/useAuth';
-import { supabase } from '../../lib/supabase';
 import { Logo } from '../../components/Logo';
 
 export default function Login() {
@@ -22,20 +23,17 @@ export default function Login() {
     setError(null);
     setLoading(true);
 
-    const { error: signInError } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-
-    setLoading(false);
-
-    if (signInError) {
-      setError(signInError.message);
-      return;
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      const redirectTo = (location.state as { from?: Location })?.from?.pathname;
+      navigate(redirectTo || '/portal', { replace: true });
+    } catch (err) {
+      const error = err as Error;
+      console.error('Login error:', error);
+      setError(error.message);
+    } finally {
+      setLoading(false);
     }
-
-    const redirectTo = (location.state as { from?: Location })?.from?.pathname;
-    navigate(redirectTo || '/portal', { replace: true });
   };
 
   return (

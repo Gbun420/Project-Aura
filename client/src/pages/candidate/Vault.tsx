@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { supabase } from '../../lib/supabase';
+import { collection, query, where, getDocs, orderBy } from 'firebase/firestore';
+import { auth, db } from '../../lib/firebase';
 import { ShieldCheck, FileText, AlertCircle, Clock, CheckCircle2, UploadCloud, ChevronRight } from 'lucide-react';
 
 type ComplianceDocument = {
@@ -18,16 +19,22 @@ export default function CandidateVault() {
   useEffect(() => {
     const fetchDocuments = async () => {
       try {
-        const { data: { user } } = await supabase.auth.getUser();
+        const user = auth.currentUser;
         if (!user) return;
 
-        const { data, error } = await supabase
-          .from('compliance_documents')
-          .select('*')
-          .order('created_at', { ascending: false });
+        const q = query(
+          collection(db, 'compliance_documents'),
+          where('user_id', '==', user.uid),
+          orderBy('created_at', 'desc')
+        );
 
-        if (error) throw error;
-        setDocuments(data || []);
+        const querySnapshot = await getDocs(q);
+        const docsData = querySnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        })) as ComplianceDocument[];
+
+        setDocuments(docsData);
       } catch (err) {
         console.error("FAILED_TO_SYNC_VAULT: Could not fetch compliance artifacts.", err);
       } finally {
