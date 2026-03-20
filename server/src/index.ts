@@ -234,6 +234,28 @@ app.post('/api/ai/neural', authGuard as any, async (req, res) => {
       return res.json(JSON.parse(text));
     }
 
+    if (action === "RESUME_MATCH") {
+      const { resumeText, jobDescription } = payload || {};
+      if (!resumeText || !jobDescription) return res.status(400).json({ error: "MISSING_MATCH_DATA" });
+      const prompt = `System: You are the Nova Neural Match Engine v2.0 (2026 Build). Task: Deep-level compatibility analysis between Candidate Resume and Job Description. Format: JSON only. { "matchScore": number (0-100), "alignment": string[], "behavioralAlignment": string, "culturalFit": number, "gaps": string[] }\nCandidate Resume: "${resumeText}"\nJob Description: "${jobDescription}"`;
+      const result = await model.generateContent(prompt);
+      const text = (await result.response).text().replace(/```json|```/g, "").trim();
+      return res.json(JSON.parse(text));
+    }
+
+    if (action === "NOVA_MATCH") {
+      return res.json({ status: "NOVA_MATCH_READY", message: "Neural matching engine online." });
+    }
+
+    if (action === "VERIFY_SKILLS_PASS") {
+      const { fileData, mimeType } = payload || {};
+      if (!fileData || !mimeType) return res.status(400).json({ error: "MISSING_DOCUMENT_DATA" });
+      const prompt = `System: You are the Nova Compliance Validator for the 2026 Maltese labor market. Task: Analyze this document for 'Skills Pass' authenticity issued by Identità Malta. Output JSON only: { "verified": boolean, "expiryDate": string, "englishLevel": string, "confidence": number, "reasoning": string }`;
+      const result = await model.generateContent([prompt, { inlineData: { data: fileData, mimeType } }]);
+      const text = (await result.response).text().replace(/```json|```/g, "").trim();
+      return res.json(JSON.parse(text));
+    }
+
     if (action === "CONVERSATIONAL_ACTION") {
       const prompt = `You are Nova Assistant. Helping employer with candidate ${payload?.context?.candidateId}. User: ${payload?.message}`;
       const result = await model.generateContent(prompt);
