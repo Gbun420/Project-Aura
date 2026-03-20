@@ -1,7 +1,7 @@
 import { Outlet, useLocation } from 'react-router-dom';
 import Sidebar from '../components/Sidebar';
 import PortalHeader from '../components/PortalHeader';
-import type { Role } from '../types/aura.js';
+import type { Role } from '../types/nova';
 
 const getRoleFromPath = (pathname: string): Role | 'platform_owner' => {
   const [, base, role] = pathname.split('/');
