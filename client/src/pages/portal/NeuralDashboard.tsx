@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Brain, RefreshCw, Briefcase, Users, FileText, Zap, Clock } from 'lucide-react';
 import { useAuth } from '../../hooks/useAuth';
 import { supabase } from '../../lib/supabase';
@@ -16,7 +16,7 @@ export default function NeuralDashboard() {
   const [stats, setStats] = useState<{ label: string; value: string | number; icon: typeof Brain }[]>([]);
   const [recentActivity, setRecentActivity] = useState<AuditEntry[]>([]);
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     if (!user) {
       setLoading(false);
       return;
@@ -67,11 +67,11 @@ export default function NeuralDashboard() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [user, role]);
 
   useEffect(() => {
     fetchData();
-  }, [user, role]);
+  }, [fetchData]);
 
   const currentRole = role === 'platform_owner' ? 'admin' : (role || 'candidate');
 

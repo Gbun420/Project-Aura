@@ -81,9 +81,9 @@ export default function Jobs() {
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
-          <h1 className="text-3xl font-black text-white tracking-tight flex items-center gap-3">
-            <Briefcase className="text-blue-400" size={32} />
-            Job Vacancies
+          <h1 className="text-3xl font-black text-white tracking-tight flex items-center gap-3 font-space uppercase">
+            <Briefcase className="text-nova-accent" size={32} />
+            Vacancies
           </h1>
           <p className="text-slate-400 font-medium mt-1 uppercase tracking-widest text-[10px]">
             Manage your active neural matching requirements
@@ -91,10 +91,10 @@ export default function Jobs() {
         </div>
         {role !== 'candidate' && (
           <button 
-            className="flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-2xl text-xs font-black uppercase tracking-widest transition-all shadow-lg shadow-blue-500/20"
+            className="flex items-center gap-2 px-8 py-4 bg-white text-nova-base rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] transition-all shadow-xl shadow-white/5 hover:bg-slate-200 active:scale-95"
             onClick={handleCreateVacancy}
           >
-            <Plus size={16} /> Create_New_Vacancy
+            <Plus size={16} /> Deploy_Requirement
           </button>
         )}
       </div>
@@ -102,12 +102,12 @@ export default function Jobs() {
       {/* Job Posting Form Modal */}
       {showJobForm && (
         <div 
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4 animate-in fade-in duration-300"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-nova-base/80 backdrop-blur-xl p-4 animate-in fade-in duration-300"
           onClick={(e) => {
             if (e.target === e.currentTarget) handleJobFormClose();
           }}
         >
-          <div className="relative bg-[#0F1114] border border-white/10 rounded-[2.5rem] w-full max-w-4xl max-h-[90vh] overflow-y-auto custom-scrollbar shadow-2xl animate-in zoom-in-95 duration-300">
+          <div className="relative bg-nova-base border border-white/5 rounded-[3rem] w-full max-w-4xl max-h-[90vh] overflow-y-auto custom-scrollbar shadow-2xl animate-in zoom-in-95 duration-300 selection:bg-nova-accent/30">
             <button 
               onClick={handleJobFormClose}
               className="absolute top-8 right-8 p-3 bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white rounded-2xl transition-all z-10"
@@ -130,8 +130,8 @@ export default function Jobs() {
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500" size={16} />
           <input 
             type="text" 
-            placeholder="Search_Jobs_System..." 
-            className="w-full bg-white/5 border border-white/10 rounded-2xl py-3 pl-12 pr-4 text-sm text-white focus:outline-none focus:border-blue-500/50 transition-colors uppercase font-mono"
+            placeholder="Neural_Search_Module..." 
+            className="nova-input w-full rounded-[1.25rem] py-4 pl-12 pr-4 text-sm text-white focus:ring-2 focus:ring-nova-accent/30 transition-all uppercase font-mono tracking-tighter"
           />
         </div>
         <button className="flex items-center gap-2 px-6 py-3 bg-white/5 border border-white/10 text-slate-300 rounded-2xl text-[10px] font-bold uppercase tracking-widest hover:bg-white/10 transition-all">
@@ -161,9 +161,10 @@ export default function Jobs() {
           )}
         </div>
       ) : (
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {vacancies.map((job: Vacancy) => (
-            <div key={job.id} className="group p-6 rounded-[2rem] bg-white/5 border border-white/10 hover:border-blue-500/30 transition-all hover:bg-white/[0.07] relative overflow-hidden">
+            <div key={job.id} className="group p-8 rounded-[2.5rem] nova-glass-card hover:border-nova-accent/30 transition-all relative overflow-hidden flex flex-col min-h-[320px]">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-nova-accent/5 blur-3xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity" />
               <div className="flex justify-between items-start mb-6">
                 <div className={`px-2 py-0.5 rounded text-[8px] font-black uppercase tracking-widest border ${
                   job.status === 'published' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' :
@@ -186,11 +187,11 @@ export default function Jobs() {
 
               <div className="flex items-center justify-between pt-6 border-t border-white/5">
                 <div className="flex flex-col">
-                  <span className="text-[10px] text-slate-500 uppercase font-black tracking-widest">Compliance_Score</span>
-                  <span className={`text-xs font-mono font-bold ${
+                  <span className="text-[9px] text-slate-500 uppercase font-black tracking-[0.2em]">Match_Probability</span>
+                  <span className={`text-sm font-mono font-black ${
                     job.compliance_score >= 90 ? 'text-emerald-400' : 
                     job.compliance_score >= 70 ? 'text-amber-400' : 'text-red-400'
-                  }`}>{job.compliance_score}%</span>
+                  }`}>{job.compliance_score}.00%</span>
                 </div>
                 <button 
                   title="View external link"

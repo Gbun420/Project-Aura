@@ -1,4 +1,4 @@
-import { Shield, FileText, CheckCircle2, AlertCircle, Clock, Upload, Download } from 'lucide-react';
+import { Shield, FileText, AlertCircle, Upload, Download } from 'lucide-react';
 import { useAuth } from '../../hooks/useAuth';
 import { ComplianceStatus } from '../../components/ComplianceStatus';
 import SEO from '../../components/SEO';
@@ -13,9 +13,9 @@ export default function ComplianceCenter() {
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
-          <h1 className="text-3xl font-black text-white tracking-tight flex items-center gap-3">
+          <h1 className="text-3xl font-black text-white tracking-tight flex items-center gap-3 font-space uppercase">
             <Shield className="text-emerald-400" size={32} />
-            Compliance Center
+            Regulatory_Vault
           </h1>
           <p className="text-slate-400 font-medium mt-1 uppercase tracking-widest text-[10px]">
             Automated regulatory compliance monitoring
@@ -24,10 +24,10 @@ export default function ComplianceCenter() {
         <div className="flex items-center gap-2">
           <span className={`px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-[0.2em] border ${
             currentRole === 'admin' 
-              ? 'bg-red-500/10 text-red-400 border-red-500/20' 
+              ? 'bg-red-500/10 text-red-500 border-red-500/20' 
               : 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20'
           }`}>
-            {currentRole === 'admin' ? '3_ALERTS_PENDING' : 'SYSTEM_ALL_CLEAR'}
+            {currentRole === 'admin' ? 'SYSTEM_BREACH_DETECTED' : 'INTEGRITY_VERIFIED'}
           </span>
         </div>
       </div>
@@ -35,17 +35,17 @@ export default function ComplianceCenter() {
       <div className="grid lg:grid-cols-[1fr_400px] gap-10">
         {/* Document Vault Section */}
         <div className="space-y-8">
-          <div className="p-8 rounded-[2.5rem] bg-white/5 border border-white/10 backdrop-blur-xl">
-            <div className="flex items-center justify-between mb-8">
-              <h2 className="text-sm font-black text-white uppercase tracking-widest flex items-center gap-2">
-                <FileText size={16} className="text-slate-500" /> Document Vault
+          <div className="nova-glass-card p-10 rounded-[3rem] border border-white/5">
+            <div className="flex items-center justify-between mb-10">
+              <h2 className="text-xs font-black text-white uppercase tracking-[0.3em] flex items-center gap-3">
+                <FileText size={18} className="text-nova-pulse" /> Encrypted Vault
               </h2>
               <button 
                 title="Export compliance history"
                 aria-label="Export all compliance history"
-                className="flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/10 text-slate-300 rounded-xl text-[10px] font-bold uppercase tracking-widest hover:bg-white/10 transition-all"
+                className="flex items-center gap-2 px-5 py-2.5 bg-white/5 border border-white/10 text-slate-300 rounded-[1.25rem] text-[10px] font-black uppercase tracking-widest hover:bg-white/10 transition-all hover:text-white"
               >
-                <Download size={12} /> Export_All_History
+                <Download size={12} /> Sync_History
               </button>
             </div>
             
@@ -55,29 +55,29 @@ export default function ComplianceCenter() {
 
         {/* Status & Actions Column */}
         <div className="space-y-6">
-          <div className="p-8 rounded-[2.5rem] bg-white/5 border border-white/10">
-            <h2 className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-6">Compliance_Matrix</h2>
-            <div className="space-y-6">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <CheckCircle2 size={16} className="text-emerald-400" />
-                  <span className="text-xs font-bold text-white uppercase tracking-widest">Identità Malta</span>
+          <div className="nova-glass-card p-10 rounded-[3rem] border border-white/5">
+            <h2 className="text-[10px] font-black text-slate-600 uppercase tracking-[0.4em] mb-8">Compliance_Matrix</h2>
+            <div className="space-y-8">
+              <div className="flex items-center justify-between group cursor-help">
+                <div className="flex items-center gap-4">
+                  <div className="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.5)]" />
+                  <span className="text-xs font-black text-white uppercase tracking-widest group-hover:text-emerald-400 transition-colors">Identità Malta</span>
                 </div>
-                <span className="text-[10px] font-mono text-emerald-400 bg-emerald-400/10 px-2 py-0.5 rounded">ACTIVE</span>
+                <span className="text-[10px] font-mono text-emerald-400 font-black">ACTIVE</span>
               </div>
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <CheckCircle2 size={16} className="text-emerald-400" />
-                  <span className="text-xs font-bold text-white uppercase tracking-widest">GDPR_2026</span>
+              <div className="flex items-center justify-between group cursor-help">
+                <div className="flex items-center gap-4">
+                  <div className="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.5)]" />
+                  <span className="text-xs font-black text-white uppercase tracking-widest group-hover:text-emerald-400 transition-colors">GDPR_Sovereign</span>
                 </div>
-                <span className="text-[10px] font-mono text-emerald-400 bg-emerald-400/10 px-2 py-0.5 rounded">COMPLIANT</span>
+                <span className="text-[10px] font-mono text-emerald-400 font-black">SECURE</span>
               </div>
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <Clock size={16} className="text-amber-400" />
-                  <span className="text-xs font-bold text-white uppercase tracking-widest">Expiry_Window</span>
+              <div className="flex items-center justify-between group cursor-help">
+                <div className="flex items-center gap-4">
+                  <div className="w-2 h-2 rounded-full bg-amber-500 shadow-[0_0_10px_rgba(245,158,11,0.5)] animate-pulse" />
+                  <span className="text-xs font-black text-white uppercase tracking-widest group-hover:text-amber-400 transition-colors">Expiry_Window</span>
                 </div>
-                <span className="text-[10px] font-mono text-amber-400 bg-amber-400/10 px-2 py-0.5 rounded">2_WARNINGS</span>
+                <span className="text-[10px] font-mono text-amber-500 font-black">WATCH</span>
               </div>
             </div>
           </div>
@@ -86,17 +86,17 @@ export default function ComplianceCenter() {
           <div className="space-y-3">
             <button 
               aria-label="Upload new compliance document"
-              className="w-full flex items-center justify-between px-6 py-4 bg-white/5 border border-white/10 rounded-2xl hover:bg-white/10 transition-all group"
+              className="w-full flex items-center justify-between px-7 py-5 bg-white/5 border border-white/5 rounded-[1.5rem] hover:bg-white/10 hover:border-white/10 transition-all group active:scale-[0.98]"
             >
-              <span className="text-[10px] font-black text-white uppercase tracking-widest">Upload_New_Document</span>
-              <Upload size={14} className="text-slate-500 group-hover:text-white transition-colors" />
+              <span className="text-[10px] font-black text-white uppercase tracking-[0.2em]">Upload Document</span>
+              <Upload size={14} className="text-slate-500 group-hover:text-nova-accent transition-colors" />
             </button>
             <button 
               aria-label="Generate audit report"
-              className="w-full flex items-center justify-between px-6 py-4 bg-white/5 border border-white/10 rounded-2xl hover:bg-white/10 transition-all group"
+              className="w-full flex items-center justify-between px-7 py-5 bg-white/5 border border-white/5 rounded-[1.5rem] hover:bg-white/10 hover:border-white/10 transition-all group active:scale-[0.98]"
             >
-              <span className="text-[10px] font-black text-white uppercase tracking-widest">Generate_Audit_Report</span>
-              <FileText size={14} className="text-slate-500 group-hover:text-white transition-colors" />
+              <span className="text-[10px] font-black text-white uppercase tracking-[0.2em]">Audit Report</span>
+              <FileText size={14} className="text-slate-500 group-hover:text-nova-accent transition-colors" />
             </button>
             {currentRole === 'admin' && (
               <button 
