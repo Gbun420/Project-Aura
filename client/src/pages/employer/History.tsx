@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Clock, Hash, CheckCircle2, AlertCircle } from 'lucide-react';
-import { supabase } from '../../lib/supabase';
 import { useAuth } from '../../hooks/useAuth';
+import { db } from '../../lib/firebase';
+import { collection, query, where, getDocs, orderBy } from 'firebase/firestore';
 
 interface LedgerEntry {
   hash: string;
@@ -25,15 +26,15 @@ export default function EmployerHistory() {
       }
       setLoading(true);
       try {
-        const { data, error } = await supabase
-          .from('introduction_ledger')
-          .select('*')
-          .eq('employer_id', user.id)
-          .order('notified_at', { ascending: false });
-
-        if (error) {
-          console.error('Error fetching history:', error);
-        } else if (data) {
+        const q = query(
+          collection(db, 'introduction_ledger'),
+          where('employer_id', '==', user.uid),
+          orderBy('notified_at', 'desc')
+        );
+        const snapshot = await getDocs(q);
+        const data = snapshot.docs.map(doc => ({ ...doc.data() })) as LedgerEntry[];
+        
+        if (data) {
           setEntries(data);
         }
       } catch (err) {

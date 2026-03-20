@@ -1,5 +1,6 @@
+```typescript
 import { useEffect, useState } from 'react';
-import { useAuth } from '../../hooks/useAuth';
+import { auth } from '../../lib/firebase';
 import { Lock, MessageSquare } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import NovaAssistant from '../../components/employer/NovaAssistant';
@@ -58,7 +59,6 @@ export default function EmployerApplicants() {
   const [isBlurred, setIsBlurred] = useState(false);
   const [activeAssistant, setActiveAssistant] = useState<Applicant | null>(null);
   const [hiredApplicant, setHiredApplicant] = useState<Applicant | null>(null);
-  const { user } = useAuth();
   const navigate = useNavigate();
 
   const handleUpgradeRedirect = () => {
@@ -69,8 +69,8 @@ export default function EmployerApplicants() {
     setLoading(true);
     setError(null);
     try {
-      if (!user) return;
-      const token = await user.getIdToken();
+      const token = await auth.currentUser?.getIdToken();
+      if (!token) return;
 
       const response = await fetch('/api/hiring/hub', {
         method: 'POST',
@@ -100,8 +100,8 @@ export default function EmployerApplicants() {
 
   useEffect(() => {
     const loadVacancies = async () => {
-      if (!user) return;
-      const token = await user.getIdToken();
+      const token = await auth.currentUser?.getIdToken();
+      if (!token) return;
       
       const response = await fetch('/api/hiring/hub', {
         method: 'POST',
@@ -122,7 +122,7 @@ export default function EmployerApplicants() {
       }
     };
     loadVacancies();
-  }, [user]);
+  }, []);
 
   const handleHire = async (app: Applicant) => {
     const salary = prompt("Enter Final Agreed Salary (€) for Ledger Sync:", "45000");

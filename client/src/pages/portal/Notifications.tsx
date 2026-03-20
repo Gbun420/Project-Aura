@@ -6,8 +6,9 @@ import {
   Filter, 
   Trash2 
 } from 'lucide-react';
-import { supabase } from '../../lib/supabase';
 import { useAuth } from '../../hooks/useAuth';
+import { db } from '../../lib/firebase';
+import { collection, query, where, getDocs, orderBy, limit } from 'firebase/firestore';
 
 interface Notification {
   id: string;
@@ -33,17 +34,17 @@ export default function Notifications() {
       setLoading(true);
       
       try {
-        const { data, error } = await supabase
-          .from('audit_trails')
-          .select('*')
-          .eq('entity_id', user.id)
-          .order('timestamp', { ascending: false })
-          .limit(20);
+        const q = query(
+          collection(db, 'audit_trails'),
+          where('entity_id', '==', user.uid),
+          orderBy('timestamp', 'desc'),
+          limit(20)
+        );
+        const snapshot = await getDocs(q);
+        const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 
-        if (error) {
-          console.error('Error fetching alerts:', error);
-        } else if (data) {
-          const mapped = data.map(item => ({
+        if (data) {
+          const mapped = data.map(item: any => ({
             id: item.id,
             type: item.action?.toLowerCase().includes('match') ? 'neural' : 
                   item.action?.toLowerCase().includes('compliance') ? 'compliance' : 'system',
