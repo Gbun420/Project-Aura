@@ -61,7 +61,6 @@ const apiLimiter = rateLimit({
 });
 
 // 3. Middleware Calibration
-app.use(express.json());
 app.use(cors({
   origin: [
     'http://localhost:5173', // Local Dev
@@ -75,6 +74,48 @@ app.use(cors({
   methods: ['GET', 'POST', 'PUT'],
   credentials: true
 }));
+
+// Stripe Webhook needs raw body for signature verification
+app.post('/api/billing/webhook', express.raw({ type: 'application/json' }), async (req, res) => {
+  const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
+  const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
+
+  if (!stripeSecretKey || !webhookSecret) {
+    console.error("STRIPE_KEYS_MISSING: STRIPE_SECRET_KEY and STRIPE_WEBHOOK_SECRET must be set");
+    return res.status(500).json({ error: "PAYMENT_GATEWAY_NOT_CONFIGURED" });
+  }
+
+  const stripe = new Stripe(stripeSecretKey, {
+    apiVersion: '2023-10-16' as any,
+  });
+  
+  const signature = req.headers["stripe-signature"];
+  if (!signature) return res.status(400).json({ error: "MISSING_STRIPE_SIGNATURE" });
+
+  try {
+    const event = stripe.webhooks.constructEvent(req.body, signature, webhookSecret);
+
+    if (event.type === "checkout.session.completed") {
+      const session = event.data.object as Stripe.Checkout.Session;
+      const userId = session.client_reference_id;
+
+      if (userId) {
+        await firestore.collection("profiles").doc(userId).update({
+          subscription_tier: "pulse_pro",
+          subscription_expires_at: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
+        });
+        console.log(`[STRIPE] Activated Pulse Pro for User: ${userId}`);
+      }
+    }
+    res.status(200).json({ received: true });
+  } catch (err: any) {
+    console.error("WEBHOOK_ERR:", err.message);
+    res.status(400).send(`Webhook Error: ${err.message}`);
+  }
+});
+
+// For all other routes, use standard JSON parsing
+app.use(express.json());
 
 // Apply rate limiter to all API routes
 app.use('/api/', apiLimiter);
@@ -300,6 +341,37 @@ app.post('/api/compliance', authGuard as any, async (req, res) => {
     }
     res.status(400).json({ error: "INVALID_ACTION" });
   } catch (err: any) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// BILLING
+app.post('/api/billing/create-checkout-session', authGuard as any, async (req, res) => {
+  const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
+  if (!stripeSecretKey) return res.status(500).json({ error: "PAYMENT_GATEWAY_NOT_CONFIGURED" });
+
+  try {
+    const { priceId, successUrl, cancelUrl } = req.body;
+    if (!priceId) return res.status(400).json({ error: "MISSING_PRICE_ID" });
+
+    const auth = (req as AuthRequest);
+    const stripe = new Stripe(stripeSecretKey, {
+      apiVersion: '2023-10-16' as any,
+    });
+
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ['card'],
+      line_items: [{ price: priceId, quantity: 1 }],
+      mode: 'subscription',
+      success_url: successUrl || `${req.headers.origin}/portal/employer/applicants?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: cancelUrl || `${req.headers.origin}/portal/employer/pricing`,
+      client_reference_id: auth.user?.id,
+      metadata: { userId: auth.user?.id || '' },
+    });
+
+    res.json({ url: session.url });
+  } catch (err: any) {
+    console.error("STRIPE_ERR:", err.message);
     res.status(500).json({ error: err.message });
   }
 });
