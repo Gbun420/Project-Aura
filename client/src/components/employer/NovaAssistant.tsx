@@ -12,7 +12,7 @@ type AssistantProps = {
   onUpgrade: () => void;
 };
 
-export default function AuraAssistant({ candidateContext, onClose, onUpgrade }: AssistantProps) {
+export default function NovaAssistant({ candidateContext, onClose, onUpgrade }: AssistantProps) {
   const [messages, setMessages] = useState<{ role: 'user' | 'assistant', text: string }[]>([
     { role: 'assistant', text: "Nova Assistant Online. How can I help?" }
   ]);
@@ -64,7 +64,7 @@ export default function AuraAssistant({ candidateContext, onClose, onUpgrade }: 
         {messages.map((m, i) => (
           <div key={i} className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}>
             <div className={`max-w-[80%] p-3 rounded-2xl text-xs leading-relaxed 
-              ${m.role === 'user' ? 'bg-gemini-blue text-white' : 'bg-white/5 text-slate-300 border border-white/10'}`}>
+              ${m.role === 'user' ? 'bg-blue-600 text-white' : 'bg-white/5 text-slate-300 border border-white/10'}`}>
               {m.text}
             </div>
           </div>
@@ -95,13 +95,13 @@ export default function AuraAssistant({ candidateContext, onClose, onUpgrade }: 
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && handleSend()}
             placeholder="Ask about compliance, skills..."
-            className="flex-1 bg-white/5 border border-white/10 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:ring-1 focus:ring-gemini-purple"
+            className="flex-1 bg-white/5 border border-white/10 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:ring-1 focus:ring-indigo-500"
           />
           <button 
             onClick={handleSend}
             title="Send message"
             aria-label="Send message"
-            className="bg-gemini-purple p-2 rounded-xl text-white hover:opacity-90 transition-all"
+            className="bg-indigo-600 p-2 rounded-xl text-white hover:opacity-90 transition-all"
           >
             <Send size={16} />
           </button>

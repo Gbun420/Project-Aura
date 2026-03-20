@@ -2,10 +2,10 @@
 @import "tailwindcss";
 
 :root {
-  --aura-obsidian: #050505;
-  --aura-uv: #7B2CBF;
-  --aura-cyber-teal: #00F0FF;
-  --aura-glass: rgba(255, 255, 255, 0.05);
+  --nova-obsidian: #050505;
+  --nova-uv: #7B2CBF;
+  --nova-cyber-teal: #00F0FF;
+  --nova-glass: rgba(255, 255, 255, 0.05);
 
   /* Gemini Aurora Palette */
   --gemini-blue: #4285F4;
@@ -14,19 +14,19 @@
   --gemini-bg: #0F1114;
   --gemini-surface: rgba(255, 255, 255, 0.05);
 
-  /* Aura SaaS Palette */
-  --aura-bg: #F8FAFC;
-  --aura-surface: #FFFFFF;
-  --aura-border: #E2E8F0;
-  --aura-primary: #0F172A;
-  --aura-text-main: #0F172A;
-  --aura-text-sub: #64748B;
-  --aura-accent: #2563EB;
-  --aura-success: #10B981;
+  /* Nova SaaS Palette */
+  --nova-bg: #F8FAFC;
+  --nova-surface: #FFFFFF;
+  --nova-border: #E2E8F0;
+  --nova-primary: #0F172A;
+  --nova-text-main: #0F172A;
+  --nova-text-sub: #64748B;
+  --nova-accent: #2563EB;
+  --nova-success: #10B981;
 }
 
 /* HARDENED_GLASS_PROTOCOL v1.2.8 */
-.aura-glass-card {
+.nova-glass-card {
   background: rgba(15, 17, 20, 0.85) !important;
   backdrop-filter: blur(24px) saturate(180%) !important;
   -webkit-backdrop-filter: blur(24px) saturate(180%) !important;
@@ -34,20 +34,20 @@
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5) !important;
 }
 
-.aura-input {
+.nova-input {
   background: rgba(255, 255, 255, 0.03) !important;
   border: 1px solid rgba(255, 255, 255, 0.1) !important;
   color: #ffffff !important;
   transition: all 0.2s ease !important;
 }
 
-.aura-input:focus {
+.nova-input:focus {
   background: rgba(255, 255, 255, 0.06) !important;
   border-color: #4285F4 !important;
   box-shadow: 0 0 0 2px rgba(66, 133, 244, 0.2) !important;
 }
 
-.aura-alert-high {
+.nova-alert-high {
   background: rgba(153, 27, 27, 0.9) !important;
   border: 1px solid #ef4444 !important;
   color: #ffffff !important;
@@ -74,8 +74,8 @@
 }
 
 body {
-  background-color: var(--aura-bg);
-  color: var(--aura-text-main);
+  background-color: var(--nova-bg);
+  color: var(--nova-text-main);
   margin: 0;
   font-family: 'Manrope', system-ui, -apple-system, sans-serif;
   transition: background-color 0.3s ease;
