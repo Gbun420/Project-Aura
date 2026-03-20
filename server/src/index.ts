@@ -23,9 +23,26 @@ const PORT = process.env.PORT || 3001;
 
 // 1. Initialize Firebase Admin
 if (!admin.apps.length) {
-  admin.initializeApp({
-    credential: admin.credential.applicationDefault(),
-  });
+  const firebaseConfig = process.env.FIREBASE_CONFIG_JSON;
+  if (firebaseConfig) {
+    try {
+      const serviceAccount = JSON.parse(firebaseConfig);
+      admin.initializeApp({
+        credential: admin.credential.cert(serviceAccount),
+      });
+      console.log("FIREBASE_INIT: Using SERVICE_ACCOUNT_JSON");
+    } catch (e) {
+      console.error("FIREBASE_INIT_ERR: Failed to parse FIREBASE_CONFIG_JSON", e);
+      admin.initializeApp({
+        credential: admin.credential.applicationDefault(),
+      });
+    }
+  } else {
+    admin.initializeApp({
+      credential: admin.credential.applicationDefault(),
+    });
+    console.log("FIREBASE_INIT: Using APPLICATION_DEFAULT");
+  }
 }
 
 const firestore = admin.firestore();
