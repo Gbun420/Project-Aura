@@ -1,101 +1,21 @@
-import { Link } from 'react-router-dom';
-import { ArrowRight as LandingArrowRight, Sparkles as LandingSparkles, ShieldCheck as LandingShieldCheck, Users as LandingUsers, Wand2 as LandingWand2, FileCheck as LandingFileCheck } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
+import { ArrowRight as LandingArrowRight, Sparkles as LandingSparkles, ShieldCheck as LandingShieldCheck, Users as LandingUsers, Wand2 as LandingWand2 } from 'lucide-react';
 import { Logo } from '../../components/Logo';
 import { useState } from 'react';
-import { useAuth } from '../../hooks/useAuth';
-
-const JOBS = [
-  { title: 'Senior Frontend Engineer', company: 'Valletta Digital', location: 'Sliema, Malta', tag: 'Hybrid', salary: '€60–75k', matchScore: 94 },
-  { title: 'Compliance Analyst (TCN)', company: 'Harbour Group', location: 'Valletta, Malta', tag: 'On-site', salary: '€42–55k', matchScore: 82 },
-  { title: 'iGaming CRM Manager', company: 'Neptune Labs', location: 'St. Julian’s, Malta', tag: 'Remote', salary: '€55–70k', matchScore: 88 },
-];
 
 export default function PublicLanding() {
-  const { user } = useAuth();
-  const [applicationStatus, setApplicationStatus] = useState<{ [key: string]: 'idle' | 'loading' | 'success' | 'error' }>({});
+  const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
   const [searchLocation, setSearchLocation] = useState('');
   const [searchContractType, setSearchContractType] = useState('');
-  const [searchResults, setSearchResults] = useState<typeof JOBS>([]);
-  const [isSearching, setIsSearching] = useState(false);
-
-  const handleApply = async (jobTitle: string) => {
-    if (!user) {
-      // Redirect to login if not authenticated
-      window.location.href = '/login';
-      return;
-    }
-
-    setApplicationStatus(prev => ({ ...prev, [jobTitle]: 'loading' }));
-    
-    try {
-      // Find the job to get details
-      const job = JOBS.find(j => j.title === jobTitle);
-      if (!job) throw new Error('Job not found');
-      
-      // In a real app, you would submit an application to the database
-      // For now, we'll simulate with a delay and then show success
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
-      // In production, this would be:
-      // const { data, error } = await supabase
-      //   .from('applications')
-      //   .insert({
-      //     candidate_id: user.id,
-      //     vacancy_id: /* would need to get from job lookup */,
-      //     status: 'pending',
-      //     applied_at: new Date().toISOString()
-      //   });
-      
-      setApplicationStatus(prev => ({ ...prev, [jobTitle]: 'success' }));
-      
-      // Reset status after 3 seconds
-      setTimeout(() => {
-        setApplicationStatus(prev => ({ ...prev, [jobTitle]: 'idle' }));
-      }, 3000);
-    } catch (error) {
-      console.error('Application error:', error);
-      setApplicationStatus(prev => ({ ...prev, [jobTitle]: 'error' }));
-      
-      // Reset status after 3 seconds
-      setTimeout(() => {
-        setApplicationStatus(prev => ({ ...prev, [jobTitle]: 'idle' }));
-      }, 3000);
-    }
-  };
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSearching(true);
-    
-    // Filter jobs based on search criteria
-    const filtered = JOBS.filter(job => {
-      const matchesQuery = 
-        searchQuery === '' || 
-        job.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        job.company.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        job.location.toLowerCase().includes(searchQuery.toLowerCase());
-      
-      const matchesLocation = 
-        searchLocation === '' || 
-        job.location.toLowerCase().includes(searchLocation.toLowerCase());
-      
-      const matchesContractType = 
-        searchContractType === '' || 
-        job.tag.toLowerCase() === searchContractType.toLowerCase();
-      
-      return matchesQuery && matchesLocation && matchesContractType;
-    });
-    
-    setSearchResults(filtered);
-    setIsSearching(false);
-  };
-
-  const handleResetSearch = () => {
-    setSearchQuery('');
-    setSearchLocation('');
-    setSearchContractType('');
-    setSearchResults([]);
+    const params = new URLSearchParams();
+    if (searchQuery) params.set('q', searchQuery);
+    if (searchLocation) params.set('location', searchLocation);
+    if (searchContractType && searchContractType !== 'Contract Type') params.set('type', searchContractType);
+    navigate(`/portal?role=candidate&${params.toString()}`);
   };
 
   return (
