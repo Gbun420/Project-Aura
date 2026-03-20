@@ -46,18 +46,37 @@ body {
 /* Glassmorphism */
 .nova-glass {
   background: var(--nova-glass);
-  -webkit-backdrop-filter: blur(20px);
-  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(40px) saturate(150%);
+  backdrop-filter: blur(40px) saturate(150%);
   border: 1px solid var(--nova-glass-border);
-  border-radius: 1rem;
+  border-radius: 1.5rem;
+  box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.5), inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
+  transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.nova-glass:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 40px 80px -20px rgba(0, 0, 0, 0.7), inset 0 1px 0 0 rgba(255, 255, 255, 0.3);
+  transform: translateY(-4px);
 }
 
 .glow-uv {
-  box-shadow: var(--nova-glow-uv);
+  box-shadow: var(--nova-glow-uv), inset 0 0 15px rgba(123, 44, 191, 0.2);
+  transition: box-shadow 0.3s ease;
+}
+
+.glow-uv:hover {
+  box-shadow: 0 0 30px rgba(123, 44, 191, 0.6), inset 0 0 20px rgba(123, 44, 191, 0.4);
 }
 
 .glow-teal {
-  box-shadow: var(--nova-glow-teal);
+  box-shadow: var(--nova-glow-teal), inset 0 0 15px rgba(0, 240, 255, 0.2);
+  transition: box-shadow 0.3s ease;
+}
+
+.glow-teal:hover {
+  box-shadow: 0 0 30px rgba(0, 240, 255, 0.6), inset 0 0 20px rgba(0, 240, 255, 0.4);
 }
 
 /* Utilities */

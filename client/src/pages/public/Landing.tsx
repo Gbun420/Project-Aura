@@ -34,8 +34,8 @@ export default function PublicLanding() {
             </div>
           </div>
           <nav className="hidden md:flex items-center gap-10 text-xs font-bold uppercase tracking-widest text-slate-400">
-            <a className="hover:text-white transition-colors" href="#features">Features</a>
-            <a className="hover:text-white transition-colors" href="#portals">Architecture</a>
+            <a className="hover:text-white transition-colors" href="#features">Architecture</a>
+            <a className="hover:text-white transition-colors" href="#portals">Platform</a>
             <Link className="hover:text-white transition-colors" to="/compliance">Compliance</Link>
           </nav>
           <div className="flex items-center gap-4">
@@ -78,12 +78,12 @@ export default function PublicLanding() {
                     Initiate Search
                     <LandingArrowRight size={18} />
                   </Link>
-                  <Link
-                    to="/register"
+                  <a
+                    href="#"
                     className="inline-flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 px-8 py-4 text-sm font-bold uppercase tracking-widest text-white backdrop-blur shadow-xl hover:bg-white/10 transition-all"
                   >
                     Network Status
-                  </Link>
+                  </a>
                 </div>
               </div>
 
@@ -93,7 +93,7 @@ export default function PublicLanding() {
                   <div className="relative z-10">
                     <h3 className="text-xl font-bold font-space mb-2">Neural Match Search</h3>
                     <p className="text-sm text-slate-500 mb-8">Parameters calibrated for the 2026 labor market.</p>
-                    <div className="space-y-4">
+                    <form onSubmit={handleSearch} className="space-y-4">
                       <div className="space-y-1">
                         <span className="text-[10px] font-black uppercase tracking-widest text-slate-500 ml-2">Job_Role</span>
                         <input
@@ -129,13 +129,13 @@ export default function PublicLanding() {
                         </div>
                       </div>
                       <button 
-                        onClick={handleSearch}
+                        type="submit"
                         className="w-full mt-4 rounded-2xl bg-white text-nova-base py-5 text-sm font-black uppercase tracking-[0.2em] shadow-[0_0_30px_rgba(255,255,255,0.1)] hover:bg-slate-200 transition-all flex items-center justify-center gap-3"
                       >
                         Execute Match Query
                         <LandingSparkles size={16} />
                       </button>
-                    </div>
+                    </form>
                   </div>
                 </div>
               </div>
@@ -205,9 +205,9 @@ export default function PublicLanding() {
                   </div>
                   <h3 className="text-3xl font-space font-bold mb-4">Unified Pulse API</h3>
                   <p className="text-slate-400 mb-8">Scaling the Maltese recruitment economy through intelligent data orchestration.</p>
-                  <button className="rounded-2xl bg-white text-nova-base px-8 py-4 text-xs font-black uppercase tracking-[0.2em] hover:scale-105 transition-all">
+                  <Link to="/register" className="inline-block rounded-2xl bg-white text-nova-base px-8 py-4 text-xs font-black uppercase tracking-[0.2em] hover:scale-105 transition-all">
                     Initiate Onboarding
-                  </button>
+                  </Link>
                 </div>
               </div>
             </div>
