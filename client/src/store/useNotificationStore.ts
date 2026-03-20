@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 
-export interface AuraPing {
+export interface NovaPing {
   id: string;
   type: 'SYNC_MATCH' | 'PERMIT_MOVE' | 'OPERATOR_VIEW' | 'GALAXY_NODE_INTEL';
   message: string;
@@ -9,8 +9,8 @@ export interface AuraPing {
 }
 
 interface NotificationState {
-  pings: AuraPing[];
-  addPing: (ping: Omit<AuraPing, 'id' | 'timestamp'>) => void;
+  pings: NovaPing[];
+  addPing: (ping: Omit<NovaPing, 'id' | 'timestamp'>) => void;
   removePing: (id: string) => void;
   clearPings: () => void;
 }

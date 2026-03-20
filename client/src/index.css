@@ -28,8 +28,8 @@
 /* HARDENED_GLASS_PROTOCOL v1.2.8 */
 .nova-glass-card {
   background: rgba(15, 17, 20, 0.85) !important;
-  backdrop-filter: blur(24px) saturate(180%) !important;
   -webkit-backdrop-filter: blur(24px) saturate(180%) !important;
+  backdrop-filter: blur(24px) saturate(180%) !important;
   border: 1px solid rgba(255, 255, 255, 0.12) !important;
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5) !important;
 }

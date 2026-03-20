@@ -1,4 +1,4 @@
-// AURA_MARKET_VALUE_SERVICE v1.0
+// NOVA_MARKET_VALUE_SERVICE v1.0
 // Real-time salary benchmarking for the 2026 Maltese ecosystem
 
 export const calculateMarketValue = (nodes: string[], sector: string) => {
@@ -10,7 +10,7 @@ export const calculateMarketValue = (nodes: string[], sector: string) => {
     'GreenEnergy': 40000
   };
 
-  // Node Multipliers (The "Aura Burn" value)
+  // Node Multipliers (The "Nova Burn" value)
   const nodeValues: Record<string, number> = {
     'i1': 8000, // MGA_Compliance
     'f3': 12000, // Crypto-AML

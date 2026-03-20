@@ -4,7 +4,7 @@ export default {
   theme: {
     extend: {
       colors: {
-        aura: {
+        nova: {
           base: '#030712', // Deep Space
           accent: '#4F46E5', // Gemini Indigo
           pulse: '#22D3EE', // Compliance Cyan
@@ -19,7 +19,7 @@ export default {
       backgroundImage: {
         'neural-gradient': 'radial-gradient(circle at center, #4F46E5 0%, #030712 100%)',
         'gemini-gradient': 'linear-gradient(135deg, #4285F4 0%, #9B72CB 50%, #D96570 100%)',
-        'aura-glass-gradient': 'linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0) 100%)',
+        'nova-glass-gradient': 'linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0) 100%)',
       },
       fontFamily: {
         manrope: ['Manrope', 'sans-serif'],

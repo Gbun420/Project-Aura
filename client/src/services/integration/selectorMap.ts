@@ -1,5 +1,5 @@
 /**
- * PROJECT AURA: SOVEREIGN SELECTOR MAP
+ * PROJECT NOVA: SOVEREIGN SELECTOR MAP
  * Version: 2026.03.11-ALPHA
  * Target: https://singlepermit.identita.gov.mt/
  */

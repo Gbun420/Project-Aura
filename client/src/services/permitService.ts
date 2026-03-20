@@ -1,9 +1,9 @@
 import { useNotificationStore } from '../store/useNotificationStore';
-import { AURA_CONFIG } from '../config/auraConfig';
-import type { PermitData } from '../types/aura.js';
+import { NOVA_CONFIG } from '../config/novaConfig';
+import type { PermitData } from '../types/nova';
 
-// AURA PERMIT SERVICE v1.1
-// Simulated Identità Automated Approval via AURA_CONFIG
+// NOVA PERMIT SERVICE v1.1
+// Simulated Identità Automated Approval via NOVA_CONFIG
 
 export const finalizePermitGrant = async (trackingId: string, setPermitStatus: (status: string, data: PermitData) => void) => {
   const { addPing } = useNotificationStore.getState();
@@ -25,7 +25,7 @@ export const finalizePermitGrant = async (trackingId: string, setPermitStatus: (
       const permitData = {
         permitId: data.licenseNumber || `MT-RES-${Math.random().toString(36).toUpperCase().substring(2, 8)}`,
         expiry: data.expiry || '2027-03-11',
-        conditions: `Authorized under ${AURA_CONFIG.MGA_SYNC_VERSION}`,
+        conditions: `Authorized under ${NOVA_CONFIG.MGA_SYNC_VERSION}`,
         issuedDate: new Date().toLocaleDateString()
       };
 

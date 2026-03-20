@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { supabase } from '../../lib/supabase';
 import { Lock, MessageSquare } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import AuraAssistant from '../../components/employer/AuraAssistant';
+import NovaAssistant from '../../components/employer/NovaAssistant';
 
 type Applicant = {
   id: string;
@@ -41,8 +41,8 @@ type Vacancy = {
 
 const STATUS_OPTIONS = [
   { value: 'applied', label: 'Applied', color: 'bg-white/5 border-white/10 text-slate-400' },
-  { value: 'shortlisted', label: 'Shortlist', color: 'bg-aura-accent/20 text-white border-aura-accent/30' },
-  { value: 'interview', label: 'Interview', color: 'bg-aura-pulse/20 text-aura-pulse border-aura-pulse/30' },
+  { value: 'shortlisted', label: 'Shortlist', color: 'bg-nova-accent/20 text-white border-nova-accent/30' },
+  { value: 'interview', label: 'Interview', color: 'bg-nova-pulse/20 text-nova-pulse border-nova-pulse/30' },
   { value: 'rejected', label: 'Reject', color: 'bg-gemini-pink/20 text-gemini-pink border-gemini-pink/30' },
   { value: 'offered', label: 'Offer', color: 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30' },
 ];
@@ -194,10 +194,10 @@ export default function EmployerApplicants() {
   };
 
   return (
-    <div className="space-y-8 bg-aura-base min-h-screen text-white font-manrope pb-20">
+    <div className="space-y-8 bg-nova-base min-h-screen text-white font-manrope pb-20">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
-          <p className="text-[10px] font-black uppercase tracking-[0.4em] text-aura-accent mb-2">Neural_Leaderboard_v1.1</p>
+          <p className="text-[10px] font-black uppercase tracking-[0.4em] text-nova-accent mb-2">Neural_Leaderboard_v1.1</p>
           <h2 className="text-4xl font-black tracking-tight">Applicant Review</h2>
         </div>
 
@@ -205,7 +205,7 @@ export default function EmployerApplicants() {
           {isBlurred && (
             <button 
               onClick={handleUpgradeRedirect}
-              className="bg-gemini-gradient px-6 py-3 rounded-2xl text-[10px] font-black uppercase text-white shadow-xl shadow-aura-accent/20 animate-pulse hover:scale-105 transition-all tracking-widest"
+              className="bg-gemini-gradient px-6 py-3 rounded-2xl text-[10px] font-black uppercase text-white shadow-xl shadow-nova-accent/20 animate-pulse hover:scale-105 transition-all tracking-widest"
             >
               Unlock_Pioneer_Special
             </button>
@@ -217,10 +217,10 @@ export default function EmployerApplicants() {
               setSelectedJobId(e.target.value);
               loadApplicants(e.target.value);
             }}
-            className="bg-white/5 border border-white/10 rounded-2xl px-5 py-3 text-white text-sm focus:ring-2 focus:ring-aura-accent outline-none transition-all min-w-[280px] font-bold"
+            className="bg-white/5 border border-white/10 rounded-2xl px-5 py-3 text-white text-sm focus:ring-2 focus:ring-nova-accent outline-none transition-all min-w-[280px] font-bold"
           >
             {vacancies.map(job => (
-              <option key={job.id} value={job.id} className="bg-aura-base">{job.title}</option>
+              <option key={job.id} value={job.id} className="bg-nova-base">{job.title}</option>
             ))}
           </select>
         </div>
@@ -228,8 +228,8 @@ export default function EmployerApplicants() {
 
       {isBlurred && (
         <div className="p-8 rounded-[2.5rem] bg-white/5 border border-white/10 backdrop-blur-2xl flex flex-col md:flex-row items-center gap-8 relative overflow-hidden group">
-          <div className="absolute inset-0 bg-aura-glass-gradient opacity-30" />
-          <div className="h-16 w-16 rounded-3xl bg-aura-accent/20 flex items-center justify-center text-aura-accent relative z-10">
+          <div className="absolute inset-0 bg-nova-glass-gradient opacity-30" />
+          <div className="h-16 w-16 rounded-3xl bg-nova-accent/20 flex items-center justify-center text-nova-accent relative z-10">
             <Lock size={32} />
           </div>
           <div className="flex-1 relative z-10">
@@ -254,7 +254,7 @@ export default function EmployerApplicants() {
       <div className="grid gap-6">
         {loading ? (
           <div className="py-24 text-center space-y-4">
-            <div className="h-12 w-12 border-4 border-aura-accent/20 border-t-aura-accent rounded-full animate-spin mx-auto" />
+            <div className="h-12 w-12 border-4 border-nova-accent/20 border-t-nova-accent rounded-full animate-spin mx-auto" />
             <p className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em] animate-pulse">Syncing_Neural_Match_Data...</p>
           </div>
         ) : applicants.length === 0 ? (
@@ -272,7 +272,7 @@ export default function EmployerApplicants() {
                     {app.match_score}%
                   </div>
                   {app.ai_analysis?.culturalFit && (
-                    <div className="text-[10px] font-black text-aura-accent uppercase tracking-widest bg-aura-accent/5 px-2 py-0.5 rounded border border-aura-accent/20">
+                    <div className="text-[10px] font-black text-nova-accent uppercase tracking-widest bg-nova-accent/5 px-2 py-0.5 rounded border border-nova-accent/20">
                       Culture_Fit: {app.ai_analysis.culturalFit}%
                     </div>
                   )}
@@ -284,8 +284,8 @@ export default function EmployerApplicants() {
               </div>
 
               <div className="flex flex-col md:flex-row gap-8 items-start">
-                <div className="h-20 w-20 rounded-[2rem] bg-aura-glass border border-white/10 flex items-center justify-center text-2xl font-black text-aura-accent shadow-inner">
-                  {app.candidate.full_name.charAt(0)}
+                <div className="h-20 w-20 rounded-[2rem] bg-nova-glass border border-white/10 flex items-center justify-center text-2xl font-black text-nova-accent shadow-inner">
+                   {app.candidate.full_name.charAt(0)}
                 </div>
 
                 <div className="flex-1 space-y-6">
@@ -295,13 +295,13 @@ export default function EmployerApplicants() {
                         {app.candidate.full_name}
                       </h3>
                       {app.candidate.tcn_status === 'verified_skills_pass' && (
-                        <div className="px-4 py-1.5 bg-aura-pulse/10 border border-aura-pulse/30 rounded-full flex items-center gap-2 animate-pulse">
-                          <div className="h-1.5 w-1.5 rounded-full bg-aura-pulse shadow-[0_0_8px_#22D3EE]" />
-                          <span className="text-[9px] font-black font-mono text-aura-pulse uppercase tracking-widest text-white">Skills_Pass_Verified</span>
+                        <div className="px-4 py-1.5 bg-nova-pulse/10 border border-nova-pulse/30 rounded-full flex items-center gap-2 animate-pulse">
+                          <div className="h-1.5 w-1.5 rounded-full bg-nova-pulse shadow-[0_0_8px_#22D3EE]" />
+                          <span className="text-[9px] font-black font-mono text-nova-pulse uppercase tracking-widest text-white">Skills_Pass_Verified</span>
                         </div>
                       )}
                     </div>
-                    <p className={`text-xs mt-2 font-mono tracking-widest ${isBlurred ? 'text-slate-700 italic' : 'text-aura-accent'}`}>
+                    <p className={`text-xs mt-2 font-mono tracking-widest ${isBlurred ? 'text-slate-700 italic' : 'text-nova-accent'}`}>
                       {app.candidate.email}
                     </p>
                   </div>
@@ -314,14 +314,14 @@ export default function EmployerApplicants() {
                           <ul className="space-y-3">
                             {(app.ai_analysis.alignment || []).map((item: string, i: number) => (
                               <li key={i} className="text-[11px] text-slate-300 flex items-start gap-3">
-                                <span className="h-1 w-1 rounded-full bg-aura-accent mt-1.5 flex-shrink-0" /> {item}
+                                <span className="h-1 w-1 rounded-full bg-nova-accent mt-1.5 flex-shrink-0" /> {item}
                               </li>
                             ))}
                           </ul>
                         </div>
                         {app.ai_analysis.behavioralAlignment && (
                           <div className="p-4 rounded-2xl bg-white/5 border border-white/10">
-                            <p className="text-[9px] font-black text-aura-pulse uppercase tracking-[0.3em] mb-2">Behavioral_Fit</p>
+                            <p className="text-[9px] font-black text-nova-pulse uppercase tracking-[0.3em] mb-2">Behavioral_Fit</p>
                             <p className="text-[11px] text-slate-400 italic leading-relaxed">{app.ai_analysis.behavioralAlignment}</p>
                           </div>
                         )}
@@ -346,12 +346,12 @@ export default function EmployerApplicants() {
                                onClick={() => handleHire(app)}
                                className="flex-1 sm:flex-none rounded-xl bg-white text-black px-8 py-4 text-[10px] font-black uppercase tracking-widest hover:bg-slate-100 transition-all shadow-xl shadow-white/5"
                              >
-                              Commit_Mission
-                            </button>
+                               Commit_Mission
+                             </button>
                            )}
                            <button 
                              onClick={() => setActiveAssistant(app)}
-                             className="flex-1 sm:flex-none rounded-xl bg-aura-accent text-white px-8 py-4 text-[10px] font-black uppercase tracking-widest hover:opacity-90 transition-all flex items-center gap-3 shadow-xl shadow-aura-accent/10"
+                             className="flex-1 sm:flex-none rounded-xl bg-nova-accent text-white px-8 py-4 text-[10px] font-black uppercase tracking-widest hover:opacity-90 transition-all flex items-center gap-3 shadow-xl shadow-nova-accent/10"
                            >
                             <MessageSquare size={14} />
                             Consult_AI
@@ -375,7 +375,7 @@ export default function EmployerApplicants() {
       </div>
 
       {activeAssistant && (
-        <AuraAssistant 
+        <NovaAssistant 
           candidateContext={{
             candidateId: activeAssistant.id,
             matchScore: activeAssistant.match_score,
