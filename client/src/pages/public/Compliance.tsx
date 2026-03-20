@@ -1,7 +1,6 @@
 import React from 'react';
 import { FileText, Lock, CheckCircle } from 'lucide-react';
 import ContactCompliance from '../../components/ContactCompliance';
-import ComplianceVerification from '../../components/ComplianceVerification';
 
 const Compliance: React.FC = () => {
   return (
@@ -28,11 +27,6 @@ const Compliance: React.FC = () => {
             Nova operates under strict adherence to the <span className="font-semibold text-slate-900">Maltese Employment Agencies Regulations 2023 (Legal Notice 270 of 2023)</span> and GDPR standards. Our infrastructure is calibrated for the modern talent ecosystem.
           </p>
         </div>
-
-        {/* License Verification */}
-        <section>
-          <ComplianceVerification />
-        </section>
 
         {/* Data Protection & GDPR */}
         <div className="grid md:grid-cols-2 gap-8">

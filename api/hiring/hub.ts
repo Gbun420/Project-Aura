@@ -320,7 +320,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         return res.status(403).json({ error: "UNAUTHORIZED_LEDGER_COMMIT" });
       }
 
-      // 2. Generate the immutable "Aura Success Certificate" Hash
+      // 2. Generate the immutable "Nova Success Certificate" Hash
       // Deterministic: ID + Salary + Creation Timestamp
       const successHash = crypto
         .createHash('sha256')

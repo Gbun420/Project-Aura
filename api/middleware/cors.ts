@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
-const ALLOWED_ORIGINS = (process.env.ALLOWED_ORIGINS || 'https://project-aura-one.vercel.app')
+const ALLOWED_ORIGINS = (process.env.ALLOWED_ORIGINS || 'https://project-nova-one.vercel.app')
   .split(',')
   .map((o: string) => o.trim());
 

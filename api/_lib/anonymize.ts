@@ -24,8 +24,8 @@ export const anonymizeCandidate = (candidate: any, isPro: boolean, employerId: s
 
   return {
     ...candidate,
-    id: `aura_${hash}`, // Obfuscated ID prevents cross-referencing
-    full_name: `Aura Candidate ${hash}`,
+    id: `nova_${hash}`, // Obfuscated ID prevents cross-referencing
+    full_name: `Nova Candidate ${hash}`,
     email: null,
     phone: null,
     // Provide a snippet only

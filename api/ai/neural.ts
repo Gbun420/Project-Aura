@@ -34,7 +34,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
       if (body.content) {
         const content = typeof body.content === "string" ? body.content : JSON.stringify(body.content);
-        const prompt = `System: You are the Aura AI Compliance Officer for a Maltese job board.
+        const prompt = `System: You are the Nova AI Compliance Officer for a Maltese job board.
 Task: Analyze the following job description for compliance with Maltese DIER regulations and discriminatory language.
 Output JSON only in the format: {"score": number, "flags": string[]}
 Content: ${content}`;
@@ -78,7 +78,7 @@ Content: ${content}`;
       }
 
       const prompt = `
-        System: You are the Aura Neural Match Engine v2.0 (2026 Build). 
+        System: You are the Nova Neural Match Engine v2.0 (2026 Build). 
         Task: Deep-level compatibility analysis between Candidate Resume and Job Description.
         Context: High-performance Maltese sectors (iGaming, Fintech, AI).
         
@@ -123,7 +123,7 @@ Content: ${content}`;
       }
 
       const prompt = `
-        System: You are the Aura Compliance Validator for the 2026 Maltese labor market.
+        System: You are the Nova Compliance Validator for the 2026 Maltese labor market.
         Task: Analyze this document for 'Skills Pass' authenticity issued by Identità Malta.
         Checks: 
         1. Presence of 'Identità Malta' logo/text.
@@ -168,7 +168,7 @@ Content: ${content}`;
       const { message, context } = body.payload || {};
       
       const prompt = `
-        System: You are the 'Aura Assistant', a high-performance recruitment facilitator for the 2026 Maltese market.
+        System: You are the 'Nova Assistant', a high-performance recruitment facilitator for the 2026 Maltese market.
         Context: You are helping an Employer who is currently reviewing a candidate.
         Candidate Data (Blurred): ID ${context?.candidateId}, Match Score ${context?.matchScore}%, TCN Status: ${context?.tcnStatus}.
         Employer Subscription: ${context?.isPro ? 'PRO' : 'FREE'}.

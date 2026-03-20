@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom';
 import { ArrowRight as LandingArrowRight, Sparkles as LandingSparkles, ShieldCheck as LandingShieldCheck, Users as LandingUsers, Wand2 as LandingWand2, FileCheck as LandingFileCheck } from 'lucide-react';
-import ComplianceVerification from '../../components/ComplianceVerification';
 import { Logo } from '../../components/Logo';
 import { useState } from 'react';
 import { useAuth } from '../../hooks/useAuth';
@@ -438,11 +437,6 @@ export default function PublicLanding() {
             </div>
           </section>
 
-          <section className="bg-slate-50 border-t border-slate-200 py-16">
-            <div className="max-w-6xl mx-auto px-6">
-              <ComplianceVerification />
-            </div>
-          </section>
         </main>
 
         <footer className="border-t border-slate-200 bg-white">
