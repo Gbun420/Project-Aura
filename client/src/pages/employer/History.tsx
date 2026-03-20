@@ -75,6 +75,12 @@ export default function EmployerHistory() {
         </p>
       </div>
 
+      {error && (
+        <div className="p-6 bg-red-500/10 border border-red-500/30 text-red-500 rounded-3xl text-xs font-black uppercase tracking-widest">
+          {error}
+        </div>
+      )}
+
       {loading ? (
         <div className="flex flex-col items-center justify-center py-20 space-y-4">
           <div className="w-12 h-12 border-4 border-blue-500/20 border-t-blue-500 rounded-full animate-spin"></div>

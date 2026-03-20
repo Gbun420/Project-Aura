@@ -20,6 +20,13 @@ interface Notification {
   unread: boolean;
 }
 
+interface AuditLog {
+  id: string;
+  action?: string;
+  details?: string | object;
+  timestamp: string | number;
+}
+
 export default function Notifications() {
   const { user } = useAuth();
   const [notifications, setNotifications] = useState<Notification[]>([]);
@@ -41,10 +48,10 @@ export default function Notifications() {
           limit(20)
         );
         const snapshot = await getDocs(q);
-        const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })) as AuditLog[];
 
         if (data) {
-          const mapped = data.map((item: any) => ({
+          const mapped = data.map((item: AuditLog) => ({
             id: item.id,
             type: item.action?.toLowerCase().includes('match') ? 'neural' : 
                   item.action?.toLowerCase().includes('compliance') ? 'compliance' : 'system',

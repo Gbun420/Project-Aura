@@ -8,7 +8,7 @@ interface Vacancy {
   id: string;
   title: string;
   status: string;
-  created_at: any;
+  created_at: string | number;
 }
 
 export default function CandidateInsights() {

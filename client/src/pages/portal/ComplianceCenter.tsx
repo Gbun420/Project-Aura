@@ -39,9 +39,10 @@ export default function ComplianceCenter() {
       });
 
       alert('Document uploaded successfully for processing.');
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Upload error:', error);
-      alert('Upload failed: ' + error.message);
+      const message = error instanceof Error ? error.message : 'Unknown error';
+      alert('Upload failed: ' + message);
     } finally {
       setUploading(false);
       if (fileInputRef.current) fileInputRef.current.value = '';
