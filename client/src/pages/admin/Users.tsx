@@ -75,7 +75,7 @@ export default function AdminUsers() {
           { label: 'Employers', count: roleCounts.employer, color: 'purple' },
           { label: 'Admins', count: roleCounts.admin, color: 'red' },
         ].map(stat => (
-          <div key={stat.label} className="p-5 rounded-2xl bg-white/5 border border-white/10">
+          <div key={stat.label} className="p-5 rounded-2xl nova-glass-card hover:scale-105 transition-transform glow-uv">
             <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-2">{stat.label}</p>
             <p className="text-2xl font-black text-white">{stat.count}</p>
           </div>
@@ -91,7 +91,7 @@ export default function AdminUsers() {
             placeholder="Search users..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full bg-white/5 border border-white/10 rounded-2xl py-3 pl-12 pr-4 text-sm text-white focus:outline-none focus:border-blue-500/50 transition-colors"
+            className="w-full nova-input rounded-2xl py-3 pl-12 pr-4 text-sm text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-colors"
           />
         </div>
         <div className="relative">
@@ -100,7 +100,7 @@ export default function AdminUsers() {
             value={roleFilter}
             onChange={(e) => setRoleFilter(e.target.value)}
             title="Filter by role"
-            className="bg-white/5 border border-white/10 rounded-2xl px-5 py-3 pr-10 text-sm text-white font-bold focus:outline-none focus:border-blue-500/50 transition-colors appearance-none min-w-[160px]"
+            className="nova-input rounded-2xl px-5 py-3 pr-10 text-sm text-white font-bold focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-colors appearance-none min-w-[160px]"
           >
             <option value="all" className="bg-[#0F1114]">All Roles</option>
             <option value="candidate" className="bg-[#0F1114]">Candidates</option>
@@ -117,12 +117,12 @@ export default function AdminUsers() {
           <span className="text-xs font-mono text-slate-500 uppercase tracking-widest">Loading users...</span>
         </div>
       ) : filteredUsers.length === 0 ? (
-        <div className="p-16 border-2 border-dashed border-white/5 rounded-[2rem] text-center">
+        <div className="p-16 border-2 border-dashed border-white/10 nova-glass-card rounded-[2rem] text-center">
           <Users className="mx-auto text-slate-600 mb-4" size={32} />
           <p className="text-slate-500 text-xs uppercase tracking-widest font-bold">No users found</p>
         </div>
       ) : (
-        <div className="rounded-[2rem] border border-white/10 overflow-hidden">
+        <div className="rounded-[2rem] nova-glass-card overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>

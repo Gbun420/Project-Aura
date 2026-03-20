@@ -19,7 +19,7 @@ export default function AdminAudit() {
         <div className="space-y-8">
           <ComplianceInquiryForm />
 
-          <div className="rounded-3xl border border-white/10 bg-white/5 p-6">
+          <div className="rounded-3xl nova-glass-card p-6 glow-uv">
             <h4 className="text-[10px] font-bold text-[#22D3EE] uppercase tracking-[0.2em] mb-4">Quick Links</h4>
             <ul className="space-y-4 text-xs text-slate-400">
               <li className="hover:text-white cursor-pointer flex justify-between group">
