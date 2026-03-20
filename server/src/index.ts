@@ -160,7 +160,7 @@ app.post('/api/billing/create-checkout-session', authGuard as any, async (req, r
     }
 
     const stripe = new Stripe(stripeSecretKey, {
-      apiVersion: '2023-10-16',
+      apiVersion: '2023-10-16' as any,
     });
 
     const session = await stripe.checkout.sessions.create({
