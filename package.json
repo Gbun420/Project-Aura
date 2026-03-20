@@ -1,5 +1,5 @@
 {
-  "name": "project-aura",
+  "name": "project-nova",
   "version": "2.2.4",
   "description": "",
   "main": "index.js",
@@ -9,10 +9,10 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "db:reset": "npm run seed --prefix server",
     "demo:ignite": "npm run db:reset && npm start --prefix server",
-    "start:aura": "npm start --prefix server & npm run dev --prefix client",
-    "monitor:aura": "node neural-monitor.cjs",
-    "aura-vault-backup": "cp server/aura.db server/aura.db.bak && echo '>>> AURA_VAULT: Immutable Snapshot Created.'",
-    "aura-vault-restore": "cp server/aura.db.bak server/aura.db && echo '>>> AURA_VAULT: Perfect State Restored.'"
+    "start:nova": "npm start --prefix server & npm run dev --prefix client",
+    "monitor:nova": "node neural-monitor.cjs",
+    "nova-vault-backup": "cp server/nova.db server/nova.db.bak && echo '>>> NOVA_VAULT: Immutable Snapshot Created.'",
+    "nova-vault-restore": "cp server/nova.db.bak server/nova.db && echo '>>> NOVA_VAULT: Perfect State Restored.'"
   },
   "keywords": [],
   "author": "",
