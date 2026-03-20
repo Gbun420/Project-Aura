@@ -5,7 +5,7 @@
   ],
   "crons": [
     {
-      "path": "/api/system/audit-agent",
+      "path": "/api/compliance",
       "schedule": "0 0 * * *"
     }
   ]

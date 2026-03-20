@@ -1,8 +1,8 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { z } from 'zod';
-import { authenticateRequest } from '../middleware/auth.js';
-import { handleCors } from '../middleware/cors.js';
-import { validationSchemas } from '../lib/validation.js';
+import { authenticateRequest } from '../_lib/middleware/auth.js';
+import { handleCors } from '../_lib/middleware/cors.js';
+import { validationSchemas } from '../_lib/lib/validation.js';
 
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {

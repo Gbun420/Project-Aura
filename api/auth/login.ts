@@ -1,8 +1,8 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { createClient } from '@supabase/supabase-js';
 import { z } from 'zod';
-import { rateLimit } from '../middleware/rateLimit.js';
-import { handleCors } from '../middleware/cors.js';
+import { rateLimit } from '../_lib/middleware/rateLimit.js';
+import { handleCors } from '../_lib/middleware/cors.js';
 
 
 const loginSchema = z.object({

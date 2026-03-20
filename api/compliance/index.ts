@@ -1,19 +1,53 @@
 import { createClient } from "@supabase/supabase-js";
+import { db } from "../_lib/db.js";
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 
 const supabaseUrl = process.env.SUPABASE_URL || "";
 const supabaseAnonKey = process.env.SUPABASE_ANON_KEY || "";
 
-// Placeholder for Compliance API
-// Implements: License Verification, GDPR Status, Audit Logging
-
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-  const { action, payload } = req.body || {};
   const supabase = createClient(supabaseUrl, supabaseAnonKey);
+
+  // 1. Handle daily integrity audit (Cron)
+  if (req.method === "GET") {
+    const authHeader = req.headers.authorization;
+    if (process.env.CRON_SECRET && authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
+      return res.status(401).json({ error: "UNAUTHORIZED_PULSE" });
+    }
+
+    try {
+      console.log("[SHADOW_MONITOR] INITIATING_INTEGRITY_AUDIT...");
+      const outliers = await (db as any).introductionLedger.findMany({
+        where: { feeStatus: 'PENDING' }
+      });
+
+      outliers.forEach((outlier: any) => {
+        console.log(`[SHADOW_MONITOR] ANALYZING_SOCIAL_PULSE: Candidate ${outlier.candidateId} at Employer ${outlier.employerId}`);
+      });
+
+      return res.status(200).json({
+        success: true,
+        timestamp: new Date().toISOString(),
+        auditedCount: outliers.length
+      });
+    } catch (error: any) {
+      console.error("[SHADOW_MONITOR] AUDIT_FAILED:", error);
+      return res.status(500).json({ 
+        error: "AUDIT_FAILED", 
+        details: error.message,
+        env_check: {
+          hasDbUrl: Boolean(process.env.DATABASE_URL),
+          hasDirectDbUrl: Boolean(process.env.DIRECT_DATABASE_URL)
+        }
+      });
+    }
+  }
 
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method Not Allowed" });
   }
+
+  const { action, payload } = req.body || {};
 
   try {
     // 1. Log Audit Trail (Live)
