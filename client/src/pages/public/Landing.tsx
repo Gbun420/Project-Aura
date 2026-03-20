@@ -110,9 +110,9 @@ export default function PublicLanding() {
             </div>
           </div>
           <nav className="hidden md:flex items-center gap-8 text-sm text-slate-600 font-medium">
-            <a className="hover:text-slate-900" href="#jobs">Jobs</a>
-            <a className="hover:text-slate-900" href="#talent">Talent</a>
-            <a className="hover:text-slate-900" href="/compliance">Compliance</a>
+            <a className="hover:text-slate-900" href="#features">Features</a>
+            <a className="hover:text-slate-900" href="#portals">Portals</a>
+            <Link className="hover:text-slate-900" to="/compliance">Compliance</Link>
             <Link className="hover:text-slate-900 font-semibold text-[#4285F4]" to="/register">Sign Up</Link>
             <Link className="hover:text-slate-900" to="/login">Log In</Link>
           </nav>
@@ -183,7 +183,7 @@ export default function PublicLanding() {
                   </Link>
                 </div>
                 <div className="mt-10 flex items-center gap-6 text-xs font-semibold text-slate-500">
-                  <span>Trusted by 120+ Maltese agencies</span>
+                  <span>Built for the Maltese market</span>
                   <span>Identità-ready compliance</span>
                 </div>
               </div>
@@ -220,33 +220,10 @@ export default function PublicLanding() {
                     </div>
                     <button 
                       onClick={handleSearch}
-                      disabled={isSearching}
                       className="w-full rounded-2xl bg-blue-600 hover:bg-blue-700 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-200/40 transition"
                     >
-                      {isSearching ? 'Searching...' : 'Search Opportunities'}
+                      Search Opportunities
                     </button>
-                    {!isSearching && searchResults.length > 0 && (
-                      <button 
-                        onClick={handleResetSearch}
-                        className="mt-2 w-full rounded-2xl bg-white/5 border border-white/10 text-slate-300 rounded-2xl text-[10px] font-bold uppercase tracking-widest hover:bg-white/10 transition-all"
-                      >
-                        Reset Search
-                      </button>
-                    )}
-                  </div>
-                  <div className="mt-6 grid grid-cols-3 gap-4 text-xs text-slate-500">
-                    <div>
-                      <p className="text-lg font-semibold text-slate-900">{isSearching ? 'Searching...' : searchResults.length === 0 ? '0' : searchResults.length}</p>
-                      <p>Active roles</p>
-                    </div>
-                    <div>
-                      <p className="text-lg font-semibold text-slate-900">98%</p>
-                      <p>Compliance success</p>
-                    </div>
-                    <div>
-                      <p className="text-lg font-semibold text-slate-900">48 hrs</p>
-                      <p>Avg. hire time</p>
-                    </div>
                   </div>
                 </div>
               </div>
@@ -254,7 +231,7 @@ export default function PublicLanding() {
             </div>
             </section>
 
-            <section id="talent" className="max-w-6xl mx-auto px-6 py-16">            <div className="grid lg:grid-cols-3 gap-6">
+            <section id="features" className="max-w-6xl mx-auto px-6 py-16">            <div className="grid lg:grid-cols-3 gap-6">
               {[
                 { 
                    icon: LandingShieldCheck, 
@@ -291,116 +268,21 @@ export default function PublicLanding() {
             </div>
           </section>
 
-          <section className="bg-gradient-to-r from-[#4285F4]/5 to-[#9B72CB]/5 rounded-3xl max-w-6xl mx-auto px-6 py-8 my-8">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-              <div className="text-center">
-                <div className="text-2xl font-bold text-slate-900">2,140</div>
-                <div className="text-sm text-slate-600">Active Roles</div>
-              </div>
-              <div className="text-center">
-                <div className="text-2xl font-bold text-slate-900">98%</div>
-                <div className="text-sm text-slate-600">Compliance Success</div>
-              </div>
-              <div className="text-center">
-                <div className="text-2xl font-bold text-slate-900">48 hrs</div>
-                <div className="text-sm text-slate-600">Avg Hire Time</div>
-              </div>
-              <div className="text-center">
-                <div className="text-2xl font-bold text-slate-900">87%</div>
-                <div className="text-sm text-slate-600">Match Accuracy</div>
+          <section className="max-w-6xl mx-auto px-6 pb-20">
+            <div className="rounded-3xl bg-gradient-to-r from-[#4285F4]/5 to-[#9B72CB]/5 border border-slate-200 p-10 text-center">
+              <LandingSparkles size={24} className="text-indigo-600 mx-auto mb-4" />
+              <h2 className="text-2xl font-semibold text-slate-900 font-['Space_Grotesk']">Ready to find your next role?</h2>
+              <p className="mt-3 text-slate-600 max-w-lg mx-auto">Sign up to browse live opportunities from employers across Malta. New roles are posted daily.</p>
+              <div className="mt-6 flex justify-center gap-4">
+                <Link to="/register" className="inline-flex items-center gap-2 rounded-2xl bg-slate-900 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-slate-900/10 hover:bg-slate-800 transition">
+                  Browse Jobs <LandingArrowRight size={16} />
+                </Link>
+                <Link to="/register" className="inline-flex items-center gap-2 rounded-2xl border border-slate-200 bg-white px-6 py-3 text-sm font-semibold text-slate-700 shadow-sm hover:bg-slate-50 transition">
+                  Post a Vacancy
+                </Link>
               </div>
             </div>
           </section>
-
-          <section id="jobs" className="max-w-6xl mx-auto px-6 pb-20">
-            <div className="flex items-center justify-between">
-              <div>
-                <h2 className="text-2xl font-semibold text-slate-900 font-['Space_Grotesk']">
-                  Live opportunities
-                  <span className="ml-3 inline-flex items-center gap-1 text-sm font-normal text-[#4285F4]">
-                     <LandingSparkles size={14} />
-                    Actively Hiring
-                  </span>
-                </h2>
-                <p className="text-sm text-slate-600 mt-1">
-                  High-signal roles curated by Nova with deep local insights.
-                </p>
-              </div>
-              <Link to="/portal?role=candidate" className="text-sm font-semibold text-[#4285F4] hover:text-[#2f6fe0]">
-                View all roles
-              </Link>
-            </div>
-            <div className="mt-6 grid gap-4">
-              {isSearching ? (
-                <div className="col-span-3">
-                  <div className="flex flex-col items-center justify-center py-10">
-                    <div className="w-8 h-8 border-3 border-blue-500/20 border-t-blue-500 rounded-full animate-spin"></div>
-                    <span className="text-sm font-mono text-slate-500">Searching opportunities...</span>
-                  </div>
-                </div>
-              ) : searchResults.length > 0 ? (
-                <div>
-                  {searchResults.map(job => (
-                    <div key={job.title} className="rounded-2xl border border-slate-200 bg-white p-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 shadow-sm">
-                      <div className="flex-1">
-                        <div className="flex items-start justify-between">
-                          <div>
-                            <h3 className="text-lg font-semibold text-slate-900">{job.title}</h3>
-                            <p className="text-sm text-slate-600">{job.company} • {job.location}</p>
-                          </div>
-                          {/* Match Score */}
-                          <div className="flex items-center gap-2">
-                            <div className="text-right">
-                              <div className="text-xs text-slate-500">Match Score</div>
-                              <div className="text-sm font-semibold text-[#4285F4]">
-                                {job.matchScore}%
-                              </div>
-                            </div>
-                             <LandingSparkles size={16} className="text-blue-500" />
-                          </div>
-                        </div>
-                      
-                      {/* Compliance Badge */}
-                      <div className="mt-3 flex items-center gap-2">
-                        <div className="flex items-center gap-1 px-2 py-1 bg-green-50 rounded-full">
-                           <LandingFileCheck size={12} className="text-green-600" />
-                          <span className="text-xs text-green-700">Identità Verified</span>
-                        </div>
-                        <span className="text-xs text-slate-500">• Compliance: Active</span>
-                      </div>
-                    </div>
-                    
-                    <div className="flex items-center gap-3 text-sm text-slate-600">
-                      <span className="rounded-full border border-slate-200 px-3 py-1 text-xs">{job.tag}</span>
-                      <span className="font-semibold text-slate-900">{job.salary}</span>
-                      <button
-                        onClick={() => handleApply(job.title)}
-                        disabled={applicationStatus[job.title] === 'loading'}
-                        className={`rounded-xl bg-slate-900 px-4 py-2 text-xs font-semibold text-white hover:bg-slate-800 transition ${
-                          applicationStatus[job.title] === 'loading' ? 'opacity-50' : ''
-                        } ${
-                          applicationStatus[job.title] === 'success' ? 'bg-emerald-500/20 text-emerald-400' : ''
-                        } ${
-                          applicationStatus[job.title] === 'error' ? 'bg-rose-500/20 text-rose-400' : ''
-                        }`}
-                      >
-                        {applicationStatus[job.title] === 'loading' ? 'Applying...' : 
-                         applicationStatus[job.title] === 'success' ? 'Applied!' : 
-                         applicationStatus[job.title] === 'error' ? 'Failed' : 'Apply'}
-                      </button>
-                    </div>
-                  </div>
-                ))}
-                {searchResults.length === 0 && !isSearching && (
-                  <div className="col-span-3 text-center py-10">
-                    <p className="text-slate-500">No jobs match your search criteria.</p>
-                    <p className="text-sm">Try adjusting your search filters.</p>
-                  </div>
-                  )}
-                  </div>
-                  ) : null}
-                  </div>
-                  </section>
           <section id="portals" className="bg-white border-t border-slate-200">
             <div className="max-w-6xl mx-auto px-6 py-16 grid lg:grid-cols-[1.3fr_1fr] gap-10 items-center">
               <div>
@@ -458,7 +340,7 @@ export default function PublicLanding() {
                 <ul className="space-y-2">
                   <li className="flex items-center gap-2">
                      <LandingShieldCheck size={12} className="text-green-500" />
-                    <span>Primary Contact: <a href="mailto:aurajobs@proton.me" className="text-blue-600 hover:underline">aurajobs@proton.me</a></span>
+                    <span>Primary Contact: <a href="mailto:hello@novamalta.com" className="text-blue-600 hover:underline">hello@novamalta.com</a></span>
                   </li>
                   <li>Compliance Officer: Designation Active</li>
                   <li>Regulatory Response: within 48 hours</li>
