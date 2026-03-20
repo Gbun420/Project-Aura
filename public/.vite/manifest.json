@@ -1,4 +1,8 @@
 {
+  "_env-CM2MrYzp.js": {
+    "file": "assets/env-CM2MrYzp.js",
+    "name": "env"
+  },
   "_lucide-react-BJ6ggJWf.js": {
     "file": "assets/lucide-react-BJ6ggJWf.js",
     "name": "lucide-react",
@@ -15,7 +19,7 @@
     "name": "supabase"
   },
   "index.html": {
-    "file": "assets/index-D2sjyFlq.js",
+    "file": "assets/index-B7k6MNiK.js",
     "name": "index",
     "src": "index.html",
     "isEntry": true,
@@ -45,7 +49,7 @@
     ]
   },
   "src/components/CookieConsent.tsx": {
-    "file": "assets/CookieConsent-yg5ijpTH.js",
+    "file": "assets/CookieConsent-CmVQAAdz.js",
     "name": "CookieConsent",
     "src": "src/components/CookieConsent.tsx",
     "isDynamicEntry": true,
@@ -56,7 +60,7 @@
     ]
   },
   "src/pages/NotFound.tsx": {
-    "file": "assets/NotFound-DcXjQ7yf.js",
+    "file": "assets/NotFound-Dshp6mOW.js",
     "name": "NotFound",
     "src": "src/pages/NotFound.tsx",
     "isDynamicEntry": true,
@@ -67,7 +71,7 @@
     ]
   },
   "src/pages/admin/Audit.tsx": {
-    "file": "assets/Audit-DLzJEBof.js",
+    "file": "assets/Audit-Cx1KdaCS.js",
     "name": "Audit",
     "src": "src/pages/admin/Audit.tsx",
     "isDynamicEntry": true,
@@ -78,7 +82,7 @@
     ]
   },
   "src/pages/admin/DesignSystem.tsx": {
-    "file": "assets/DesignSystem-2piOXHdB.js",
+    "file": "assets/DesignSystem-CswyOJqx.js",
     "name": "DesignSystem",
     "src": "src/pages/admin/DesignSystem.tsx",
     "isDynamicEntry": true,
@@ -89,7 +93,7 @@
     ]
   },
   "src/pages/admin/Users.tsx": {
-    "file": "assets/Users-DDeMsH_q.js",
+    "file": "assets/Users-DwVAL9Xt.js",
     "name": "Users",
     "src": "src/pages/admin/Users.tsx",
     "isDynamicEntry": true,
@@ -100,7 +104,7 @@
     ]
   },
   "src/pages/candidate/Insights.tsx": {
-    "file": "assets/Insights-PHav92yc.js",
+    "file": "assets/Insights-BlqTvlxB.js",
     "name": "Insights",
     "src": "src/pages/candidate/Insights.tsx",
     "isDynamicEntry": true,
@@ -111,40 +115,43 @@
     ]
   },
   "src/pages/employer/Applicants.tsx": {
-    "file": "assets/Applicants-Cmh0B9aG.js",
+    "file": "assets/Applicants-DJDhgUN0.js",
     "name": "Applicants",
     "src": "src/pages/employer/Applicants.tsx",
     "isDynamicEntry": true,
     "imports": [
       "index.html",
       "_react-router-CLnkN5Me.js",
+      "_env-CM2MrYzp.js",
       "_lucide-react-BJ6ggJWf.js"
     ]
   },
   "src/pages/employer/History.tsx": {
-    "file": "assets/History-CI17o3NS.js",
+    "file": "assets/History-CFYSJj6T.js",
     "name": "History",
     "src": "src/pages/employer/History.tsx",
     "isDynamicEntry": true,
     "imports": [
       "index.html",
       "_react-router-CLnkN5Me.js",
+      "_env-CM2MrYzp.js",
       "_lucide-react-BJ6ggJWf.js"
     ]
   },
   "src/pages/employer/Pricing.tsx": {
-    "file": "assets/Pricing-DQFWtc2K.js",
+    "file": "assets/Pricing-Cq_Fqfhj.js",
     "name": "Pricing",
     "src": "src/pages/employer/Pricing.tsx",
     "isDynamicEntry": true,
     "imports": [
       "index.html",
+      "_env-CM2MrYzp.js",
       "_react-router-CLnkN5Me.js",
       "_lucide-react-BJ6ggJWf.js"
     ]
   },
   "src/pages/portal/ComplianceCenter.tsx": {
-    "file": "assets/ComplianceCenter-BWF-6Exk.js",
+    "file": "assets/ComplianceCenter-BUmR1JjT.js",
     "name": "ComplianceCenter",
     "src": "src/pages/portal/ComplianceCenter.tsx",
     "isDynamicEntry": true,
@@ -155,18 +162,19 @@
     ]
   },
   "src/pages/portal/Jobs.tsx": {
-    "file": "assets/Jobs-D4DhzZrr.js",
+    "file": "assets/Jobs-kTmiVRRN.js",
     "name": "Jobs",
     "src": "src/pages/portal/Jobs.tsx",
     "isDynamicEntry": true,
     "imports": [
       "index.html",
       "_react-router-CLnkN5Me.js",
+      "_env-CM2MrYzp.js",
       "_lucide-react-BJ6ggJWf.js"
     ]
   },
   "src/pages/portal/NeuralDashboard.tsx": {
-    "file": "assets/NeuralDashboard-DqutzoUy.js",
+    "file": "assets/NeuralDashboard-B3bqBv9W.js",
     "name": "NeuralDashboard",
     "src": "src/pages/portal/NeuralDashboard.tsx",
     "isDynamicEntry": true,
@@ -177,7 +185,7 @@
     ]
   },
   "src/pages/portal/Notifications.tsx": {
-    "file": "assets/Notifications-Blw72JTs.js",
+    "file": "assets/Notifications-D9h4JywY.js",
     "name": "Notifications",
     "src": "src/pages/portal/Notifications.tsx",
     "isDynamicEntry": true,
@@ -188,7 +196,7 @@
     ]
   },
   "src/pages/portal/Profile.tsx": {
-    "file": "assets/Profile-ClDD_CLQ.js",
+    "file": "assets/Profile-D8PP23Zz.js",
     "name": "Profile",
     "src": "src/pages/portal/Profile.tsx",
     "isDynamicEntry": true,
@@ -199,7 +207,7 @@
     ]
   },
   "src/pages/portal/Settings.tsx": {
-    "file": "assets/Settings-DjNJmML9.js",
+    "file": "assets/Settings-Bj1JvPRg.js",
     "name": "Settings",
     "src": "src/pages/portal/Settings.tsx",
     "isDynamicEntry": true,

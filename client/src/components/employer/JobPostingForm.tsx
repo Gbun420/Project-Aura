@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { auth } from '../../lib/firebase';
 import { ShieldCheck } from 'lucide-react';
+import { env } from '../../config/env';
 
 type ComplianceAnalysis = {
   score: number;
@@ -35,7 +36,7 @@ export default function JobPostingForm({ onClose }: { onClose?: () => void }) {
     try {
       const token = await auth.currentUser?.getIdToken();
 
-      const response = await fetch('/api/ai/neural', {
+      const response = await fetch(`${env.apiUrl}/api/ai/neural`, {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json',
@@ -84,7 +85,7 @@ export default function JobPostingForm({ onClose }: { onClose?: () => void }) {
         throw new Error('Authentication required. Please log in again.');
       }
 
-      const response = await fetch('/api/hiring/hub', {
+      const response = await fetch(`${env.apiUrl}/api/hiring/hub`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
