@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
-import { Brain, Shield, Bell, User, Briefcase, Settings } from 'lucide-react';
+import { Brain, Shield, Bell, User, Briefcase, Settings, Target, Book, Users, Clock, CreditCard } from 'lucide-react';
 import type { Role } from '../types/aura.js';
 import { Logo } from './Logo';
 
@@ -34,19 +34,46 @@ export default function Sidebar({ role }: { role: Role }) {
   const location = useLocation();
   const base = `/portal/${role}`;
 
-  const navItems = [
+  // Common items
+  let navItems = [
     { label: 'Dashboard', icon: Brain, path: base },
-    { label: 'Compliance Center', icon: Shield, path: `${base}/compliance`, badge: role === 'admin' ? '3' : undefined },
-    { label: 'Notifications', icon: Bell, path: `${base}/notifications`, badge: '12' },
-    { label: 'Profile', icon: User, path: `${base}/profile` },
-    { label: 'Jobs', icon: Briefcase, path: `${base}/jobs` },
-    { label: 'Settings', icon: Settings, path: `${base}/settings` },
+    { label: 'Notifications', icon: Bell, path: `${base}/notifications` },
   ];
+
+  // Role-specific items
+  if (role === 'candidate') {
+    navItems.push(
+      { label: 'Jobs', icon: Briefcase, path: `${base}/jobs` },
+      { label: 'Insights', icon: Target, path: `${base}/insights` },
+      { label: 'Vault', icon: Book, path: `${base}/vault` }
+    );
+  } else if (role === 'employer') {
+    navItems.push(
+      { label: 'Applicants', icon: Users, path: `${base}/applicants` },
+      { label: 'Jobs', icon: Briefcase, path: `${base}/jobs` },
+      { label: 'Tracking', icon: Clock, path: `${base}/history` },
+      { label: 'Pricing', icon: CreditCard, path: `${base}/pricing` },
+      { label: 'Compliance center', icon: Shield, path: `${base}/compliance` }
+    );
+  } else if (role === 'admin' || role === 'platform_owner') {
+    navItems.push(
+      { label: 'Users', icon: Users, path: `${base}/users` },
+      { label: 'Jobs', icon: Briefcase, path: `${base}/jobs` },
+      { label: 'Audit Log', icon: Shield, path: `${base}/audit` }
+    );
+  }
+
+  // Settings and Profile go last
+  navItems.push(
+    { label: 'Profile', icon: User, path: `${base}/profile` },
+    { label: 'Settings', icon: Settings, path: `${base}/settings` }
+  );
 
   const portals = {
     candidate: { color: 'blue', label: 'Candidate Portal' },
     employer: { color: 'purple', label: 'Employer Portal' },
-    admin: { color: 'red', label: 'Admin Command' }
+    admin: { color: 'red', label: 'Admin Command' },
+    platform_owner: { color: 'red', label: 'Owner Command' }
   };
 
   const currentPortal = portals[role] || portals.candidate;
@@ -66,7 +93,7 @@ export default function Sidebar({ role }: { role: Role }) {
         </div>
       </div>
 
-      <nav className="p-4 space-y-2 flex-1 mt-4">
+      <nav className="p-4 space-y-2 flex-1 mt-4 overflow-y-auto">
         {navItems.map((item) => (
           <NavItem
             key={item.label}
@@ -74,7 +101,7 @@ export default function Sidebar({ role }: { role: Role }) {
             label={item.label}
             path={item.path}
             badge={item.badge}
-            active={location.pathname === item.path}
+            active={location.pathname === item.path || location.pathname === `${item.path}/`}
           />
         ))}
       </nav>
