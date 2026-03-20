@@ -15,7 +15,7 @@ const IDENTITA_SELECTOR_MAP_LOCAL = {
   }
 };
 
-const injectAuraManifest = (manifest) => {
+const injectNovaManifest = (manifest) => {
   const map = IDENTITA_SELECTOR_MAP_LOCAL.mapping;
 
   Object.keys(manifest).forEach(key => {
@@ -31,7 +31,7 @@ const injectAuraManifest = (manifest) => {
         const event = new Event(fieldMapping.event, { bubbles: true });
         element.dispatchEvent(event);
         
-        // Step 3: Visual Feedback (Aura Cyber-Teal highlight)
+        // Step 3: Visual Feedback (Nova Cyber-Teal highlight)
         element.style.boxShadow = "0 0 10px #00F0FF";
         element.style.transition = "box-shadow 0.3s ease";
       }
@@ -42,6 +42,6 @@ const injectAuraManifest = (manifest) => {
 // Listen for the "Nova Manifest" message from the background script
 window.addEventListener("message", (event) => {
   if (event.data.type === "NOVA_TRIGGER_SYNC") {
-    injectAuraManifest(event.data.payload);
+    injectNovaManifest(event.data.payload);
   }
 });
