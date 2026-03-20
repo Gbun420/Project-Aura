@@ -1,5 +1,5 @@
 /**
- * AURA GHOST-PILOT INJECTOR
+ * NOVA GHOST-PILOT INJECTOR
  * Native DOM Orchestration for 2026 Identità Portal
  */
 
@@ -39,9 +39,9 @@ const injectAuraManifest = (manifest) => {
   });
 };
 
-// Listen for the "Aura Manifest" message from the background script
+// Listen for the "Nova Manifest" message from the background script
 window.addEventListener("message", (event) => {
-  if (event.data.type === "AURA_TRIGGER_SYNC") {
+  if (event.data.type === "NOVA_TRIGGER_SYNC") {
     injectAuraManifest(event.data.payload);
   }
 });
