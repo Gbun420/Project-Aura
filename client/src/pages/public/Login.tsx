@@ -31,10 +31,10 @@ export default function Login() {
     } catch (err) {
       const error = err as { code?: string; message: string };
       console.error('Login error:', error);
-      if (error.code === 'auth/invalid-credential') {
-        setError("Invalid credentials. If you migrated from Supabase, you may need to reset your password.");
+      if (error.code === 'auth/invalid-credential' || error.message?.includes('invalid-credential')) {
+        setError("Invalid credentials. If you migrated from Supabase, you must utilize 'Forgot Password' or 'Google Identity'.");
       } else {
-        setError(error.message);
+        setError(error.message || 'An unknown error occurred.');
       }
     } finally {
       setLoading(false);
