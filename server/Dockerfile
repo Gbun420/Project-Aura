@@ -1,25 +1,25 @@
-# Use Node.js production image
-FROM node:20-slim
+FROM node:20-slim AS builder
 
-# Create app directory
 WORKDIR /usr/src/app
 
-# Install curl for health checks
-RUN apt-get update && apt-get install -y \
-    curl \
-    && rm -rf /var/lib/apt/lists/*
-
-# Copy package files
 COPY package*.json ./
-
-# Install dependencies
 RUN npm install
 
-# Copy source code
 COPY . .
+RUN npm run build
 
-# Expose port
-EXPOSE 5000
+FROM node:20-slim
 
-# Command to run the application
-CMD ["npm", "run", "dev"]
+WORKDIR /usr/src/app
+
+COPY package*.json ./
+RUN npm install --omit=dev
+
+COPY --from=builder /usr/src/app/dist ./dist
+# If you have static assets or other folders needed at runtime, copy them here
+# COPY --from=builder /usr/src/app/api ./api 
+
+EXPOSE 8080
+ENV PORT=8080
+
+CMD ["node", "dist/index.js"]

@@ -48,6 +48,8 @@ app.use(cors({
     'http://localhost:5173', // Local Dev
     'http://localhost:80',   // Staging Frontend
     'https://nova-os-v1.vercel.app', // Production URL
+    'https://talentvault-446214.web.app', // Firebase Hosting (New)
+    'https://talentvault-446214.firebaseapp.com', // Firebase Hosting Fallback
     'chrome-extension://ghost-link-id-placeholder' // Strict origin for Browser Extension
   ],
   methods: ['GET', 'POST', 'PUT'],
@@ -224,7 +226,7 @@ app.get('/api/hiring/audit', authGuard as any, async (req, res) => {
 // ------------------------------------------------------------------
 const io = new Server(server, {
   cors: {
-    origin: ['http://localhost:5173', 'http://localhost:80', 'https://nova-os-v1.vercel.app'],
+    origin: ['http://localhost:5173', 'http://localhost:80', 'https://nova-os-v1.vercel.app', 'https://talentvault-446214.web.app', 'https://talentvault-446214.firebaseapp.com'],
     methods: ['GET', 'POST']
   }
 });
