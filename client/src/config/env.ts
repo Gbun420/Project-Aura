@@ -13,10 +13,6 @@ const getEnvVar = (name: string, isRequired = true): string => {
 };
 
 export const env = {
-  // Legacy Supabase (to be removed after migration)
-  supabaseUrl: import.meta.env.VITE_SUPABASE_URL as string | undefined,
-  supabaseAnonKey: import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined,
-  
   // Firebase Configuration
   firebase: {
     apiKey: getEnvVar('VITE_FIREBASE_API_KEY'),
@@ -29,6 +25,7 @@ export const env = {
 
   // Other Services
   hfToken: import.meta.env.VITE_HF_TOKEN as string | undefined,
+  stripePriceIdPro: import.meta.env.VITE_STRIPE_PRICE_ID_PRO as string | undefined,
   stripePriceIdPulsePro: import.meta.env.VITE_STRIPE_PRICE_ID_PULSE_PRO as string | undefined,
   apiUrl: getEnvVar('VITE_API_URL', false) || 'http://localhost:3001',
   isDev: import.meta.env.DEV,

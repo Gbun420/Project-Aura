@@ -1,18 +1,22 @@
 import { ShieldCheck, Zap, Lock, Sparkles, Check, Loader2 } from 'lucide-react';
-import { supabase } from '../../lib/supabase';
+import { useAuth } from '../../contexts/AuthContext';
 import { env } from '../../config/env';
 import { useState } from 'react';
 
 export default function Pricing() {
+  const { user } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
-
+ 
   const handleUpgrade = async () => {
     if (isLoading) return;
+    if (!user) {
+      alert("Please sign in to proceed with the upgrade.");
+      return;
+    }
     setIsLoading(true);
-
+ 
     try {
-      const { data: sessionData } = await supabase.auth.getSession();
-      const token = sessionData.session?.access_token;
+      const token = await user.getIdToken();
 
       if (!token) {
         alert("Please sign in to proceed with the upgrade.");

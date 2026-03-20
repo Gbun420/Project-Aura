@@ -6,6 +6,7 @@ import Login from './pages/public/Login';
 import Register from './pages/public/Register';
 import PortalLayout from './layouts/PortalLayout';
 import PortalIndexRedirect from './pages/PortalIndexRedirect';
+import { AuthProvider } from './contexts/AuthContext';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import SEO from './components/SEO';
 
@@ -31,7 +32,8 @@ const CookieConsent = lazy(() => import('./components/CookieConsent'));
 
 export default function App() {
   return (
-    <BrowserRouter>
+    <AuthProvider>
+      <BrowserRouter>
       <Routes>
         <Route path="/" element={
           <>
@@ -192,5 +194,6 @@ export default function App() {
         <CookieConsent />
       </Suspense>
     </BrowserRouter>
+    </AuthProvider>
   );
 }

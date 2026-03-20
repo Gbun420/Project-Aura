@@ -9,7 +9,8 @@ import {
   Loader2
 } from 'lucide-react';
 import { useAuth } from '../../hooks/useAuth';
-import { supabase } from '../../lib/supabase';
+import { doc, updateDoc } from 'firebase/firestore';
+import { db } from '../../lib/firebase';
 import SEO from '../../components/SEO';
 
 export default function Profile() {
@@ -25,21 +26,18 @@ export default function Profile() {
     setSaved(false);
 
     try {
-      const { error } = await supabase
-        .from('profiles')
-        .update({ full_name: fullName })
-        .eq('id', user.id);
+      const profileRef = doc(db, 'profiles', user.uid);
+      await updateDoc(profileRef, {
+        full_name: fullName,
+        updated_at: new Date().toISOString()
+      });
 
-      if (error) {
-        console.error('Profile update error:', error);
-        alert('Failed to update profile: ' + error.message);
-      } else {
-        setSaved(true);
-        setIsEditing(false);
-        setTimeout(() => setSaved(false), 3000);
-      }
-    } catch (err) {
+      setSaved(true);
+      setIsEditing(false);
+      setTimeout(() => setSaved(false), 3000);
+    } catch (err: any) {
       console.error('Profile save error:', err);
+      alert('Failed to update profile: ' + err.message);
     } finally {
       setSaving(false);
     }
@@ -179,7 +177,7 @@ export default function Profile() {
                     <input 
                       id="access_key"
                       type="text" 
-                      value={user?.id?.slice(0, 12) + '...' || ''} 
+                      value={user?.uid?.slice(0, 12) + '...' || ''} 
                       disabled 
                       title="User ID"
                       className="w-full bg-white/5 border border-white/10 rounded-2xl py-3 pl-12 pr-4 text-sm text-slate-400 font-mono focus:outline-none cursor-not-allowed"

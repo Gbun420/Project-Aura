@@ -4,12 +4,15 @@ import { HelmetProvider } from 'react-helmet-async'
 import './index.css'
 import App from './App.tsx'
 import { NovaErrorBoundary } from './components/NovaErrorBoundary'
+import { AuthProvider } from './contexts/AuthContext'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <HelmetProvider>
       <NovaErrorBoundary>
-        <App />
+        <AuthProvider>
+          <App />
+        </AuthProvider>
       </NovaErrorBoundary>
     </HelmetProvider>
   </StrictMode>,

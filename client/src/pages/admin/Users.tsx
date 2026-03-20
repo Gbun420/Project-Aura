@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Users, Shield, Search, ChevronDown } from 'lucide-react';
-import { supabase } from '../../lib/supabase';
+import { collection, getDocs, query, orderBy } from 'firebase/firestore';
+import { db } from '../../lib/firebase';
 
 interface UserProfile {
   id: string;
@@ -8,7 +9,7 @@ interface UserProfile {
   email?: string;
   role: string;
   subscription_tier: string | null;
-  created_at?: string;
+  created_at?: { seconds: number; nanoseconds: number } | string;
 }
 
 export default function AdminUsers() {
@@ -21,16 +22,14 @@ export default function AdminUsers() {
     async function fetchUsers() {
       setLoading(true);
       try {
-        const { data, error } = await supabase
-          .from('profiles')
-          .select('*')
-          .order('created_at', { ascending: false });
-
-        if (error) {
-          console.error('Error fetching users:', error);
-        } else if (data) {
-          setUsers(data);
-        }
+        const q = query(collection(db, 'profiles'), orderBy('created_at', 'desc'));
+        const querySnapshot = await getDocs(q);
+        const userData = querySnapshot.docs.map(doc => ({
+          ...doc.data(),
+          id: doc.id
+        })) as UserProfile[];
+        
+        setUsers(userData);
       } catch (err) {
         console.error('Users fetch error:', err);
       } finally {
