@@ -12,8 +12,8 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'mask-icon.svg'],
       manifest: {
-        name: 'Aura Cloud: Sovereign Identity',
-        short_name: 'Aura',
+        name: 'Nova Cloud: Sovereign Identity',
+        short_name: 'Nova',
         description: '2026 High-performance recruitment platform for Malta.',
         theme_color: '#0F1114',
         background_color: '#0F1114',
@@ -47,7 +47,7 @@ export default defineConfig({
             urlPattern: /^\/api\/.*$/,
             handler: 'StaleWhileRevalidate',
             options: {
-              cacheName: 'aura-api-cache',
+              cacheName: 'nova-api-cache',
               expiration: {
                 maxEntries: 20,
                 maxAgeSeconds: 60 * 60 // 1 hour
@@ -73,8 +73,8 @@ export default defineConfig({
     minify: 'esbuild',
     // Generate manifest for preloading
     manifest: true,
-    // Brotli compression
-    brotliSize: true,
+    // Report compressed size
+    reportCompressedSize: true,
     // Asset cleanup
     assetsDir: 'assets',
     emptyOutDir: true

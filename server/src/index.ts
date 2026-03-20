@@ -11,9 +11,9 @@ import Stripe from 'stripe';
 import { db } from './core/database.js';
 import { SovereignVault } from './core/security/Vault.js';
 import { BountyGuardian } from './core/ledger/BountyGuardian.js';
-import { ManifestGenerator } from './services/auraOS/ManifestGenerator.js';
-import { PulseAggregator } from './services/auraOS/PulseAggregator.js';
-import { AuditExportService } from './services/auraOS/AuditExportService.js';
+import { ManifestGenerator } from './services/novaOS/ManifestGenerator.js';
+import { PulseAggregator } from './services/novaOS/PulseAggregator.js';
+import { AuditExportService } from './services/novaOS/AuditExportService.js';
 import { AuditTrailService } from './core/audit/AuditTrailService.js';
 import { attachPilot } from './core/communications/SuccessPilot.js';
 import { ShadowMonitor } from './workers/ShadowMonitor.js';
@@ -217,7 +217,7 @@ app.get('/api/hiring/audit', authGuard as any, async (req, res) => {
 // ------------------------------------------------------------------
 const io = new Server(server, {
   cors: {
-    origin: ['http://localhost:5173', 'http://localhost:80', 'https://aura-os-v1.vercel.app'],
+    origin: ['http://localhost:5173', 'http://localhost:80', 'https://nova-os-v1.vercel.app'],
     methods: ['GET', 'POST']
   }
 });

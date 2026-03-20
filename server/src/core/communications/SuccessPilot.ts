@@ -1,5 +1,5 @@
 import { Server, Socket } from 'socket.io';
-import { SuccessPilotEngine } from '../../services/auraOS/SuccessPilotEngine.js';
+import { SuccessPilotEngine } from '../../services/novaOS/SuccessPilotEngine.js';
 
 /**
  * NOVA_OS: SUCCESS PILOT COMMUNICATION v1.0

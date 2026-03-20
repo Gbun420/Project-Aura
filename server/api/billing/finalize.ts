@@ -1,5 +1,5 @@
 import { db } from "../../src/core/database.js";
-import { ManifestGenerator } from "../../src/services/auraOS/ManifestGenerator.js";
+import { ManifestGenerator } from "../../src/services/novaOS/ManifestGenerator.js";
 import { SovereignVault } from "../../src/core/security/Vault.js";
 import { AuditTrailService } from "../../src/core/audit/AuditTrailService.js";
 import { requireUser } from "../_lib/auth.js";

@@ -4,7 +4,7 @@ export default function handler(req: any, res: any) {
   }
 
   return res.status(200).json({
-    status: "AURA_CORE_ONLINE",
+    status: "NOVA_CORE_ONLINE",
     timestamp: new Date().toISOString(),
   });
 }
