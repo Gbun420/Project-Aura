@@ -15,7 +15,7 @@
     "name": "supabase"
   },
   "index.html": {
-    "file": "assets/index-C8oUFTI_.js",
+    "file": "assets/index-Cn4VJN6a.js",
     "name": "index",
     "src": "index.html",
     "isEntry": true,
@@ -42,11 +42,11 @@
       "src/components/CookieConsent.tsx"
     ],
     "css": [
-      "assets/index-gR-O6hyu.css"
+      "assets/index-Bk6QQ59w.css"
     ]
   },
   "src/components/CookieConsent.tsx": {
-    "file": "assets/CookieConsent-W8Ue4q2e.js",
+    "file": "assets/CookieConsent-DVSfLkZN.js",
     "name": "CookieConsent",
     "src": "src/components/CookieConsent.tsx",
     "isDynamicEntry": true,
@@ -58,7 +58,7 @@
     ]
   },
   "src/pages/NotFound.tsx": {
-    "file": "assets/NotFound-DlLX87xj.js",
+    "file": "assets/NotFound-B6l0anZP.js",
     "name": "NotFound",
     "src": "src/pages/NotFound.tsx",
     "isDynamicEntry": true,
@@ -70,7 +70,7 @@
     ]
   },
   "src/pages/admin/Audit.tsx": {
-    "file": "assets/Audit-D718axkN.js",
+    "file": "assets/Audit-DTvqLfbw.js",
     "name": "Audit",
     "src": "src/pages/admin/Audit.tsx",
     "isDynamicEntry": true,
@@ -82,7 +82,7 @@
     ]
   },
   "src/pages/admin/DesignSystem.tsx": {
-    "file": "assets/DesignSystem-BbhtsukW.js",
+    "file": "assets/DesignSystem-D2BJsO54.js",
     "name": "DesignSystem",
     "src": "src/pages/admin/DesignSystem.tsx",
     "isDynamicEntry": true,
@@ -94,7 +94,7 @@
     ]
   },
   "src/pages/admin/Users.tsx": {
-    "file": "assets/Users-DbmQ0Git.js",
+    "file": "assets/Users-BIUZ05Cb.js",
     "name": "Users",
     "src": "src/pages/admin/Users.tsx",
     "isDynamicEntry": true,
@@ -106,7 +106,7 @@
     ]
   },
   "src/pages/candidate/Insights.tsx": {
-    "file": "assets/Insights-CS-L2_b_.js",
+    "file": "assets/Insights-BqCqJ0bA.js",
     "name": "Insights",
     "src": "src/pages/candidate/Insights.tsx",
     "isDynamicEntry": true,
@@ -118,7 +118,7 @@
     ]
   },
   "src/pages/employer/Applicants.tsx": {
-    "file": "assets/Applicants-Di5PQRqy.js",
+    "file": "assets/Applicants-DD7tQ87P.js",
     "name": "Applicants",
     "src": "src/pages/employer/Applicants.tsx",
     "isDynamicEntry": true,
@@ -130,7 +130,7 @@
     ]
   },
   "src/pages/employer/History.tsx": {
-    "file": "assets/History-ByhfmIpt.js",
+    "file": "assets/History-DplxUTlb.js",
     "name": "History",
     "src": "src/pages/employer/History.tsx",
     "isDynamicEntry": true,
@@ -142,7 +142,7 @@
     ]
   },
   "src/pages/employer/Pricing.tsx": {
-    "file": "assets/Pricing-Dq3M0nXe.js",
+    "file": "assets/Pricing-CRUN4obG.js",
     "name": "Pricing",
     "src": "src/pages/employer/Pricing.tsx",
     "isDynamicEntry": true,
@@ -154,7 +154,7 @@
     ]
   },
   "src/pages/portal/ComplianceCenter.tsx": {
-    "file": "assets/ComplianceCenter-Ci5nto1p.js",
+    "file": "assets/ComplianceCenter-9C3qq94D.js",
     "name": "ComplianceCenter",
     "src": "src/pages/portal/ComplianceCenter.tsx",
     "isDynamicEntry": true,
@@ -166,7 +166,7 @@
     ]
   },
   "src/pages/portal/Jobs.tsx": {
-    "file": "assets/Jobs-BgR2XxiN.js",
+    "file": "assets/Jobs-COyPF8jG.js",
     "name": "Jobs",
     "src": "src/pages/portal/Jobs.tsx",
     "isDynamicEntry": true,
@@ -178,7 +178,7 @@
     ]
   },
   "src/pages/portal/NeuralDashboard.tsx": {
-    "file": "assets/NeuralDashboard-Cen8KOh9.js",
+    "file": "assets/NeuralDashboard-DNjsDB0d.js",
     "name": "NeuralDashboard",
     "src": "src/pages/portal/NeuralDashboard.tsx",
     "isDynamicEntry": true,
@@ -190,7 +190,7 @@
     ]
   },
   "src/pages/portal/Notifications.tsx": {
-    "file": "assets/Notifications-NhegGpK6.js",
+    "file": "assets/Notifications-CvzolYXp.js",
     "name": "Notifications",
     "src": "src/pages/portal/Notifications.tsx",
     "isDynamicEntry": true,
@@ -202,7 +202,7 @@
     ]
   },
   "src/pages/portal/Profile.tsx": {
-    "file": "assets/Profile-C9XE8rqr.js",
+    "file": "assets/Profile-OeyjAeyl.js",
     "name": "Profile",
     "src": "src/pages/portal/Profile.tsx",
     "isDynamicEntry": true,
@@ -214,7 +214,7 @@
     ]
   },
   "src/pages/portal/Settings.tsx": {
-    "file": "assets/Settings-DMRriMXf.js",
+    "file": "assets/Settings-SsvCVjl3.js",
     "name": "Settings",
     "src": "src/pages/portal/Settings.tsx",
     "isDynamicEntry": true,
