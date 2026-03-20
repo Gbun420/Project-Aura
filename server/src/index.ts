@@ -7,7 +7,7 @@ import rateLimit from 'express-rate-limit';
 import { createClient } from '@supabase/supabase-js';
 import Stripe from 'stripe';
 
-// Import Project Aura Hardened Subsystems
+// Import Nova Hardened Subsystems
 import { db } from './core/database.js';
 import { SovereignVault } from './core/security/Vault.js';
 import { BountyGuardian } from './core/ledger/BountyGuardian.js';
@@ -45,7 +45,7 @@ app.use(cors({
   origin: [
     'http://localhost:5173', // Local Dev
     'http://localhost:80',   // Staging Frontend
-    'https://aura-os-v1.vercel.app', // Production URL
+    'https://nova-os-v1.vercel.app', // Production URL
     'chrome-extension://ghost-link-id-placeholder' // Strict origin for Browser Extension
   ],
   methods: ['GET', 'POST', 'PUT'],
@@ -88,7 +88,7 @@ const authGuard = async (req: AuthRequest, res: express.Response, next: express.
 
 // 5. CI/CD Health Endpoint
 app.get('/api/health', (req, res) => {
-  res.status(200).json({ status: 'AURA_CORE_ONLINE', timestamp: new Date() });
+  res.status(200).json({ status: 'NOVA_CORE_ONLINE', timestamp: new Date() });
 });
 
 // 6. Neural Endpoints: The Hard Logic
@@ -160,7 +160,7 @@ app.post('/api/billing/create-checkout-session', authGuard as any, async (req, r
     }
 
     const stripe = new Stripe(stripeSecretKey, {
-      apiVersion: '2026-02-25.clover' as any,
+      apiVersion: '2023-10-16',
     });
 
     const session = await stripe.checkout.sessions.create({
@@ -223,11 +223,11 @@ const io = new Server(server, {
 });
 
 io.on('connection', (socket) => {
-  console.log(`[AURA_COMMS] Secure link established: ${socket.id}`);
+  console.log(`[NOVA_COMMS] Secure link established: ${socket.id}`);
   attachPilot(io, socket);
   
   socket.on('disconnect', () => {
-    console.log(`[AURA_COMMS] Link severed: ${socket.id}`);
+    console.log(`[NOVA_COMMS] Link severed: ${socket.id}`);
   });
 });
 
@@ -240,14 +240,14 @@ setInterval(() => {
 // 9. Ignition & Graceful Shutdown (Container Safety)
 // ------------------------------------------------------------------
 server.listen(PORT, () => {
-  console.log(`[AURA_OS] Core Engine tracking on port ${PORT}`);
+  console.log(`[NOVA_OS] Core Engine tracking on port ${PORT}`);
 });
 
 process.on('SIGTERM', () => {
-  console.log('[AURA_OS] SIGTERM received. Initiating graceful shutdown...');
+  console.log('[NOVA_OS] SIGTERM received. Initiating graceful shutdown...');
   server.close(async () => {
     await db.$disconnect();
-    console.log('[AURA_OS] Sovereign Ledger secured. Core offline.');
+    console.log('[NOVA_OS] Sovereign Ledger secured. Core offline.');
     process.exit(0);
   });
 });

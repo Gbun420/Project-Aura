@@ -2,7 +2,7 @@ import * as crypto from 'crypto';
 import { AuditTrailService } from '../audit/AuditTrailService.js';
 
 /**
- * AURA_OS: BOUNTY GUARDIAN v2.0
+ * NOVA_OS: BOUNTY GUARDIAN v2.0
  * Cryptographic Handshake Ledger for Revenue Protection.
  */
 

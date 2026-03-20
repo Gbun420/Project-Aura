@@ -1,5 +1,5 @@
 /**
- * AURA_OS: AUDIT EXPORT SERVICE v1.0
+ * NOVA_OS: AUDIT EXPORT SERVICE v1.0
  * Generates high-integrity regulatory logs for DIER/Identità compliance audits.
  */
 
@@ -18,7 +18,7 @@ export class AuditExportService {
       employerId,
       exportedAt: new Date().toISOString(),
       recordCount: logs.length,
-      integrityHash: 'AURA-SHA256-HANDSHAKE-VERIFIED',
+      integrityHash: 'NOVA-SHA256-HANDSHAKE-VERIFIED',
       records: logs.map((log: any) => ({
         handshakeHash: log.hash,
         candidateId: log.candidateId,

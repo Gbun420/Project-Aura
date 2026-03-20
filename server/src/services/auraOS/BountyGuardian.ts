@@ -1,7 +1,7 @@
 import * as crypto from 'crypto';
 
 /**
- * AURA_OS: BOUNTY GUARDIAN v1.0
+ * NOVA_OS: BOUNTY GUARDIAN v1.0
  * Legally-binding Proof of Introduction for the Maltese Industrial Tribunal.
  */
 
@@ -12,7 +12,7 @@ export class BountyGuardian {
    */
   static async issueIntroductionCertificate(candidateId: string, employerId: string) {
     const rawData = `${candidateId}-${employerId}-${new Date().toISOString()}`;
-    const secret = process.env.AURA_SECRET || 'AURA_NEBULA_SECURE_2026';
+    const secret = process.env.NOVA_SECRET || 'NOVA_SECURE_2026';
     
     const certificateHash = crypto.createHmac('sha256', secret)
                                   .update(rawData)

@@ -1,5 +1,5 @@
 /**
- * AURA_OS: SHADOW MONITOR v1.0
+ * NOVA_OS: SHADOW MONITOR v1.0
  * Automated integrity worker for backdoor hire detection.
  */
 

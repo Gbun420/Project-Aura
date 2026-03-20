@@ -1,5 +1,5 @@
 /**
- * AURA_OS: SUCCESS PILOT ENGINE v1.0
+ * NOVA_OS: SUCCESS PILOT ENGINE v1.0
  * AI-driven intent analysis for 2026 Maltese job market transitions.
  */
 
@@ -18,7 +18,7 @@ export class SuccessPilotEngine {
       return {
         action: 'SUGGEST_MANIFEST_UNLOCK',
         reason: 'Forward movement intent detected',
-        intervention: "✨ Aura Action Required: Strategic alignment detected. To maintain 2026 DIER compliance and lock in this introduction, would you like to unlock the Golden Manifest now?"
+        intervention: "✨ Nova Action Required: Strategic alignment detected. To maintain 2026 DIER compliance and lock in this introduction, would you like to unlock the Golden Manifest now?"
       };
     }
     return null;

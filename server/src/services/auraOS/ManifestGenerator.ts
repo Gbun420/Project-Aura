@@ -1,5 +1,5 @@
 /**
- * AURA_OS: GOLDEN MANIFEST GENERATOR v1.0
+ * NOVA_OS: GOLDEN MANIFEST GENERATOR v1.0
  * Compiles encrypted structured data packets for employer-paid releases.
  */
 
@@ -41,7 +41,7 @@ export class ManifestGenerator {
         pdcCompliance: {
           ref: candidate.pdcRef,
           expiry: candidate.pdcExpiryDate,
-          status: "VERIFIED_BY_AURA"
+          status: "VERIFIED_BY_NOVA"
         }
       },
       handshakeHash: proof.hash

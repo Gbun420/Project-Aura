@@ -1,5 +1,5 @@
 /**
- * AURA_OS: PDC GATE VALIDATOR v1.0
+ * NOVA_OS: PDC GATE VALIDATOR v1.0
  * Mandatory 42-day validation logic for March 2026 Identità standards.
  */
 

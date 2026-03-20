@@ -2,7 +2,7 @@ import { db } from './core/database.js';
 import * as crypto from 'node:crypto';
 
 /**
- * AURA_OS: SOVEREIGN LEDGER SEEDER v1.0
+ * NOVA_OS: SOVEREIGN LEDGER SEEDER v1.0
  * Populates the system with realistic 2026 scenarios for demo verification.
  */
 

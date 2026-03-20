@@ -1,5 +1,5 @@
 /**
- * AURA_OS: PULSE AGGREGATOR v1.0
+ * NOVA_OS: PULSE AGGREGATOR v1.0
  * Aggregates real-time compliance metrics and revenue risk for the Employer Dashboard.
  */
 

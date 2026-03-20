@@ -1,7 +1,7 @@
 import * as crypto from 'crypto';
 
 /**
- * AURA_OS: SOVEREIGN DATA VAULT v2.0
+ * NOVA_OS: SOVEREIGN DATA VAULT v2.0
  * Zero-Trust AES-256-GCM encryption for candidate career DNA.
  * 
  * SECURITY CHANGELOG (v2.0):
@@ -14,9 +14,9 @@ export class SovereignVault {
   private static algorithm = 'aes-256-gcm';
 
   private static getMasterKey(): string {
-    const key = process.env.AURA_MASTER_KEY;
+    const key = process.env.NOVA_MASTER_KEY;
     if (!key) {
-      throw new Error('VAULT_FATAL: AURA_MASTER_KEY environment variable is not set. Cannot proceed with encryption.');
+      throw new Error('VAULT_FATAL: NOVA_MASTER_KEY environment variable is not set. Cannot proceed with encryption.');
     }
     return key;
   }

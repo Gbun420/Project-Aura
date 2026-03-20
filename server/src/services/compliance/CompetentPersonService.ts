@@ -1,5 +1,5 @@
 /**
- * AURA_OS: COMPETENT PERSON SERVICE v1.0
+ * NOVA_OS: COMPETENT PERSON SERVICE v1.0
  * Automated verification for DIER License Compliance (Legal Notice 270 of 2023).
  */
 
@@ -62,7 +62,7 @@ export class CompetentPersonService {
       timestamp: new Date().toISOString(),
       authorizedSignatory: profile.fullName,
       status: 'READY_FOR_SUBMISSION',
-      bankGuaranteeRef: 'AURA-BSTART-20K-PENDING'
+      bankGuaranteeRef: 'NOVA-BSTART-20K-PENDING'
     };
   }
 }

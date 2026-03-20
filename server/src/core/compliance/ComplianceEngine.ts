@@ -1,5 +1,5 @@
 /**
- * AURA_OS: COMPLIANCE ENGINE v1.0
+ * NOVA_OS: COMPLIANCE ENGINE v1.0
  * Hard-coded regulatory gates for 2026 DIER/Identità standards.
  */
 
