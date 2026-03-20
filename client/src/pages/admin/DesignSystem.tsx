@@ -8,15 +8,15 @@ export default function DesignSystem() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
           <div className="space-y-2">
             <div className="h-20 w-full rounded-2xl bg-aura-base border border-white/10" />
-            <p className="text-[10px] font-mono text-slate-500 uppercase tracking-widest">Aura_Base (#030712)</p>
+            <p className="text-[10px] font-mono text-slate-500 uppercase tracking-widest">Nova_Base (#030712)</p>
           </div>
           <div className="space-y-2">
             <div className="h-20 w-full rounded-2xl bg-aura-accent" />
-            <p className="text-[10px] font-mono text-slate-500 uppercase tracking-widest">Aura_Accent (#4F46E5)</p>
+            <p className="text-[10px] font-mono text-slate-500 uppercase tracking-widest">Nova_Accent (#4F46E5)</p>
           </div>
           <div className="space-y-2">
             <div className="h-20 w-full rounded-2xl bg-aura-pulse shadow-[0_0_15px_rgba(34,211,238,0.4)]" />
-            <p className="text-[10px] font-mono text-slate-500 uppercase tracking-widest">Aura_Pulse (#22D3EE)</p>
+            <p className="text-[10px] font-mono text-slate-500 uppercase tracking-widest">Nova_Pulse (#22D3EE)</p>
           </div>
           <div className="space-y-2">
             <div className="h-20 w-full rounded-2xl bg-gemini-gradient" />

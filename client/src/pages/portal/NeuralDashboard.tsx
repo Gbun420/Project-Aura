@@ -135,7 +135,7 @@ export default function NeuralDashboard() {
           <Brain size={48} className="text-blue-400 mb-6 animate-pulse" />
           <h3 className="text-xl font-black text-white tracking-tight mb-2 uppercase">Neural_Suite_v1.4</h3>
           <p className="text-xs text-slate-400 leading-relaxed max-w-xs">
-            Aura's intelligence core is continuously learning from market dynamics to provide higher precision matching.
+            Nova's intelligence core is continuously learning from market dynamics to provide higher precision matching.
           </p>
         </div>
       </div>

@@ -48,7 +48,7 @@ export default function Profile() {
               </button>
             </div>
             
-            <h3 className="text-lg font-bold text-white uppercase tracking-tight">{profile?.full_name || 'Aura_User'}</h3>
+            <h3 className="text-lg font-bold text-white uppercase tracking-tight">{profile?.full_name || 'Nova User'}</h3>
             <p className="text-slate-500 font-mono text-[10px] uppercase tracking-[0.2em] mt-1">{profile?.role || 'SYETEM_ADMIN'}</p>
             
             <div className="mt-8 pt-8 border-t border-white/5 w-full space-y-4">

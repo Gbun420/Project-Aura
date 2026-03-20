@@ -6,6 +6,6 @@ export const UI_LABELS = {
   MANIFEST: 'Manifest Identity',
   GALAXY: 'Explore Galaxy',
   VAULT: 'Secure Vault',
-  PASSPORT: 'Aura Passport',
+  PASSPORT: 'Nova Passport',
   SYNC: 'Nebula Sync'
 };

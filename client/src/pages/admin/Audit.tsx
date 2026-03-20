@@ -6,7 +6,7 @@ export default function AdminAudit() {
   return (
     <div className="space-y-8">
       <div>
-        <p className="text-sm text-slate-400">Aura Command</p>
+        <p className="text-sm text-slate-400">Nova Command</p>
         <h2 className="text-2xl font-semibold text-white">Compliance Audit</h2>
       </div>
       

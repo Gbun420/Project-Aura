@@ -37,11 +37,11 @@ export default function App() {
           <>
             <SEO 
               title="Home" 
-              description="Aura is the intelligence layer for recruitment in Malta. Seamless hiring, automated compliance, and neural-backed talent matching for the 2026 labor market."
+              description="Nova is the intelligence layer for recruitment in Malta. Seamless hiring, automated compliance, and neural-backed talent matching for the 2026 labor market."
               jsonLd={{
                 "@context": "https://schema.org",
                 "@type": "WebSite",
-                "name": "Aura Cloud",
+                "name": "Nova",
                 "url": "https://project-aura-one.vercel.app/",
                 "description": "2026 High-performance recruitment platform for Malta. Neural Matching and Compliance Vault integrated.",
                 "potentialAction": {

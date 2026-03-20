@@ -72,7 +72,7 @@ export default function Settings() {
             <div className="space-y-2">
               <span className="text-[10px] font-black text-blue-200 uppercase tracking-widest">Active_Subscription</span>
               <h2 className="text-2xl font-black text-white uppercase tracking-tight">
-                {profile?.subscription_tier === 'pro' ? 'Sovereign_Plus_v1.4' : 'Aura_Core_Standard'}
+                {profile?.subscription_tier === 'pro' ? 'Sovereign_Plus_v1.4' : 'Nova_Core_Standard'}
               </h2>
               <p className="text-blue-200/60 text-xs font-bold uppercase tracking-wider">
                 {profile?.subscription_tier === 'pro' ? 'Next Renewal: April 12, 2026' : 'Free Tier / Enterprise Managed'}

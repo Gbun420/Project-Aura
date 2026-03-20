@@ -124,7 +124,7 @@ export default function JobPostingForm() {
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
       <div className="lg:col-span-2 space-y-6 rounded-3xl border border-white/10 bg-white/5 p-8">
         <div>
-          <p className="text-xs uppercase tracking-[0.3em] text-slate-400">Aura Hiring Suite</p>
+          <p className="text-xs uppercase tracking-[0.3em] text-slate-400">Nova Hiring Suite</p>
           <h3 className="mt-2 text-2xl font-semibold text-white">New Vacancy</h3>
         </div>
 

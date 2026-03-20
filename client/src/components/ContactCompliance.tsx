@@ -11,7 +11,7 @@ const ContactCompliance: React.FC = () => {
           </div>
           <div>
             <h2 className="text-xl font-semibold tracking-tight">Compliance & Regulatory Hub</h2>
-            <p className="text-sm text-slate-400">Project Aura 2026 Sovereign Infrastructure</p>
+            <p className="text-sm text-slate-400">Nova 2026 Sovereign Infrastructure</p>
           </div>
         </div>
       </div>
@@ -66,7 +66,7 @@ const ContactCompliance: React.FC = () => {
                 Compliance Officer
               </h3>
               <p className="text-sm text-slate-600 italic">
-                Aura maintains a designated Compliance Officer for the 2026 permit crisis. 
+                Nova maintains a designated Compliance Officer for the 2026 permit crisis. 
                 All communications via <span className="font-semibold">aurajobs@proton.me</span> are routed through the secure legal vault.
               </p>
             </section>

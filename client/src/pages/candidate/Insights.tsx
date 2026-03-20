@@ -115,9 +115,9 @@ export default function CandidateInsights() {
           </div>
           
           <div className="p-6 rounded-[2rem] bg-gradient-to-br from-purple-600/20 to-indigo-600/20 border border-purple-500/20">
-            <h3 className="text-xs font-black text-white uppercase tracking-tight mb-2">Aura_Premium_Insights</h3>
+            <h3 className="text-xs font-black text-white uppercase tracking-tight mb-2">Nova Premium Insights</h3>
             <p className="text-[10px] text-purple-200/60 leading-relaxed font-medium">
-              Unlock the advanced salary predictor and competitor benchmark data with Aura Professional.
+              Unlock the advanced salary predictor and competitor benchmark data with Nova Professional.
             </p>
           </div>
         </div>
