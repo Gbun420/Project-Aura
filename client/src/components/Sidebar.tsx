@@ -1,6 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
 import { Brain, Shield, Bell, User, Briefcase, Settings, Target, Book, Users, Clock, CreditCard } from 'lucide-react';
-import type { Role } from '../types/aura.js';
+import type { NovaRole } from '../types/nova.js';
 import { Logo } from './Logo';
 
 interface NavItemProps {
@@ -30,7 +30,7 @@ const NavItem = ({ icon: Icon, label, path, badge, active }: NavItemProps) => (
   </Link>
 );
 
-export default function Sidebar({ role }: { role: Role }) {
+export default function Sidebar({ role }: { role: NovaRole }) {
   const location = useLocation();
   const base = `/portal/${role}`;
 
@@ -76,7 +76,7 @@ export default function Sidebar({ role }: { role: Role }) {
     platform_owner: { color: 'red', label: 'Owner Command' }
   };
 
-  const currentPortal = portals[role] || portals.candidate;
+  const currentPortal = portals[role as keyof typeof portals] || portals.candidate;
 
   return (
     <aside className="w-64 shrink-0 border-r border-white/5 bg-[#050505] flex flex-col h-screen">

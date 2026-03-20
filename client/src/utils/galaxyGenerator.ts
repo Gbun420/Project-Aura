@@ -1,4 +1,4 @@
-import type { Sector } from '../types/aura.js';
+import type { Sector } from '../types/nova.js';
 
 interface GalaxyNode {
   id: string;

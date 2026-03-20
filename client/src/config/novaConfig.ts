@@ -9,10 +9,10 @@ export const NOVA_CONFIG = {
   PRODUCTION: import.meta.env.PROD,
   
   ENDPOINTS: {
-    RELAY: (import.meta.env.VITE_NOVA_API as string) || (import.meta.env.VITE_AURA_API as string) || 'https://nova-cloud-2026.vercel.app',
+    RELAY: (import.meta.env.VITE_NOVA_API as string) || 'https://nova-cloud-2026.vercel.app',
     IDENTITA_PORTAL: 'https://eforms.identita.gov.mt/',
     MGA_VERIFICATION: 'https://api.mga.org.mt/v2/verify',
-    SOCKET_SERVER: (import.meta.env.VITE_NOVA_SOCKET as string) || (import.meta.env.VITE_AURA_SOCKET as string) || 'https://nova-cloud-2026.vercel.app',
+    SOCKET_SERVER: (import.meta.env.VITE_NOVA_SOCKET as string) || 'https://nova-cloud-2026.vercel.app',
   },
   
   DYNAMICS: {

@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react';
 import type { User } from '@supabase/supabase-js';
 import { supabase } from '../lib/supabase';
 
-export type AuraRole = 'admin' | 'employer' | 'candidate' | 'platform_owner';
+export type NovaRole = 'admin' | 'employer' | 'candidate' | 'platform_owner';
 
-const normalizeRole = (value: unknown): AuraRole => {
+const normalizeRole = (value: unknown): NovaRole => {
   if (value === 'admin' || value === 'employer' || value === 'candidate' || value === 'platform_owner') return value;
   return 'candidate';
 };
@@ -12,14 +12,14 @@ const normalizeRole = (value: unknown): AuraRole => {
 export interface Profile {
   id: string;
   full_name: string | null;
-  role: AuraRole;
+  role: NovaRole;
   avatar_url: string | null;
   subscription_tier?: string | null;
 }
 
 export const useAuth = () => {
   const [user, setUser] = useState<User | null>(null);
-  const [role, setRole] = useState<AuraRole>('candidate');
+  const [role, setRole] = useState<NovaRole>('candidate');
   const [profile, setProfile] = useState<Profile | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -119,7 +119,7 @@ export const useAuth = () => {
       clearTimeout(timeout);
       subscription.subscription.unsubscribe();
     };
-  }, []);
+  }, [loading]);
 
   return { user, role, profile, loading, error };
 };

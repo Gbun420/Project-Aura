@@ -1,6 +1,6 @@
 export type Sector = 'iGaming' | 'Fintech' | 'Healthcare' | 'GreenEnergy' | 'Aviation';
 
-export type Role = 'admin' | 'employer' | 'candidate' | 'platform_owner';
+export type NovaRole = 'admin' | 'employer' | 'candidate' | 'platform_owner';
 
 export interface Job {
   id: string;

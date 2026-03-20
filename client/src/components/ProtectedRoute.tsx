@@ -1,8 +1,8 @@
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
-import { useAuth, type AuraRole } from '../hooks/useAuth';
+import { useAuth, type NovaRole } from '../hooks/useAuth';
 
 interface ProtectedRouteProps {
-  allowedRoles?: AuraRole[];
+  allowedRoles?: NovaRole[];
 }
 
 export const ProtectedRoute = ({ allowedRoles }: ProtectedRouteProps) => {

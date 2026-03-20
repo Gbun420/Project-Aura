@@ -16,7 +16,7 @@ export const Logo: React.FC<LogoProps> = ({ className = '', size = 40 }) => {
       className={className}
     >
       <defs>
-        <linearGradient id="auraGradient" x1="10" y1="10" x2="90" y2="90" gradientUnits="userSpaceOnUse">
+        <linearGradient id="novaGradient" x1="10" y1="10" x2="90" y2="90" gradientUnits="userSpaceOnUse">
           <stop offset="0%" stopColor="#4F46E5" />
           <stop offset="50%" stopColor="#9B72CB" />
           <stop offset="100%" stopColor="#22D3EE" />
@@ -33,7 +33,7 @@ export const Logo: React.FC<LogoProps> = ({ className = '', size = 40 }) => {
       {/* Outer Hexagon - Tech Frame */}
       <path
         d="M50 5 L88.97 27.5 V72.5 L50 95 L11.03 72.5 V27.5 Z"
-        stroke="url(#auraGradient)"
+        stroke="url(#novaGradient)"
         strokeWidth="2"
         fill="none"
         opacity="0.6"
@@ -54,7 +54,7 @@ export const Logo: React.FC<LogoProps> = ({ className = '', size = 40 }) => {
       />
 
       {/* Core - Neural Hub */}
-      <circle cx="50" cy="50" r="16" fill="url(#auraGradient)" filter="url(#glow)">
+      <circle cx="50" cy="50" r="16" fill="url(#novaGradient)" filter="url(#glow)">
         <animate
           attributeName="r"
           values="16;18;16"

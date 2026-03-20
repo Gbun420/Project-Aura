@@ -9,7 +9,7 @@ interface State {
   hasError: boolean;
 }
 
-export class AuraErrorBoundary extends Component<Props, State> {
+export class NovaErrorBoundary extends Component<Props, State> {
   public state: State = {
     hasError: false
   };

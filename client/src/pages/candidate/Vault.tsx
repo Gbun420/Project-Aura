@@ -61,13 +61,13 @@ export default function CandidateVault() {
       {/* Vault Header */}
       <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
         <div>
-          <p className="text-[10px] font-black uppercase tracking-[0.4em] text-aura-accent mb-2">SOVEREIGN_VAULT_v1.2</p>
+          <p className="text-[10px] font-black uppercase tracking-[0.4em] text-nova-accent mb-2">SOVEREIGN_VAULT_v1.2</p>
           <h1 className="text-4xl font-black text-white tracking-tight">Document Vault</h1>
           <p className="text-xs text-slate-500 mt-2 uppercase tracking-widest font-mono">End-to-end encrypted compliance storage</p>
         </div>
         <button 
           aria-label="Upload compliance artifact"
-          className="flex items-center gap-3 px-8 py-4 bg-gemini-gradient rounded-2xl text-[10px] font-black uppercase tracking-widest text-white hover:scale-105 active:scale-95 transition-all shadow-xl shadow-aura-accent/20"
+          className="flex items-center gap-3 px-8 py-4 bg-gemini-gradient rounded-2xl text-[10px] font-black uppercase tracking-widest text-white hover:scale-105 active:scale-95 transition-all shadow-xl shadow-nova-accent/20"
         >
           <UploadCloud size={16} />
           Upload_Compliance_Artifact
@@ -79,11 +79,11 @@ export default function CandidateVault() {
         
         {/* Left: Document List */}
         <div className="lg:col-span-8 space-y-6">
-          <h3 className="text-sm font-black uppercase tracking-[0.3em] text-aura-accent border-b border-white/5 pb-4">Secured_Artifacts</h3>
+          <h3 className="text-sm font-black uppercase tracking-[0.3em] text-nova-accent border-b border-white/5 pb-4">Secured_Artifacts</h3>
           
           {loading ? (
             <div className="py-20 text-center space-y-4">
-              <div className="h-10 w-10 border-2 border-aura-accent/20 border-t-aura-accent rounded-full animate-spin mx-auto" />
+              <div className="h-10 w-10 border-2 border-nova-accent/20 border-t-nova-accent rounded-full animate-spin mx-auto" />
               <p className="text-[9px] font-black text-slate-500 uppercase tracking-widest">Deciphering_Vault_Ledger...</p>
             </div>
           ) : documents.length === 0 ? (
@@ -95,9 +95,9 @@ export default function CandidateVault() {
           ) : (
             <div className="grid gap-4">
               {documents.map((doc) => (
-                <div key={doc.id} className="group p-6 rounded-[2.5rem] bg-white/5 border border-white/10 flex items-center justify-between hover:border-aura-pulse/30 transition-all">
+                <div key={doc.id} className="group p-6 rounded-[2.5rem] bg-white/5 border border-white/10 flex items-center justify-between hover:border-nova-pulse/30 transition-all">
                   <div className="flex items-center gap-6">
-                    <div className="h-14 w-14 rounded-2xl bg-aura-glass border border-white/10 flex items-center justify-center text-aura-accent">
+                    <div className="h-14 w-14 rounded-2xl bg-nova-glass border border-white/10 flex items-center justify-center text-nova-accent">
                       <FileText size={24} />
                     </div>
                     <div>
@@ -129,7 +129,7 @@ export default function CandidateVault() {
         {/* Right: Insights & Stats */}
         <div className="lg:col-span-4 space-y-8">
           <div className="p-8 rounded-[2.5rem] bg-white/5 border border-white/10">
-            <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-aura-accent mb-6">Vault_Stats</h3>
+            <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-nova-accent mb-6">Vault_Stats</h3>
             <div className="space-y-6">
               {[
                 { label: 'Total Artifacts', value: documents.length, icon: <FileText size={16} /> },
@@ -147,13 +147,13 @@ export default function CandidateVault() {
             </div>
           </div>
 
-          <div className="p-8 rounded-[2.5rem] bg-aura-pulse/5 border border-aura-pulse/20 relative overflow-hidden group">
-            <div className="absolute inset-0 bg-aura-glass-gradient opacity-10 pointer-events-none" />
-            <ShieldCheck size={40} className="text-aura-pulse mb-6 opacity-40 group-hover:scale-110 transition-transform duration-500" />
+          <div className="p-8 rounded-[2.5rem] bg-nova-pulse/5 border border-nova-pulse/20 relative overflow-hidden group">
+            <div className="absolute inset-0 bg-nova-glass-gradient opacity-10 pointer-events-none" />
+            <ShieldCheck size={40} className="text-nova-pulse mb-6 opacity-40 group-hover:scale-110 transition-transform duration-500" />
             <h3 className="text-xl font-black text-white uppercase tracking-tight mb-2">Neural_Security</h3>
             <p className="text-xs text-slate-400 leading-relaxed mb-6">Your data is stored within a zero-knowledge enclave, accessible only via your sovereign identity key.</p>
             <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden">
-              <div className="h-full bg-aura-pulse w-full animate-pulse shadow-[0_0_8px_#22D3EE]" />
+              <div className="h-full bg-nova-pulse w-full animate-pulse shadow-[0_0_8px_#22D3EE]" />
             </div>
           </div>
         </div>
