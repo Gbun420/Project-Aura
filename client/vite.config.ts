@@ -33,13 +33,13 @@ export default defineConfig({
       workbox: {
         runtimeCaching: [
           {
-            urlPattern: /^https:\/\/.*\.supabase\.co\/.*$/,
-            handler: 'NetworkFirst',
+            urlPattern: /^https:\/\/fonts\.(?:googleapis|gstatic)\.com\/.*/i,
+            handler: 'CacheFirst',
             options: {
-              cacheName: 'supabase-cache',
+              cacheName: 'google-fonts',
               expiration: {
-                maxEntries: 10,
-                maxAgeSeconds: 60 * 60 * 24 // 24 hours
+                maxEntries: 4,
+                maxAgeSeconds: 365 * 24 * 60 * 60 // 1 year
               }
             }
           }
@@ -53,7 +53,6 @@ export default defineConfig({
       output: {
         manualChunks: {
           'lucide-react': ['lucide-react'],
-          'supabase': ['@supabase/supabase-js'],
           'react-router': ['react-router-dom']
         }
       }
