@@ -1,8 +1,35 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
+    // Profiles: Users can manage their own profile
     match /profiles/{profileId} {
       allow read, write: if request.auth != null && request.auth.uid == profileId;
+    }
+    
+    // Vacancies: Everyone can read published jobs, employers can manage their own
+    match /vacancies/{vacancyId} {
+      allow read: if request.auth != null;
+      allow write: if request.auth != null && (resource == null || resource.data.employer_id == request.auth.uid);
+    }
+    
+    // Applications: Candidates can manage their own, employers can read for their jobs
+    match /applications/{appId} {
+      allow read, write: if request.auth != null;
+    }
+    
+    // Ledger: Employers/Candidates can read their own entries
+    match /introduction_ledger/{hash} {
+      allow read: if request.auth != null;
+    }
+    
+    // Audit Trails: Personalized feed
+    match /audit_trails/{entryId} {
+      allow read: if request.auth != null;
+    }
+
+    // Compliance Documents: Secure vault
+    match /compliance_documents/{docId} {
+      allow read, write: if request.auth != null && (resource == null || resource.data.profile_id == request.auth.uid || request.resource.data.profile_id == request.auth.uid);
     }
   }
 }
