@@ -1,3 +1,5 @@
+import admin from 'firebase-admin';
+
 /**
  * NOVA_OS: SHADOW MONITOR v1.0
  * Automated integrity worker for backdoor hire detection.
@@ -9,15 +11,16 @@ export class ShadowMonitor {
    * to 'Hired' on the frontend while no fee is paid.
    */
   static async checkIntegrity(db: any) {
-    const outliers = await db.introductionLedger.findMany({
-      where: {
-        feeStatus: 'PENDING'
-      }
-    });
+    const firestore = admin.firestore();
+    
+    const introSnap = await firestore.collection('introduction_ledger')
+      .where('feeStatus', '==', 'PENDING')
+      .get();
 
-    console.log(`[SHADOW_MONITOR] AUDITING_${outliers.length}_ACTIVE_INTRODUCTIONS...`);
+    console.log(`[SHADOW_MONITOR] AUDITING_${introSnap.size}_ACTIVE_INTRODUCTIONS...`);
 
-    outliers.forEach((outlier: any) => {
+    introSnap.forEach((doc) => {
+      const outlier = doc.data();
       // In production, this triggers Swarm.Scraper pulse
       console.log(`[SHADOW_MONITOR] ANALYZING_SOCIAL_PULSE: Candidate ${outlier.candidateId} at Employer ${outlier.employerId}`);
     });

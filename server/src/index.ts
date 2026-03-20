@@ -8,7 +8,6 @@ import admin from 'firebase-admin';
 import Stripe from 'stripe';
 
 // Import Nova Hardened Subsystems
-import { db } from './core/database.js';
 import { SovereignVault } from './core/security/Vault.js';
 import { BountyGuardian } from './core/ledger/BountyGuardian.js';
 import { ManifestGenerator } from './services/novaOS/ManifestGenerator.js';
@@ -23,10 +22,13 @@ dotenv.config();
 const PORT = process.env.PORT || 3001;
 
 // 1. Initialize Firebase Admin
-admin.initializeApp({
-  credential: admin.credential.applicationDefault(),
-  // For local development, you should set GOOGLE_APPLICATION_CREDENTIALS env var
-});
+if (!admin.apps.length) {
+  admin.initializeApp({
+    credential: admin.credential.applicationDefault(),
+  });
+}
+
+const firestore = admin.firestore();
 
 // Boot Sequence
 const app = express();
@@ -104,7 +106,8 @@ app.post('/api/hiring/start', authGuard as any, async (req, res) => {
     const employerId = (req as AuthRequest).user?.id; 
     if (!employerId) throw new Error("UNAUTHORIZED_CONTEXT: Employer ID missing.");
 
-    const signature = await BountyGuardian.logHandshake(db, employerId, candidateId);
+    // Note: BountyGuardian.logHandshake now handles Firestore internally
+    const signature = await BountyGuardian.logHandshake(null, employerId, candidateId);
     res.json({ success: true, hash: signature });
   } catch (error: any) {
     res.status(400).json({ success: false, error: error.message });
@@ -118,24 +121,25 @@ app.post('/api/billing/finalize', authGuard as any, async (req, res) => {
     const employerId = (req as AuthRequest).user?.id;
     if (!employerId) throw new Error("UNAUTHORIZED_CONTEXT: Employer ID missing.");
     
-    // 1. Mark Ledger as Released
-    const update = await db.introductionLedger.updateMany({
-      where: {
-        candidateId: candidateId,
-        employerId: employerId,
-        feeStatus: 'LOCKED'
-      },
-      data: {
-        feeStatus: 'RELEASED'
-      }
-    });
+    // 1. Mark Ledger as Released in Firestore
+    const ledgerSnap = await firestore.collection('introduction_ledger')
+      .where('candidateId', '==', candidateId)
+      .where('employerId', '==', employerId)
+      .where('feeStatus', '==', 'LOCKED')
+      .get();
 
-    if (update.count === 0) {
+    if (ledgerSnap.empty) {
       throw new Error("LEDGER_UPDATE_FAILED: No active introduction found.");
     }
 
+    const batch = firestore.batch();
+    ledgerSnap.docs.forEach(doc => {
+      batch.update(doc.ref, { feeStatus: 'RELEASED', releasedAt: new Date().toISOString() });
+    });
+    await batch.commit();
+
     // 2. Generate and Seal Manifest
-    const rawManifest = await ManifestGenerator.generate(db, candidateId, employerId);
+    const rawManifest = await ManifestGenerator.generate(null, candidateId, employerId);
     const sealedPayload = SovereignVault.sealManifest(rawManifest.payload);
     
     // Log to Immutable Audit Trail
@@ -196,7 +200,7 @@ app.get('/api/hiring/pulse', authGuard as any, async (req, res) => {
     const employerId = (req as AuthRequest).user?.id;
     if (!employerId) throw new Error("UNAUTHORIZED_CONTEXT: Employer ID missing.");
 
-    const pulseData = await PulseAggregator.getEmployerPulse(db, employerId);
+    const pulseData = await PulseAggregator.getEmployerPulse(null, employerId);
     res.json({ success: true, pulseData });
   } catch (error: any) {
     res.status(500).json({ success: false, error: error.message });
@@ -209,7 +213,7 @@ app.get('/api/hiring/audit', authGuard as any, async (req, res) => {
     const employerId = (req as AuthRequest).user?.id;
     if (!employerId) throw new Error("UNAUTHORIZED_CONTEXT: Employer ID missing.");
 
-    const auditLog = await AuditExportService.generateAuditLog(db, employerId);
+    const auditLog = await AuditExportService.generateAuditLog(null, employerId);
     res.json({ success: true, auditLog });
   } catch (error: any) {
     res.status(500).json({ success: false, error: error.message });
@@ -237,7 +241,7 @@ io.on('connection', (socket) => {
 // 8. Workers & Background Tasks
 // ------------------------------------------------------------------
 setInterval(() => {
-  ShadowMonitor.checkIntegrity(db);
+  ShadowMonitor.checkIntegrity(null);
 }, 60000);
 
 // 9. Ignition & Graceful Shutdown (Container Safety)
@@ -249,7 +253,6 @@ server.listen(PORT, () => {
 process.on('SIGTERM', () => {
   console.log('[NOVA_OS] SIGTERM received. Initiating graceful shutdown...');
   server.close(async () => {
-    await db.$disconnect();
     console.log('[NOVA_OS] Sovereign Ledger secured. Core offline.');
     process.exit(0);
   });

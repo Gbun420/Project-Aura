@@ -1,39 +1,7 @@
-import { createClient, SupabaseClient } from "@supabase/supabase-js";
+import { adminAuth } from "./firebase-admin.js";
 import type { VercelRequest } from "@vercel/node";
 
-let supabase: SupabaseClient | null = null;
-
 export async function requireUser(req: VercelRequest) {
-  const supabaseUrl = process.env.SUPABASE_URL;
-  const supabaseAnonKey = process.env.SUPABASE_ANON_KEY;
-
-  if (!supabaseUrl || !supabaseAnonKey) {
-    return {
-      error: {
-        status: 500,
-        message: "UNAUTHORIZED_ACCESS: Backend configuration missing (Supabase).",
-        detail: {
-          hasSupabaseUrl: Boolean(supabaseUrl),
-          hasSupabaseAnonKey: Boolean(supabaseAnonKey),
-        },
-      },
-    };
-  }
-
-  if (!supabase) {
-    try {
-      supabase = createClient(supabaseUrl, supabaseAnonKey);
-    } catch (error: any) {
-      return {
-        error: {
-          status: 500,
-          message: "SUPABASE_CLIENT_INIT_FAILED",
-          detail: error?.message ?? String(error),
-        },
-      };
-    }
-  }
-
   const authHeader = (req.headers.authorization as string) || "";
   const token = authHeader.startsWith("Bearer ")
     ? authHeader.slice(7)
@@ -48,16 +16,18 @@ export async function requireUser(req: VercelRequest) {
     };
   }
 
-  const { data, error } = await supabase.auth.getUser(token);
-  if (error || !data?.user) {
+  try {
+    const decodedToken = await adminAuth.verifyIdToken(token);
+    return { user: { id: decodedToken.uid } };
+  } catch (error: any) {
+    console.error("AUTH_VERIFICATION_FAILED:", error.message);
     return {
       error: {
         status: 401,
         message: "UNAUTHORIZED_ACCESS: Invalid or Expired Token.",
+        detail: error.message
       },
     };
   }
-
-  return { user: { id: data.user.id } };
 }
 

@@ -24,7 +24,7 @@ export default function CandidateVault() {
 
         const q = query(
           collection(db, 'compliance_documents'),
-          where('user_id', '==', user.uid),
+          where('profile_id', '==', user.uid),
           orderBy('created_at', 'desc')
         );
 

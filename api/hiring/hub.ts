@@ -1,4 +1,4 @@
-import { createClient } from "@supabase/supabase-js";
+import { adminDb } from "../_lib/firebase-admin.js";
 import { getJsonBody } from "../_lib/body.js";
 import { requireUser } from "../_lib/auth.js";
 import { anonymizeCandidate } from "../_lib/anonymize.js";
@@ -7,28 +7,35 @@ import crypto from 'crypto';
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-  const supabaseUrl = process.env.SUPABASE_URL;
-  const supabaseAnonKey = process.env.SUPABASE_ANON_KEY;
-
-  if (!supabaseUrl || !supabaseAnonKey) {
-    return res.status(500).json({ error: "SUPABASE_NOT_CONFIGURED" });
-  }
-
-  // Handle GET for legacy or direct listing
+  // Handle GET for vacancy listing
   if (req.method === "GET") {
-    const supabase = createClient(supabaseUrl, supabaseAnonKey);
-    const { data, error } = await supabase
-      .from("vacancies")
-      .select(
-        "id, title, description, compliance_score, status, created_at, last_activity_at, response_rate, employer:profiles!vacancies_employer_id_fkey(company_name)"
-      )
-      .eq("status", "published")
-      .order("created_at", { ascending: false });
+    try {
+      const snapshot = await adminDb.collection("vacancies")
+        .where("status", "==", "published")
+        .orderBy("created_at", "desc")
+        .get();
 
-    if (error) {
+      const vacancies = await Promise.all(snapshot.docs.map(async (doc) => {
+        const data = doc.data();
+        // Fetch employer company name
+        let companyName = "Unknown";
+        if (data.employer_id) {
+          const empDoc = await adminDb.collection("profiles").doc(data.employer_id).get();
+          if (empDoc.exists) {
+            companyName = empDoc.data()?.company_name || "Nova Partner";
+          }
+        }
+        return {
+          id: doc.id,
+          ...data,
+          employer: { company_name: companyName }
+        };
+      }));
+
+      return res.status(200).json({ vacancies });
+    } catch (error: any) {
       return res.status(500).json({ error: "VACANCY_LIST_FAILED", detail: error.message });
     }
-    return res.status(200).json({ vacancies: data ?? [] });
   }
 
   if (req.method !== "POST") {
@@ -38,21 +45,33 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   const body = getJsonBody(req);
   const action = body?.action;
 
-  // ACTION: LIST_VACANCIES
+  // ACTION: LIST_VACANCIES (Duplicate of GET for consistency)
   if (action === "LIST_VACANCIES") {
-    const supabase = createClient(supabaseUrl, supabaseAnonKey);
-    const { data, error } = await supabase
-      .from("vacancies")
-      .select(
-        "id, title, description, compliance_score, status, created_at, last_activity_at, response_rate, employer:profiles!vacancies_employer_id_fkey(company_name)"
-      )
-      .eq("status", "published")
-      .order("created_at", { ascending: false });
+    try {
+      const snapshot = await adminDb.collection("vacancies")
+        .where("status", "==", "published")
+        .orderBy("created_at", "desc")
+        .get();
 
-    if (error) {
+      const vacancies = await Promise.all(snapshot.docs.map(async (doc) => {
+        const data = doc.data();
+        let companyName = "Unknown";
+        if (data.employer_id) {
+          const empDoc = await adminDb.collection("profiles").doc(data.employer_id).get();
+          if (empDoc.exists) {
+            companyName = empDoc.data()?.company_name || "Nova Partner";
+          }
+        }
+        return {
+          id: doc.id,
+          ...data,
+          employer: { company_name: companyName }
+        };
+      }));
+      return res.status(200).json({ vacancies });
+    } catch (error: any) {
       return res.status(500).json({ error: "VACANCY_LIST_FAILED", detail: error.message });
     }
-    return res.status(200).json({ vacancies: data ?? [] });
   }
 
   // AUTHENTICATED ACTIONS
@@ -60,11 +79,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (auth.error) {
     return res.status(auth.error.status).json({ error: auth.error.message });
   }
-
-  const authHeader = req.headers.authorization || "";
-  const token = authHeader.startsWith("Bearer ") ? authHeader.slice(7) : "";
-  const options = token ? { global: { headers: { Authorization: `Bearer ${token}` } } } : {};
-  const supabase = createClient(supabaseUrl, supabaseAnonKey, options);
 
   // ACTION: CREATE_VACANCY
   if (action === "CREATE_VACANCY") {
@@ -78,152 +92,120 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const score = Number(body?.complianceScore ?? 0);
     const status = score >= 85 ? "published" : score > 0 ? "flagged" : "draft";
 
-    const { data, error } = await supabase
-      .from("vacancies")
-      .insert({
+    try {
+      const docRef = await adminDb.collection("vacancies").add({
         employer_id: auth.user.id,
         title,
         description,
         compliance_score: score,
         status,
-      })
-      .select()
-      .single();
+        created_at: new Date().toISOString(),
+        last_activity_at: new Date().toISOString()
+      });
 
-    if (error) {
+      const newDoc = await docRef.get();
+      return res.status(200).json({ vacancy: { id: docRef.id, ...newDoc.data() } });
+    } catch (error: any) {
       return res.status(400).json({ error: "VACANCY_INSERT_FAILED", detail: error.message });
     }
-
-    return res.status(200).json({ vacancy: data });
   }
 
   // ACTION: SUBMIT_APPLICATION
   if (action === "SUBMIT_APPLICATION") {
-    const { jobId, matchScore, aiAnalysis } = body;
+    const { jobId, employerId, matchScore, aiAnalysis } = body;
     if (!jobId || matchScore === undefined) {
       return res.status(400).json({ error: "MISSING_APPLICATION_DATA" });
     }
 
-    const { data, error } = await supabase
-      .from("applications")
-      .insert({
+    try {
+      const docRef = await adminDb.collection("applications").add({
         job_id: jobId,
+        employer_id: employerId, // Pass through employer ID for filtering
         candidate_id: auth.user.id,
         match_score: matchScore,
         ai_analysis: aiAnalysis,
-      })
-      .select()
-      .single();
+        status: 'applied',
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString()
+      });
 
-    if (error) {
+      const newDoc = await docRef.get();
+      return res.status(200).json({ application: { id: docRef.id, ...newDoc.data() } });
+    } catch (error: any) {
       return res.status(400).json({ error: "APPLICATION_SUBMISSION_FAILED", detail: error.message });
     }
-
-    return res.status(200).json({ application: data });
   }
 
-  // ACTION: LIST_APPLICANTS (Enhanced with Anonymization and Compliance filtering)
+  // ACTION: LIST_APPLICANTS
   if (action === "LIST_APPLICANTS") {
     const { jobId } = body;
     if (!jobId) {
       return res.status(400).json({ error: "MISSING_JOB_ID" });
     }
 
-    // 1. Check Employer's Subscription Tier and Job Compliance Requirements
-    const { data: job, error: jobError } = await supabase
-      .from("vacancies")
-      .select("id, requires_tcn_compliance")
-      .eq("id", jobId)
-      .eq("employer_id", auth.user.id)
-      .single();
-
-    if (jobError || !job) {
-      return res.status(403).json({ error: "UNAUTHORIZED_JOB_ACCESS" });
-    }
-
-    const { data: employerProfile } = await supabase
-      .from("profiles")
-      .select("subscription_tier")
-      .eq("id", auth.user.id)
-      .single();
-
-    const isPro = employerProfile?.subscription_tier === "pro" || employerProfile?.subscription_tier === "pulse_pro" || employerProfile?.subscription_tier === "enterprise";
-    const requiresTCN = job.requires_tcn_compliance || false;
-
-    // 2. Build Query
-    let query = supabase
-      .from("applications")
-      .select(`
-        id,
-        match_score,
-        ai_analysis,
-        status,
-        created_at,
-        candidate:profiles!applications_candidate_id_fkey(
-          id,
-          full_name,
-          email,
-          role,
-          tcn_status,
-          tcn_expiry_date,
-          tcn_verification_id,
-          resume_text
-        )
-      `)
-      .eq("job_id", jobId)
-      .order("match_score", { ascending: false });
-
-    const { data: applicants, error: appError } = await query;
-
-    if (appError) {
-      return res.status(500).json({ error: "APPLICANT_LIST_FAILED", detail: appError.message });
-    }
-
-    interface CandidateProfile {
-      id: string;
-      full_name: string;
-      email: string;
-      role: string;
-      tcn_status?: string;
-      tcn_expiry_date?: string;
-      tcn_verification_id?: string;
-      resume_text?: string;
-    }
-
-    // 3. Anonymize and Add Compliance Metadata based on Subscription
-    const safeApplicants = (applicants || []).map(app => {
-      const candidate = app.candidate as unknown as CandidateProfile;
-      
-      // Determine if this applicant should be filtered out on Free tier (only show TCN-ready if job requires it)
-      if (!isPro && requiresTCN && candidate.tcn_status !== 'verified_skills_pass') {
-        return null; 
+    try {
+      // 1. Verify Ownership
+      const jobSnap = await adminDb.collection("vacancies").doc(jobId).get();
+      if (!jobSnap.exists || jobSnap.data()?.employer_id !== auth.user.id) {
+        return res.status(403).json({ error: "UNAUTHORIZED_JOB_ACCESS" });
       }
 
-      const anonymized = anonymizeCandidate({ ...candidate, match_score: app.match_score }, isPro, auth.user.id);
-      
-      return {
-        ...app,
-        candidate: anonymized,
-        _compliance: isPro ? {
-          tcn_ready: candidate.tcn_status === 'verified_skills_pass',
-          expiry: candidate.tcn_expiry_date,
-          verification_id: candidate.tcn_verification_id
-        } : null
-      };
-    }).filter(Boolean);
+      const job = jobSnap.data();
+      const profileSnap = await adminDb.collection("profiles").doc(auth.user.id).get();
+      const employerProfile = profileSnap.data();
 
-    // 4. Update Trust Engine: Mark activity
-    await supabase.from("vacancies").update({ last_activity_at: new Date().toISOString() }).eq("id", jobId);
+      const isPro = ['pro', 'pulse_pro', 'enterprise'].includes(employerProfile?.subscription_tier || '');
+      const requiresTCN = job?.requires_tcn_compliance || false;
 
-    return res.status(200).json({ 
-      applicants: safeApplicants,
-      metadata: {
-        total: safeApplicants.length,
-        isBlurred: !isPro,
-        pro_required: !isPro && requiresTCN,
-        upgrade_url: !isPro ? '/portal/employer/upgrade' : null
-      }
-    });
+      // 2. Fetch Applications
+      const appSnap = await adminDb.collection("applications")
+        .where("job_id", "==", jobId)
+        .orderBy("match_score", "desc")
+        .get();
+
+      const applicants = await Promise.all(appSnap.docs.map(async (doc) => {
+        const appData = doc.data();
+        const candSnap = await adminDb.collection("profiles").doc(appData.candidate_id).get();
+        const candidate = candSnap.data();
+
+        if (!candidate) return null;
+
+        // Filter for Free tier TCN requirements
+        if (!isPro && requiresTCN && candidate.tcn_status !== 'verified_skills_pass') {
+          return null;
+        }
+
+        const anonymized = anonymizeCandidate({ ...candidate, id: candSnap.id, match_score: appData.match_score }, isPro, auth.user.id);
+
+        return {
+          id: doc.id,
+          ...appData,
+          candidate: anonymized,
+          _compliance: isPro ? {
+            tcn_ready: candidate.tcn_status === 'verified_skills_pass',
+            expiry: candidate.tcn_expiry_date,
+            verification_id: candidate.tcn_verification_id
+          } : null
+        };
+      }));
+
+      const safeApplicants = applicants.filter(Boolean);
+
+      // 3. Mark Activity
+      await adminDb.collection("vacancies").doc(jobId).update({ last_activity_at: new Date().toISOString() });
+
+      return res.status(200).json({
+        applicants: safeApplicants,
+        metadata: {
+          total: safeApplicants.length,
+          isBlurred: !isPro,
+          pro_required: !isPro && requiresTCN,
+          upgrade_url: !isPro ? '/portal/employer/upgrade' : null
+        }
+      });
+    } catch (error: any) {
+      return res.status(500).json({ error: "APPLICANT_LIST_FAILED", detail: error.message });
+    }
   }
 
   // ACTION: UPDATE_APPLICATION_STATUS
@@ -233,63 +215,48 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return res.status(400).json({ error: "MISSING_STATUS_DATA" });
     }
 
-    // SECURITY: Whitelist allowed status transitions
     const allowedStatuses = ['reviewing', 'shortlisted', 'rejected', 'interview', 'hired'];
     if (!allowedStatuses.includes(newStatus)) {
       return res.status(400).json({ error: "INVALID_STATUS_VALUE" });
     }
 
-    // SECURITY: Verify employer owns the job linked to this application
-    const { data: appCheck } = await supabase
-      .from("applications")
-      .select("job_id")
-      .eq("id", applicationId)
-      .single();
+    try {
+      const appSnap = await adminDb.collection("applications").doc(applicationId).get();
+      if (!appSnap.exists) {
+        return res.status(404).json({ error: "APPLICATION_NOT_FOUND" });
+      }
 
-    if (!appCheck) {
-      return res.status(404).json({ error: "APPLICATION_NOT_FOUND" });
-    }
+      const appData = appSnap.data();
+      const jobSnap = await adminDb.collection("vacancies").doc(appData?.job_id).get();
+      if (!jobSnap.exists || jobSnap.data()?.employer_id !== auth.user.id) {
+        return res.status(403).json({ error: "UNAUTHORIZED_STATUS_CHANGE" });
+      }
 
-    const { data: jobCheck } = await supabase
-      .from("vacancies")
-      .select("id")
-      .eq("id", appCheck.job_id)
-      .eq("employer_id", auth.user.id)
-      .single();
+      await adminDb.collection("applications").doc(applicationId).update({
+        status: newStatus,
+        updated_at: new Date().toISOString()
+      });
 
-    if (!jobCheck) {
-      return res.status(403).json({ error: "UNAUTHORIZED_STATUS_CHANGE" });
-    }
-
-    const { data, error } = await supabase
-      .from("applications")
-      .update({ status: newStatus, updated_at: new Date().toISOString() })
-      .eq("id", applicationId)
-      .select()
-      .single();
-
-    // 4. Update Trust Engine: Recalculate response rate for the job
-    const { data: allApps } = await supabase
-      .from("applications")
-      .select("status")
-      .eq("job_id", appCheck.job_id);
-    
-    if (allApps && allApps.length > 0) {
-      const responded = allApps.filter(a => a.status !== 'applied').length;
+      // Update response rate
+      const allAppsSnap = await adminDb.collection("applications").where("job_id", "==", appData?.job_id).get();
+      const allApps = allAppsSnap.docs;
+      const responded = allApps.filter(a => a.data().status !== 'applied').length;
       const rate = (responded / allApps.length) * 100;
-      await supabase.from("vacancies")
-        .update({ 
-          last_activity_at: new Date().toISOString(),
-          response_rate: rate,
-          total_applications_processed: allApps.length
-        })
-        .eq("id", appCheck.job_id);
-    }
 
-    return res.status(200).json({ application: data });
+      await adminDb.collection("vacancies").doc(appData?.job_id).update({
+        last_activity_at: new Date().toISOString(),
+        response_rate: rate,
+        total_applications_processed: allApps.length
+      });
+
+      const updated = await adminDb.collection("applications").doc(applicationId).get();
+      return res.status(200).json({ application: { id: updated.id, ...updated.data() } });
+    } catch (error: any) {
+      return res.status(500).json({ error: "STATUS_UPDATE_FAILED", detail: error.message });
+    }
   }
 
-  // ACTION: COMMIT_TO_LEDGER (Finalize Hire)
+  // ACTION: COMMIT_TO_LEDGER
   if (action === "COMMIT_TO_LEDGER") {
     const { applicationId, finalSalary, matchScore } = body;
     if (!applicationId) {
@@ -297,80 +264,46 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     try {
-      // 1. Verification: Ensure Employer owns the Job linked to this Application
-      const { data: appData, error: appError } = await supabase
-        .from("applications")
-        .select("job_id, created_at")
-        .eq("id", applicationId)
-        .single();
-
-      if (appError || !appData) {
+      const appSnap = await adminDb.collection("applications").doc(applicationId).get();
+      if (!appSnap.exists) {
         return res.status(403).json({ error: "UNAUTHORIZED_LEDGER_COMMIT" });
       }
 
-      // SECURITY: Verify employer actually owns this job
-      const { data: ownerCheck } = await supabase
-        .from("vacancies")
-        .select("id")
-        .eq("id", appData.job_id)
-        .eq("employer_id", auth.user.id)
-        .single();
-
-      if (!ownerCheck) {
+      const appData = appSnap.data()!;
+      const jobSnap = await adminDb.collection("vacancies").doc(appData.job_id).get();
+      if (!jobSnap.exists || jobSnap.data()?.employer_id !== auth.user.id) {
         return res.status(403).json({ error: "UNAUTHORIZED_LEDGER_COMMIT" });
       }
 
-      // 2. Generate the immutable "Nova Success Certificate" Hash
-      // Deterministic: ID + Salary + Creation Timestamp
       const successHash = crypto
         .createHash('sha256')
         .update(`${applicationId}${finalSalary || "0"}${appData.created_at}`)
         .digest('hex');
 
-      // 3. Insert into Ledger with Snapshot integrity
-      const { data: ledgerEntry, error: ledgerError } = await supabase
-        .from("ledger")
-        .insert({
-          application_id: applicationId,
-          employer_id: auth.user.id,
-          final_salary: finalSalary,
-          success_hash: successHash,
-          neural_match_snapshot: matchScore
-        })
-        .select()
-        .single();
+      const ledgerRef = await adminDb.collection("introduction_ledger").add({
+        applicationId: applicationId,
+        employerId: auth.user.id,
+        candidateId: appData.candidate_id,
+        final_salary: finalSalary,
+        success_hash: successHash,
+        neural_match_snapshot: matchScore,
+        feeStatus: 'RELEASED',
+        created_at: new Date().toISOString(),
+        releasedAt: new Date().toISOString()
+      });
 
-      if (ledgerError) {
-        // Log to internal telemetry if DB insert fails
-        console.error("LEDGER_DB_FAILURE", ledgerError);
-        return res.status(500).json({ error: "LEDGER_COMMIT_FAILED", detail: ledgerError.message });
-      }
+      await adminDb.collection("applications").doc(applicationId).update({ status: 'hired' });
 
-      // 4. Atomic status update
-      await supabase.from("applications").update({ status: 'hired' }).eq("id", applicationId);
-
-      return res.status(200).json({ 
-        status: 'COMMITTED', 
+      return res.status(200).json({
+        status: 'COMMITTED',
         hash: successHash,
-        ledgerId: ledgerEntry.id 
+        ledgerId: ledgerRef.id
       });
     } catch (err: any) {
       return res.status(500).json({ error: "SYSTEM_COMMIT_EXCEPTION", message: err.message });
     }
   }
 
-  // ACTION: UPGRADE_SUBSCRIPTION — DISABLED
-  // SECURITY: Self-service tier escalation removed. Subscription changes
-  // must only occur through verified Stripe webhook events.
-  if (action === "UPGRADE_SUBSCRIPTION") {
-    return res.status(403).json({ 
-      error: "UPGRADE_VIA_CHECKOUT_ONLY",
-      message: "Subscription upgrades must go through the payment flow.",
-      checkout_url: "/portal/employer/upgrade"
-    });
-  }
-
-  // ACTION: GET_SESSION (Auth Consolidation)
   if (action === "GET_SESSION") {
     return res.status(200).json({
       status: "AUTHORIZED",

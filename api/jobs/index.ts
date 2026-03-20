@@ -4,34 +4,31 @@ import { authenticateRequest } from '../_lib/middleware/auth.js';
 import { handleCors } from '../_lib/middleware/cors.js';
 import { validationSchemas } from '../_lib/lib/validation.js';
 
-
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (handleCors(req, res)) return;
 
   try {
     if (req.method === 'GET') {
-      const { user, supabase } = await authenticateRequest(req);
+      const { db } = await authenticateRequest(req);
       const page = parseInt(req.query.page as string || '1');
       const limit = parseInt(req.query.limit as string || '10');
 
-      const { data: jobs, error } = await supabase
-        .from('vacancies')
-        .select('*')
-        .eq('status', 'published')
-        .range((page - 1) * limit, page * limit - 1);
+      const snapshot = await db.collection('vacancies')
+        .where('status', '==', 'published')
+        .orderBy('created_at', 'desc')
+        .offset((page - 1) * limit)
+        .limit(limit)
+        .get();
 
-      if (error) throw error;
+      const jobs = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
       return res.status(200).json({ jobs, page, limit });
     }
 
     if (req.method === 'POST') {
-      const { user, supabase } = await authenticateRequest(req);
+      const { user, db } = await authenticateRequest(req);
       
-      const { data: profile } = await supabase
-        .from('profiles')
-        .select('role')
-        .eq('id', user.id)
-        .single();
+      const profileSnap = await db.collection('profiles').doc(user.id).get();
+      const profile = profileSnap.data();
 
       if (profile?.role !== 'employer' && profile?.role !== 'admin') {
         return res.status(403).json({ error: 'Unauthorized' });
@@ -39,22 +36,16 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
       const jobData = validationSchemas.job.parse(req.body);
 
-      const { data: job, error } = await supabase
-        .from('vacancies')
-        .insert([{ 
-          ...jobData, 
-          employer_id: user.id,
-          status: 'published'
-        }])
-        .select()
-        .single();
+      const docRef = await db.collection('vacancies').add({ 
+        ...jobData, 
+        employer_id: user.id,
+        status: 'published',
+        created_at: new Date().toISOString(),
+        last_activity_at: new Date().toISOString()
+      });
 
-      if (error) throw error;
-
-      // Trigger neural embedding generation (using the internal function)
-      // Note: In production, this would call the Supabase Edge Function
-      
-      return res.status(201).json({ job });
+      const jobDoc = await docRef.get();
+      return res.status(201).json({ job: { id: docRef.id, ...jobDoc.data() } });
     }
 
     return res.status(405).json({ error: 'Method Not Allowed' });

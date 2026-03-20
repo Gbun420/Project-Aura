@@ -1,4 +1,5 @@
 import * as crypto from 'crypto';
+import admin from 'firebase-admin';
 import { AuditTrailService } from '../audit/AuditTrailService.js';
 
 /**
@@ -14,18 +15,17 @@ export class BountyGuardian {
    */
   static async logHandshake(db: any, employerId: string, candidateId: string) {
     const timestamp = Date.now().toString();
+    const firestore = admin.firestore();
     const signature = crypto.createHmac('sha256', this.dierSalt)
                             .update(`${employerId}-${candidateId}-${timestamp}`)
                             .digest('hex');
 
-    await db.introductionLedger.create({
-      data: {
-        hash: signature,
-        employerId: employerId,
-        candidateId: candidateId,
-        notifiedAt: new Date(),
-        feeStatus: 'LOCKED'
-      }
+    await firestore.collection('introduction_ledger').doc(signature).set({
+      hash: signature,
+      employerId: employerId,
+      candidateId: candidateId,
+      notifiedAt: new Date().toISOString(),
+      feeStatus: 'LOCKED'
     });
 
     // Log to Immutable Audit Trail

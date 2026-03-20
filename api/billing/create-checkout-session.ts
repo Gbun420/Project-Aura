@@ -1,48 +1,26 @@
 import Stripe from "stripe";
-import { createClient } from "@supabase/supabase-js";
+import { requireUser } from "../_lib/auth.js";
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 
-// SECURITY: Stripe secret key must be configured via environment variables.
-// Never hardcode Stripe keys in source code.
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   
   if (req.method !== "POST") {
     return res.status(405).json({ error: "METHOD_NOT_ALLOWED" });
   }
 
-  const supabaseUrl = process.env.SUPABASE_URL;
-  const supabaseAnonKey = process.env.SUPABASE_ANON_KEY;
   const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
-
-  if (!supabaseUrl || !supabaseAnonKey) {
-    return res.status(500).json({ error: "SUPABASE_NOT_CONFIGURED" });
-  }
-
   if (!stripeSecretKey) {
     console.error("STRIPE_SECRET_KEY_MISSING: STRIPE_SECRET_KEY must be set");
     return res.status(500).json({ error: "PAYMENT_GATEWAY_NOT_CONFIGURED" });
   }
 
-  // Get authentication token
-  const authHeader = req.headers.authorization || "";
-  const token = authHeader.startsWith("Bearer ") ? authHeader.slice(7) : "";
-
-  if (!token) {
-    return res.status(401).json({ error: "UNAUTHORIZED" });
+  // 1. Authenticate with Firebase
+  const auth = await requireUser(req);
+  if (auth.error) {
+    return res.status(auth.error.status).json({ error: auth.error.message });
   }
 
   try {
-    // Verify user with Supabase
-    const supabase = createClient(supabaseUrl, supabaseAnonKey, {
-      global: { headers: { Authorization: `Bearer ${token}` } }
-    });
-
-    const { data: { user }, error: userError } = await supabase.auth.getUser(token);
-    
-    if (userError || !user) {
-      return res.status(401).json({ error: "INVALID_TOKEN" });
-    }
-
     const { priceId, successUrl, cancelUrl } = req.body;
 
     if (!priceId) {
@@ -77,9 +55,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       mode: 'subscription',
       success_url: finalSuccessUrl,
       cancel_url: finalCancelUrl,
-      client_reference_id: user.id,
+      client_reference_id: auth.user.id,
       metadata: {
-        userId: user.id,
+        userId: auth.user.id,
       },
     });
 
