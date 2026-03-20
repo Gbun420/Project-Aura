@@ -1,5 +1,5 @@
 import { db } from "../../src/core/database.js";
-import { PulseAggregator } from "../../src/services/auraOS/PulseAggregator.js";
+import { PulseAggregator } from "../../src/services/novaOS/PulseAggregator.js";
 import { requireUser } from "../_lib/auth.js";
 
 export default async function handler(req: any, res: any) {

@@ -3,6 +3,7 @@ import { supabase } from '../../lib/supabase';
 import { Lock, MessageSquare } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import NovaAssistant from '../../components/employer/NovaAssistant';
+import GoldenManifestCard from '../../components/employer/GoldenManifestCard';
 
 type Applicant = {
   id: string;
@@ -56,6 +57,7 @@ export default function EmployerApplicants() {
   const [updatingId, setUpdatingId] = useState<string | null>(null);
   const [isBlurred, setIsBlurred] = useState(false);
   const [activeAssistant, setActiveAssistant] = useState<Applicant | null>(null);
+  const [hiredApplicant, setHiredApplicant] = useState<Applicant | null>(null);
   const navigate = useNavigate();
 
   const handleUpgradeRedirect = () => {
@@ -145,9 +147,10 @@ export default function EmployerApplicants() {
       });
 
       if (response.ok) {
-        const result = await response.json();
-        alert(`MISSION_SUCCESS: Identity Hired. Success Hash: ${result.hash.slice(0, 10)}...`);
-        loadApplicants(selectedJobId);
+        setApplicants(prev => prev.map(a => 
+          a.id === app.id ? { ...a, status: 'hired' } : a
+        ));
+        setHiredApplicant(app);
       } else {
         const data = await response.json();
         alert(data.error || "Ledger commit failed");
@@ -384,6 +387,15 @@ export default function EmployerApplicants() {
           }}
           onClose={() => setActiveAssistant(null)}
           onUpgrade={handleUpgradeRedirect}
+        />
+      )}
+
+      {hiredApplicant && (
+        <GoldenManifestCard 
+          applicationId={hiredApplicant.id}
+          candidateName={hiredApplicant.candidate.full_name}
+          matchScore={hiredApplicant.match_score}
+          onClose={() => setHiredApplicant(null)}
         />
       )}
     </div>

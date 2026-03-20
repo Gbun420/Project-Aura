@@ -1,5 +1,5 @@
 import { db } from "../../src/core/database.js";
-import { AuditExportService } from "../../src/services/auraOS/AuditExportService.js";
+import { AuditExportService } from "../../src/services/novaOS/AuditExportService.js";
 import { requireUser } from "../_lib/auth.js";
 
 export default async function handler(req: any, res: any) {
