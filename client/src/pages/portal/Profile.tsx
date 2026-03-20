@@ -42,9 +42,10 @@ export default function Profile() {
       setSaved(true);
       setIsEditing(false);
       setTimeout(() => setSaved(false), 3000);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Profile save error:', err);
-      alert('Failed to update profile: ' + err.message);
+      const message = err instanceof Error ? err.message : 'Unknown error occurred';
+      alert('Failed to update profile: ' + message);
     } finally {
       setSaving(false);
     }
