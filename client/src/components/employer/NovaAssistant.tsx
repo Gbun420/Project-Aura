@@ -29,9 +29,14 @@ export default function NovaAssistant({ candidateContext, onClose, onUpgrade }: 
     setLoading(true);
 
     try {
+      const token = await import('../../lib/firebase').then(m => m.auth.currentUser?.getIdToken());
+      
       const response = await fetch(`${env.apiUrl}/api/ai/neural`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+        },
         body: JSON.stringify({
           action: 'CONVERSATIONAL_ACTION',
           payload: {

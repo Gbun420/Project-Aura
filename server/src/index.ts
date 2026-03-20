@@ -223,14 +223,18 @@ app.post('/api/hiring/hub', authGuard as any, async (req, res) => {
         .orderBy("created_at", "desc")
         .get();
       
-      const history = snapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data(),
-        // Map backend fields to frontend expected fields if necessary
-        hash: doc.data().success_hash,
-        notified_at: doc.data().created_at,
-        fee_status: doc.data().feeStatus
-      }));
+      const history = snapshot.docs.map(doc => {
+        const data = doc.data();
+        return {
+          id: doc.id,
+          hash: data.success_hash,
+          employer_id: data.employerId || null,
+          candidate_id: data.candidateId || null,
+          notified_at: data.created_at,
+          expiry_date: data.expiry_date || null,
+          fee_status: data.feeStatus || 'PENDING'
+        };
+      });
       
       return res.json({ history });
     }
