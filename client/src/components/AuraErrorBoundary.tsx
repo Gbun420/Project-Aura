@@ -14,6 +14,7 @@ export class AuraErrorBoundary extends Component<Props, State> {
     hasError: false
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public static getDerivedStateFromError(_: Error): State {
     return { hasError: true };
   }
@@ -28,21 +29,17 @@ export class AuraErrorBoundary extends Component<Props, State> {
   public render() {
     if (this.state.hasError) {
       return (
-        <div className="h-screen w-full flex flex-col items-center justify-center bg-black overflow-hidden relative">
-          {/* Fallback Nebula Glow */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-cyan-500/10 blur-[100px] rounded-full" />
-          
-          <div className="text-center space-y-6 relative z-10">
-            <div className="h-16 w-16 border-2 border-cyan-500/20 border-t-cyan-500 rounded-full animate-spin mx-auto shadow-[0_0_20px_rgba(34,211,238,0.2)]" />
+        <div className="h-screen w-full flex flex-col items-center justify-center bg-[#F8FAFC] overflow-hidden">
+          <div className="text-center space-y-6 max-w-md mx-auto p-6 bg-white rounded-2xl shadow-sm border border-slate-200">
             <div>
-              <h2 className="text-white font-mono text-xs tracking-[0.4em] uppercase font-black">RE-CENTERING_NEBULA</h2>
-              <p className="text-gray-600 font-mono text-[9px] mt-2 uppercase tracking-widest">Restoring Sovereign Connection...</p>
+              <h2 className="text-slate-900 text-xl font-bold font-['Space_Grotesk']">Something went wrong</h2>
+              <p className="text-slate-600 text-sm mt-2">We encountered an unexpected error. Please refresh the page to try again.</p>
             </div>
             <button 
               onClick={() => window.location.reload()}
-              className="px-6 py-2 bg-white/5 border border-white/10 text-white font-mono text-[10px] tracking-widest rounded-lg hover:bg-white/10 transition-all"
+              className="px-6 py-2 bg-slate-900 text-white text-sm font-semibold rounded-lg hover:bg-slate-800 transition-colors"
             >
-              INITIALIZE_RE_ENTRY
+              Refresh Page
             </button>
           </div>
         </div>
