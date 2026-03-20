@@ -58,8 +58,13 @@ export default function JobPostingForm({ onClose }: { onClose?: () => void }) {
       const flags = Array.isArray(data?.flags) ? data.flags : [];
       setAnalysis({ score, flags });
     } catch (error) {
-      setAnalysis(null);
-      setNotice(error instanceof Error ? error.message : 'Compliance check failed');
+      const msg = error instanceof Error ? error.message : 'Compliance check failed';
+      if (msg.includes("Unexpected token '<'") || msg.includes("is not valid JSON")) {
+        setNotice('System update detected. Please hard refresh your browser (Cmd+Shift+R or Ctrl+F5) to clear the cache and sync the new neural pathways.');
+      } else {
+        setAnalysis(null);
+        setNotice(msg);
+      }
     } finally {
       setIsAnalyzing(false);
     }
@@ -105,7 +110,13 @@ export default function JobPostingForm({ onClose }: { onClose?: () => void }) {
         }),
       });
 
-      const payload = await response.json();
+      // Special handling for HTML fallback errors from stale caches
+      const responseText = await response.text();
+      if (responseText.startsWith('<!')) {
+         throw new Error("Unexpected token '<'");
+      }
+      
+      const payload = JSON.parse(responseText);
       if (!response.ok) {
         throw new Error(payload?.error || 'Unable to publish vacancy');
       }
@@ -123,7 +134,12 @@ export default function JobPostingForm({ onClose }: { onClose?: () => void }) {
         onClose?.();
       }, 2000);
     } catch (error) {
-      setNotice(error instanceof Error ? error.message : 'Unable to publish vacancy');
+      const msg = error instanceof Error ? error.message : 'Unable to publish vacancy';
+      if (msg.includes("Unexpected token '<'") || msg.includes("is not valid JSON")) {
+        setNotice('System update deployed. Please HARD REFRESH your browser (Cmd+Shift+R or Ctrl+F5) to clear stale caches and reconnect to the core.');
+      } else {
+        setNotice(msg);
+      }
     } finally {
       setIsSubmitting(false);
     }

@@ -19,7 +19,7 @@
     "name": "supabase"
   },
   "index.html": {
-    "file": "assets/index-Bl9FZAOj.js",
+    "file": "assets/index-BCHSa9BK.js",
     "name": "index",
     "src": "index.html",
     "isEntry": true,
@@ -49,7 +49,7 @@
     ]
   },
   "src/components/CookieConsent.tsx": {
-    "file": "assets/CookieConsent-uH6JO62C.js",
+    "file": "assets/CookieConsent-D5OsnWT9.js",
     "name": "CookieConsent",
     "src": "src/components/CookieConsent.tsx",
     "isDynamicEntry": true,
@@ -60,7 +60,7 @@
     ]
   },
   "src/pages/NotFound.tsx": {
-    "file": "assets/NotFound-xyWMzrra.js",
+    "file": "assets/NotFound-D6b9eXm3.js",
     "name": "NotFound",
     "src": "src/pages/NotFound.tsx",
     "isDynamicEntry": true,
@@ -71,7 +71,7 @@
     ]
   },
   "src/pages/admin/Audit.tsx": {
-    "file": "assets/Audit-DaZuXVv7.js",
+    "file": "assets/Audit-BTzU6qP7.js",
     "name": "Audit",
     "src": "src/pages/admin/Audit.tsx",
     "isDynamicEntry": true,
@@ -82,7 +82,7 @@
     ]
   },
   "src/pages/admin/DesignSystem.tsx": {
-    "file": "assets/DesignSystem-CG3fDTA6.js",
+    "file": "assets/DesignSystem-3MKSYcbl.js",
     "name": "DesignSystem",
     "src": "src/pages/admin/DesignSystem.tsx",
     "isDynamicEntry": true,
@@ -93,7 +93,7 @@
     ]
   },
   "src/pages/admin/Users.tsx": {
-    "file": "assets/Users-tEvn9Syv.js",
+    "file": "assets/Users-CS8J51Bv.js",
     "name": "Users",
     "src": "src/pages/admin/Users.tsx",
     "isDynamicEntry": true,
@@ -104,7 +104,7 @@
     ]
   },
   "src/pages/candidate/Insights.tsx": {
-    "file": "assets/Insights-6K14iYxk.js",
+    "file": "assets/Insights-BkZSZjBl.js",
     "name": "Insights",
     "src": "src/pages/candidate/Insights.tsx",
     "isDynamicEntry": true,
@@ -115,7 +115,7 @@
     ]
   },
   "src/pages/employer/Applicants.tsx": {
-    "file": "assets/Applicants-BENM4VLc.js",
+    "file": "assets/Applicants-BPI-yVJg.js",
     "name": "Applicants",
     "src": "src/pages/employer/Applicants.tsx",
     "isDynamicEntry": true,
@@ -127,7 +127,7 @@
     ]
   },
   "src/pages/employer/History.tsx": {
-    "file": "assets/History-DzX1ewhk.js",
+    "file": "assets/History-Btxbq02S.js",
     "name": "History",
     "src": "src/pages/employer/History.tsx",
     "isDynamicEntry": true,
@@ -139,7 +139,7 @@
     ]
   },
   "src/pages/employer/Pricing.tsx": {
-    "file": "assets/Pricing-BqltOJgA.js",
+    "file": "assets/Pricing-BbmtsT5D.js",
     "name": "Pricing",
     "src": "src/pages/employer/Pricing.tsx",
     "isDynamicEntry": true,
@@ -151,7 +151,7 @@
     ]
   },
   "src/pages/portal/ComplianceCenter.tsx": {
-    "file": "assets/ComplianceCenter-Bz1zvTdc.js",
+    "file": "assets/ComplianceCenter-OhG3Oops.js",
     "name": "ComplianceCenter",
     "src": "src/pages/portal/ComplianceCenter.tsx",
     "isDynamicEntry": true,
@@ -162,7 +162,7 @@
     ]
   },
   "src/pages/portal/Jobs.tsx": {
-    "file": "assets/Jobs-Dj_M28-5.js",
+    "file": "assets/Jobs-_KPwkdEW.js",
     "name": "Jobs",
     "src": "src/pages/portal/Jobs.tsx",
     "isDynamicEntry": true,
@@ -174,7 +174,7 @@
     ]
   },
   "src/pages/portal/NeuralDashboard.tsx": {
-    "file": "assets/NeuralDashboard-BnHxcgtt.js",
+    "file": "assets/NeuralDashboard-CK6llJn1.js",
     "name": "NeuralDashboard",
     "src": "src/pages/portal/NeuralDashboard.tsx",
     "isDynamicEntry": true,
@@ -185,7 +185,7 @@
     ]
   },
   "src/pages/portal/Notifications.tsx": {
-    "file": "assets/Notifications-YQXkmcyc.js",
+    "file": "assets/Notifications-C-Cs9WB-.js",
     "name": "Notifications",
     "src": "src/pages/portal/Notifications.tsx",
     "isDynamicEntry": true,
@@ -196,7 +196,7 @@
     ]
   },
   "src/pages/portal/Profile.tsx": {
-    "file": "assets/Profile-Crosf548.js",
+    "file": "assets/Profile-Bex4FLHm.js",
     "name": "Profile",
     "src": "src/pages/portal/Profile.tsx",
     "isDynamicEntry": true,
@@ -207,7 +207,7 @@
     ]
   },
   "src/pages/portal/Settings.tsx": {
-    "file": "assets/Settings-CbHnUIu4.js",
+    "file": "assets/Settings-CQ_PYFc6.js",
     "name": "Settings",
     "src": "src/pages/portal/Settings.tsx",
     "isDynamicEntry": true,

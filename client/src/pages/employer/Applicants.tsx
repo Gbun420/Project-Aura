@@ -84,7 +84,13 @@ export default function EmployerApplicants() {
           jobId: jobId
         })
       });
-      const data = await response.json();
+      const responseText = await response.text();
+      if (responseText.startsWith('<!')) {
+        setError("System Update Deployed. Please HARD REFRESH your browser (Cmd+Shift+R or Ctrl+F5) to clear stale caches and restore connection.");
+        return;
+      }
+      
+      const data = JSON.parse(responseText);
       if (response.ok) {
         setApplicants(data.applicants || []);
         setIsBlurred(data.metadata?.isBlurred);
@@ -92,9 +98,14 @@ export default function EmployerApplicants() {
         setError(data.error || "Failed to load applicants");
       }
     } catch (err) {
-        console.error("APP_LOAD_ERR:", err);
+      console.error("APP_LOAD_ERR:", err);
+      const msg = err instanceof Error ? err.message : String(err);
+      if (msg.includes("Unexpected token '<'") || msg.includes("is not valid JSON")) {
+        setError("System Update Deployed. Please HARD REFRESH your browser (Cmd+Shift+R or Ctrl+F5) to clear stale caches.");
+      } else {
         setError("An error occurred while loading applicants");
-      } finally {
+      }
+    } finally {
       setLoading(false);
     }
   };
@@ -104,21 +115,35 @@ export default function EmployerApplicants() {
       if (!user) return;
       const token = await user.getIdToken();
       
-      const response = await fetch(`${env.apiUrl}/api/hiring/hub`, {
-        method: 'POST',
-        headers: { 
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({ action: 'LIST_VACANCIES' })
-      });
-      const data = await response.json();
-      if (response.ok) {
-        setVacancies(data.vacancies || []);
-        if (data.vacancies?.length > 0) {
-          const firstJobId = data.vacancies[0].id;
-          setSelectedJobId(firstJobId);
-          loadApplicants(firstJobId);
+      try {
+        const response = await fetch(`${env.apiUrl}/api/hiring/hub`, {
+          method: 'POST',
+          headers: { 
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify({ action: 'LIST_VACANCIES' })
+        });
+        const responseText = await response.text();
+        if (responseText.startsWith('<!')) {
+          setError("System Update Deployed. Please HARD REFRESH your browser.");
+          return;
+        }
+        
+        const data = JSON.parse(responseText);
+        if (response.ok) {
+          setVacancies(data.vacancies || []);
+          if (data.vacancies?.length > 0) {
+            const firstJobId = data.vacancies[0].id;
+            setSelectedJobId(firstJobId);
+            loadApplicants(firstJobId);
+          }
+        }
+      } catch (err) {
+        console.error("VACANCY_LOAD_ERR:", err);
+        const msg = err instanceof Error ? err.message : String(err);
+        if (msg.includes("Unexpected token '<'") || msg.includes("is not valid JSON")) {
+          setError("System Update Deployed. Please HARD REFRESH your browser.");
         }
       }
     };

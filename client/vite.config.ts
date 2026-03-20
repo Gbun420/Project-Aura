@@ -42,17 +42,6 @@ export default defineConfig({
                 maxAgeSeconds: 60 * 60 * 24 // 24 hours
               }
             }
-          },
-          {
-            urlPattern: /^\/api\/.*$/,
-            handler: 'StaleWhileRevalidate',
-            options: {
-              cacheName: 'nova-api-cache',
-              expiration: {
-                maxEntries: 20,
-                maxAgeSeconds: 60 * 60 // 1 hour
-              }
-            }
           }
         ]
       }

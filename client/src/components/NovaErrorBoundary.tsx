@@ -50,18 +50,30 @@ export class NovaErrorBoundary extends Component<Props, State> {
   };
 
   public static getDerivedStateFromError(error: Error): State {
+    // Automatically reload if we hit a chunk loading error (stale deployment)
+    if (
+      error.message.includes('Failed to fetch dynamically imported module') ||
+      error.message.includes('Importing a module script failed') ||
+      error.message.includes('is not valid JSON') // Sometimes chunk loads return index.html causing a JSON parse error
+    ) {
+      // Set a session storage flag to avoid infinite reload loops
+      if (!sessionStorage.getItem('nova_reloaded_for_chunk')) {
+        sessionStorage.setItem('nova_reloaded_for_chunk', 'true');
+        window.location.reload();
+      }
+    }
     return { error };
   }
 
   public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    // In production, this would pipe to a sovereign logging endpoint
     if (import.meta.env.DEV) {
       console.error("NEBULA_COLLAPSE_DETECTED:", error, errorInfo);
     }
   }
 
   public resetBoundary = () => {
-    this.setState({ error: null });
+    sessionStorage.removeItem('nova_reloaded_for_chunk');
+    window.location.reload();
   };
 
   public render() {
