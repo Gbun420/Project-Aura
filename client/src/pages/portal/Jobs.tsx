@@ -64,6 +64,17 @@ export default function Jobs() {
     setShowJobForm(false);
   };
 
+  // Handle Escape key
+  useEffect(() => {
+    const handleEsc = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') handleJobFormClose();
+    };
+    if (showJobForm) {
+      window.addEventListener('keydown', handleEsc);
+    }
+    return () => window.removeEventListener('keydown', handleEsc);
+  }, [showJobForm]);
+
   return (
     <div className="space-y-10 animate-in slide-in-from-bottom-6 duration-700">
       <SEO title="Job Vacancies" noindex />
@@ -88,20 +99,27 @@ export default function Jobs() {
         )}
       </div>
 
-      {/* Job Posting Form */}
+      {/* Job Posting Form Modal */}
       {showJobForm && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-          <div className="relative bg-white/5 border border-white/10 rounded-3xl w-full max-w-2xl p-6 backdrop-blur-md">
-            <div className="flex justify-between items-start mb-4">
-              <h2 className="text-xl font-bold text-white">Create New Vacancy</h2>
-              <button 
-                onClick={handleJobFormClose}
-                className="text-slate-400 hover:text-white"
-              >
-                ✕
-              </button>
+        <div 
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4 animate-in fade-in duration-300"
+          onClick={(e) => {
+            if (e.target === e.currentTarget) handleJobFormClose();
+          }}
+        >
+          <div className="relative bg-[#0F1114] border border-white/10 rounded-[2.5rem] w-full max-w-4xl max-h-[90vh] overflow-y-auto custom-scrollbar shadow-2xl animate-in zoom-in-95 duration-300">
+            <button 
+              onClick={handleJobFormClose}
+              className="absolute top-8 right-8 p-3 bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white rounded-2xl transition-all z-10"
+              aria-label="Close modal"
+              title="Close modal"
+            >
+              <MoreVertical size={20} className="rotate-45" />
+            </button>
+            
+            <div className="p-10">
+              <JobPostingForm onClose={handleJobFormClose} />
             </div>
-            <JobPostingForm onClose={handleJobFormClose} />
           </div>
         </div>
       )}

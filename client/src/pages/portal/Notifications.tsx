@@ -145,7 +145,7 @@ export default function Notifications() {
         ))}
 
         <div className="py-10 text-center">
-          <p className="text-[10px] font-black text-slate-600 uppercase tracking-[0.3em]">EndOfLine_Manifest_Reached</p>
+          <p className="text-[10px] font-black text-slate-600 uppercase tracking-[0.3em]">Sync Complete — All Logs Processed</p>
         </div>
       </div>
     </div>

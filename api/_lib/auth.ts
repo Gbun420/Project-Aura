@@ -11,7 +11,7 @@ export async function requireUser(req: VercelRequest) {
     return {
       error: {
         status: 500,
-        message: "SUPABASE_NOT_CONFIGURED",
+        message: "UNAUTHORIZED_ACCESS: Backend configuration missing (Supabase).",
         detail: {
           hasSupabaseUrl: Boolean(supabaseUrl),
           hasSupabaseAnonKey: Boolean(supabaseAnonKey),

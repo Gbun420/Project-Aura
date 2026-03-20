@@ -119,7 +119,7 @@ export const useAuth = () => {
       clearTimeout(timeout);
       subscription.subscription.unsubscribe();
     };
-  }, [loading]);
+  }, [user?.id, loading]);
 
   return { user, role, profile, loading, error };
 };

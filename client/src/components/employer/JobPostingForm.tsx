@@ -13,7 +13,7 @@ const scoreTone = (score: number) => {
   return 'text-rose-300';
 };
 
-export default function JobPostingForm() {
+export default function JobPostingForm({ onClose }: { onClose?: () => void }) {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   
@@ -33,9 +33,15 @@ export default function JobPostingForm() {
     setIsAnalyzing(true);
     setNotice(null);
     try {
+      const { data: sessionData } = await supabase.auth.getSession();
+      const token = sessionData.session?.access_token;
+
       const response = await fetch('/api/ai/neural', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          ...(token ? { Authorization: `Bearer ${token}` } : {})
+        },
         body: JSON.stringify({
           action: 'ANALYZE_COMPLIANCE',
           type: 'JOB_DESCRIPTION',
@@ -113,6 +119,10 @@ export default function JobPostingForm() {
       setGdprConsent(false);
       setRegulatoryAck(false);
       setNotice('Vacancy published to Nova Network.');
+      // Auto-close after successful publication
+      setTimeout(() => {
+        onClose?.();
+      }, 2000);
     } catch (error) {
       setNotice(error instanceof Error ? error.message : 'Unable to publish vacancy');
     } finally {
@@ -131,6 +141,7 @@ export default function JobPostingForm() {
         <div>
           <label className="block text-xs uppercase tracking-[0.2em] text-slate-400 mb-2">Job Title</label>
           <input
+            id="job-title-input"
             type="text"
             value={title}
             onChange={(event) => setTitle(event.target.value)}
@@ -142,6 +153,7 @@ export default function JobPostingForm() {
         <div>
           <label className="block text-xs uppercase tracking-[0.2em] text-slate-400 mb-2">Detailed Description</label>
           <textarea
+            id="job-description-input"
             rows={8}
             value={description}
             onChange={(event) => setDescription(event.target.value)}
@@ -158,8 +170,9 @@ export default function JobPostingForm() {
           </div>
 
           <div className="space-y-3">
-            <label className="flex items-start gap-3 p-3 rounded-xl border border-white/5 bg-black/20 cursor-pointer hover:bg-black/40 transition">
+            <label htmlFor="tcn-checkbox" className="flex items-start gap-3 p-3 rounded-xl border border-white/5 bg-black/20 cursor-pointer hover:bg-black/40 transition">
               <input 
+                id="tcn-checkbox"
                 type="checkbox" 
                 checked={requiresTCN}
                 onChange={(e) => setRequiresTCN(e.target.checked)}
@@ -172,8 +185,9 @@ export default function JobPostingForm() {
             </label>
 
             {requiresTCN && (
-              <label className="flex items-start gap-3 p-3 rounded-xl border border-amber-500/30 bg-amber-500/10 cursor-pointer">
+              <label htmlFor="market-test-checkbox" className="flex items-start gap-3 p-3 rounded-xl border border-amber-500/30 bg-amber-500/10 cursor-pointer">
                 <input 
+                  id="market-test-checkbox"
                   type="checkbox" 
                   checked={labourMarketTest}
                   onChange={(e) => setLabourMarketTest(e.target.checked)}
@@ -187,8 +201,9 @@ export default function JobPostingForm() {
             )}
 
             <div className="pt-2 border-t border-white/5 space-y-2">
-              <label className="flex items-center gap-2 text-xs text-slate-400 cursor-pointer">
+              <label htmlFor="gdpr-checkbox" className="flex items-center gap-2 text-xs text-slate-400 cursor-pointer">
                 <input 
+                  id="gdpr-checkbox"
                   type="checkbox" 
                   checked={gdprConsent}
                   onChange={(e) => setGdprConsent(e.target.checked)}
@@ -196,8 +211,9 @@ export default function JobPostingForm() {
                 />
                 I confirm this posting complies with GDPR Article 13/14 transparency requirements.
               </label>
-              <label className="flex items-center gap-2 text-xs text-slate-400 cursor-pointer">
+              <label htmlFor="reg-ack-checkbox" className="flex items-center gap-2 text-xs text-slate-400 cursor-pointer">
                 <input 
+                  id="reg-ack-checkbox"
                   type="checkbox" 
                   checked={regulatoryAck}
                   onChange={(e) => setRegulatoryAck(e.target.checked)}
@@ -216,6 +232,7 @@ export default function JobPostingForm() {
         )}
 
         <button
+          id="publish-vacancy-button"
           onClick={publishVacancy}
           disabled={isSubmitting || !title.trim() || !description.trim()}
           className="w-full rounded-2xl bg-slate-900 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-slate-900/30 transition hover:bg-slate-800 disabled:opacity-50 flex items-center justify-center gap-2"
@@ -233,6 +250,7 @@ export default function JobPostingForm() {
         </div>
 
         <button
+          id="run-compliance-check-button"
           onClick={runComplianceCheck}
           disabled={!description.trim() || isAnalyzing}
           className="w-full mb-6 py-3 border border-white/10 rounded-xl text-xs font-semibold tracking-[0.2em] uppercase hover:bg-white/5 transition-all disabled:opacity-50"

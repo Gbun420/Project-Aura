@@ -10,7 +10,7 @@ const ROLE_LABEL: Record<NovaRole, string> = {
 };
 
 export default function PortalHeader({ role }: { role: NovaRole }) {
-  const { user } = useAuth();
+  const { user, profile } = useAuth();
 
   return (
     <header className="flex items-center justify-between px-8 py-4 border-b border-white/5 bg-transparent backdrop-blur-md">
@@ -41,7 +41,7 @@ export default function PortalHeader({ role }: { role: NovaRole }) {
         <div className="flex items-center gap-4">
           <div className="text-right hidden sm:block">
             <p className="text-[10px] font-black text-white uppercase tracking-widest">
-              {user?.email?.split('@')[0] || 'User'}
+              {profile?.full_name || user?.email?.split('@')[0] || 'User'}
             </p>
             <p className="text-[9px] font-mono text-slate-500 uppercase tracking-tighter">
               {ROLE_LABEL[role]}
