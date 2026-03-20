@@ -37,8 +37,7 @@ export const Logo: React.FC<LogoProps> = ({ className = '', size = 40 }) => {
         strokeWidth="2"
         fill="none"
         opacity="0.6"
-        className="animate-[spin_10s_linear_infinite]"
-        style={{ transformOrigin: 'center' }}
+        className="animate-[spin_10s_linear_infinite] nova-logo-element-spin"
       />
 
       {/* Inner Orbit - Compliance Ring */}
@@ -49,8 +48,7 @@ export const Logo: React.FC<LogoProps> = ({ className = '', size = 40 }) => {
         stroke="#4F46E5"
         strokeWidth="1.5"
         strokeDasharray="4 4"
-        className="animate-[spin_15s_linear_infinite_reverse] opacity-50"
-        style={{ transformOrigin: 'center' }}
+        className="animate-[spin_15s_linear_infinite_reverse] opacity-50 nova-logo-element-spin"
       />
 
       {/* Core - Neural Hub */}
