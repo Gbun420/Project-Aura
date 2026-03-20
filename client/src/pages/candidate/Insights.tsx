@@ -1,13 +1,14 @@
 import { useState, useEffect } from 'react';
 import { TrendingUp, Target, Briefcase, FileText } from 'lucide-react';
-import { supabase } from '../../lib/supabase';
+import { collection, query, where, orderBy, limit, getDocs, getCountFromServer } from 'firebase/firestore';
+import { db } from '../../lib/firebase';
 import { useAuth } from '../../hooks/useAuth';
 
 interface Vacancy {
   id: string;
   title: string;
   status: string;
-  created_at: string;
+  created_at: any;
 }
 
 export default function CandidateInsights() {
@@ -27,30 +28,29 @@ export default function CandidateInsights() {
 
       try {
         // Fetch published jobs as recommendations
-        const { data } = await supabase
-          .from('vacancies')
-          .select('*')
-          .eq('status', 'published')
-          .order('created_at', { ascending: false })
-          .limit(5);
+        const jobQuery = query(
+          collection(db, 'vacancies'),
+          where('status', '==', 'published'),
+          orderBy('created_at', 'desc'),
+          limit(5)
+        );
+        const jobSnap = await getDocs(jobQuery);
+        const jobData = jobSnap.docs.map(doc => ({
+          ...doc.data(),
+          id: doc.id
+        })) as Vacancy[];
         
-        if (data) setRecommendations(data);
+        setRecommendations(jobData);
 
         // Fetch candidate's application count
-        const { count: apps } = await supabase
-          .from('applications')
-          .select('*', { count: 'exact', head: true })
-          .eq('candidate_id', user.id);
-        
-        setAppCount(apps || 0);
+        const appCountQuery = query(collection(db, 'applications'), where('candidate_id', '==', user.uid));
+        const appCountSnap = await getCountFromServer(appCountQuery);
+        setAppCount(appCountSnap.data().count || 0);
 
         // Fetch total available jobs
-        const { count: jobs } = await supabase
-          .from('vacancies')
-          .select('*', { count: 'exact', head: true })
-          .eq('status', 'published');
-        
-        setJobCount(jobs || 0);
+        const totalJobQuery = query(collection(db, 'vacancies'), where('status', '==', 'published'));
+        const totalJobSnap = await getCountFromServer(totalJobQuery);
+        setJobCount(totalJobSnap.data().count || 0);
       } catch (err) {
         console.error('Insights fetch error:', err);
       } finally {

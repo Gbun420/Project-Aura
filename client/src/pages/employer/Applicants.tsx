@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { supabase } from '../../lib/supabase';
+import { useAuth } from '../../hooks/useAuth';
 import { Lock, MessageSquare } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import NovaAssistant from '../../components/employer/NovaAssistant';
@@ -58,6 +58,7 @@ export default function EmployerApplicants() {
   const [isBlurred, setIsBlurred] = useState(false);
   const [activeAssistant, setActiveAssistant] = useState<Applicant | null>(null);
   const [hiredApplicant, setHiredApplicant] = useState<Applicant | null>(null);
+  const { user } = useAuth();
   const navigate = useNavigate();
 
   const handleUpgradeRedirect = () => {
@@ -68,8 +69,8 @@ export default function EmployerApplicants() {
     setLoading(true);
     setError(null);
     try {
-      const { data: sessionData } = await supabase.auth.getSession();
-      const token = sessionData.session?.access_token;
+      if (!user) return;
+      const token = await user.getIdToken();
 
       const response = await fetch('/api/hiring/hub', {
         method: 'POST',
@@ -99,8 +100,8 @@ export default function EmployerApplicants() {
 
   useEffect(() => {
     const loadVacancies = async () => {
-      const { data: sessionData } = await supabase.auth.getSession();
-      const token = sessionData.session?.access_token;
+      if (!user) return;
+      const token = await user.getIdToken();
       
       const response = await fetch('/api/hiring/hub', {
         method: 'POST',
@@ -121,7 +122,7 @@ export default function EmployerApplicants() {
       }
     };
     loadVacancies();
-  }, []);
+  }, [user]);
 
   const handleHire = async (app: Applicant) => {
     const salary = prompt("Enter Final Agreed Salary (€) for Ledger Sync:", "45000");
@@ -129,8 +130,8 @@ export default function EmployerApplicants() {
 
     setUpdatingId(app.id);
     try {
-      const { data: sessionData } = await supabase.auth.getSession();
-      const token = sessionData.session?.access_token;
+      if (!user) return;
+      const token = await user.getIdToken();
 
       const response = await fetch('/api/hiring/hub', {
         method: 'POST',
@@ -165,8 +166,8 @@ export default function EmployerApplicants() {
   const handleStatusUpdate = async (applicationId: string, newStatus: string) => {
     setUpdatingId(applicationId);
     try {
-      const { data: sessionData } = await supabase.auth.getSession();
-      const token = sessionData.session?.access_token;
+      if (!user) return;
+      const token = await user.getIdToken();
 
       const response = await fetch('/api/hiring/hub', {
         method: 'POST',

@@ -5,7 +5,6 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import rateLimit from 'express-rate-limit';
 import admin from 'firebase-admin';
-import { createClient } from '@supabase/supabase-js';
 import Stripe from 'stripe';
 
 // Import Nova Hardened Subsystems
@@ -28,12 +27,6 @@ admin.initializeApp({
   credential: admin.credential.applicationDefault(),
   // For local development, you should set GOOGLE_APPLICATION_CREDENTIALS env var
 });
-
-// Keep Supabase for legacy data access or migration if needed
-const supabase = createClient(
-  process.env.SUPABASE_URL || '',
-  process.env.SUPABASE_ANON_KEY || ''
-);
 
 // Boot Sequence
 const app = express();
