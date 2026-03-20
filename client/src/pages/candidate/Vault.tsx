@@ -87,7 +87,7 @@ export default function CandidateVault() {
               <p className="text-[9px] font-black text-slate-500 uppercase tracking-widest">Deciphering_Vault_Ledger...</p>
             </div>
           ) : documents.length === 0 ? (
-            <div className="p-16 rounded-[3rem] border-2 border-dashed border-white/5 bg-white/[0.01] text-center">
+            <div className="p-16 rounded-[3rem] border-2 border-dashed border-white/5 nova-glass-card !bg-white/[0.01] text-center">
               <FileText size={40} className="text-slate-700 mx-auto mb-6" />
               <p className="text-[10px] font-black text-slate-600 uppercase tracking-widest">Vault_Is_Empty</p>
               <p className="text-xs text-slate-500 mt-2">Initialize your compliance profile by uploading Identità certs.</p>
@@ -95,7 +95,7 @@ export default function CandidateVault() {
           ) : (
             <div className="grid gap-4">
               {documents.map((doc) => (
-                <div key={doc.id} className="group p-6 rounded-[2.5rem] bg-white/5 border border-white/10 flex items-center justify-between hover:border-nova-pulse/30 transition-all">
+                <div key={doc.id} className="group p-6 rounded-[2.5rem] nova-glass-card flex items-center justify-between hover:border-nova-pulse/30 transition-all glow-uv">
                   <div className="flex items-center gap-6">
                     <div className="h-14 w-14 rounded-2xl bg-nova-glass border border-white/10 flex items-center justify-center text-nova-accent">
                       <FileText size={24} />
@@ -128,7 +128,7 @@ export default function CandidateVault() {
 
         {/* Right: Insights & Stats */}
         <div className="lg:col-span-4 space-y-8">
-          <div className="p-8 rounded-[2.5rem] bg-white/5 border border-white/10">
+          <div className="p-8 rounded-[2.5rem] nova-glass-card">
             <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-nova-accent mb-6">Vault_Stats</h3>
             <div className="space-y-6">
               {[
@@ -147,7 +147,7 @@ export default function CandidateVault() {
             </div>
           </div>
 
-          <div className="p-8 rounded-[2.5rem] bg-nova-pulse/5 border border-nova-pulse/20 relative overflow-hidden group">
+          <div className="p-8 rounded-[2.5rem] nova-glass-card border border-nova-pulse/20 relative overflow-hidden group glow-uv">
             <div className="absolute inset-0 bg-nova-glass-gradient opacity-10 pointer-events-none" />
             <ShieldCheck size={40} className="text-nova-pulse mb-6 opacity-40 group-hover:scale-110 transition-transform duration-500" />
             <h3 className="text-xl font-black text-white uppercase tracking-tight mb-2">Neural_Security</h3>

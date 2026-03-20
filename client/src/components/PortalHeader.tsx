@@ -15,7 +15,7 @@ export default function PortalHeader({ role }: { role: NovaRole }) {
   return (
     <header className="flex items-center justify-between px-8 py-4 border-b border-white/5 bg-transparent backdrop-blur-md">
       <div className="flex items-center gap-6">
-        <div className="hidden lg:flex items-center gap-2 rounded-2xl border border-white/5 bg-white/5 px-4 py-2 text-sm text-slate-300 w-80 focus-within:border-nova-accent/30 transition-all group">
+        <div className="hidden lg:flex items-center gap-2 rounded-2xl nova-input px-4 py-2 text-sm text-slate-300 w-80 focus-within:ring-2 focus-within:ring-nova-pulse/30 transition-all group">
           <Search size={14} className="text-slate-500 group-focus-within:text-nova-pulse" />
           <input
             placeholder="Search platform..."
@@ -60,8 +60,8 @@ export default function PortalHeader({ role }: { role: NovaRole }) {
               </div>
             </button>
             
-            {/* Simple Hover Menu Placeholder */}
-            <div className="absolute top-full right-0 mt-2 w-48 bg-[#0B0D11] border border-white/5 rounded-2xl p-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all shadow-2xl z-50">
+            {/* Simple Hover Menu */}
+            <div className="nova-glass-card absolute top-full right-0 mt-2 w-48 rounded-2xl p-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50">
               <button className="w-full flex items-center gap-3 px-3 py-2 text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-white hover:bg-white/5 rounded-xl transition-all">
                 <User size={14} /> Profile Settings
               </button>

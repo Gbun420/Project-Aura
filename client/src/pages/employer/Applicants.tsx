@@ -220,7 +220,7 @@ export default function EmployerApplicants() {
               setSelectedJobId(e.target.value);
               loadApplicants(e.target.value);
             }}
-            className="bg-white/5 border border-white/10 rounded-2xl px-5 py-3 text-white text-sm focus:ring-2 focus:ring-nova-accent outline-none transition-all min-w-[280px] font-bold"
+            className="nova-input rounded-2xl px-5 py-3 text-white text-sm focus:ring-2 focus:ring-nova-accent outline-none transition-all min-w-[280px] font-bold"
           >
             {vacancies.map(job => (
               <option key={job.id} value={job.id} className="bg-nova-base">{job.title}</option>
@@ -230,8 +230,8 @@ export default function EmployerApplicants() {
       </div>
 
       {isBlurred && (
-        <div className="p-8 rounded-[2.5rem] bg-white/5 border border-white/10 backdrop-blur-2xl flex flex-col md:flex-row items-center gap-8 relative overflow-hidden group">
-          <div className="absolute inset-0 bg-nova-glass-gradient opacity-30" />
+        <div className="p-8 rounded-[2.5rem] nova-glass-card flex flex-col md:flex-row items-center gap-8 relative overflow-hidden group glow-uv">
+          <div className="absolute inset-0 bg-nova-glass-gradient opacity-30 pointer-events-none" />
           <div className="h-16 w-16 rounded-3xl bg-nova-accent/20 flex items-center justify-center text-nova-accent relative z-10">
             <Lock size={32} />
           </div>
@@ -267,7 +267,7 @@ export default function EmployerApplicants() {
         ) : (
           applicants.map((app) => (
             <div key={app.id} className={`group relative rounded-[2.5rem] border transition-all overflow-hidden p-8 
-              ${app.status === 'rejected' ? 'bg-black/40 border-white/5 opacity-40' : 'bg-white/5 border-white/10 hover:border-white/20'}`}>
+              ${app.status === 'rejected' ? 'bg-black/40 border-white/5 opacity-40' : 'nova-glass-card hover:border-nova-accent/30 glow-uv'}`}>
               
               <div className="absolute top-0 right-0 p-8 flex flex-col items-end gap-4">
                 <div className="flex flex-col items-end gap-2">

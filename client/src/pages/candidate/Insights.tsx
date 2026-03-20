@@ -76,7 +76,7 @@ export default function CandidateInsights() {
         <div className="lg:col-span-2 space-y-6">
           {/* Stats */}
           <div className="grid grid-cols-2 gap-4">
-            <div className="p-6 rounded-[2rem] bg-white/5 border border-white/10">
+            <div className="p-6 rounded-[2rem] nova-glass-card">
               <div className="flex items-center gap-3 mb-3">
                 <div className="p-2 bg-blue-500/10 rounded-lg text-blue-400">
                   <FileText size={16} />
@@ -85,7 +85,7 @@ export default function CandidateInsights() {
               </div>
               <p className="text-3xl font-black text-white">{appCount}</p>
             </div>
-            <div className="p-6 rounded-[2rem] bg-white/5 border border-white/10">
+            <div className="p-6 rounded-[2rem] nova-glass-card">
               <div className="flex items-center gap-3 mb-3">
                 <div className="p-2 bg-purple-500/10 rounded-lg text-purple-400">
                   <Briefcase size={16} />
@@ -107,7 +107,7 @@ export default function CandidateInsights() {
             ) : recommendations.length > 0 ? (
               <div className="grid gap-4">
                 {recommendations.map(job => (
-                  <div key={job.id} className="p-6 rounded-3xl bg-white/5 border border-white/10 hover:border-white/20 transition-all flex items-center justify-between group">
+                  <div key={job.id} className="p-6 rounded-3xl nova-glass-card hover:border-white/20 transition-all flex items-center justify-between group">
                     <div className="flex items-center gap-6">
                       <div className="p-3 bg-blue-500/10 rounded-2xl text-blue-400">
                         <Target size={20} />
@@ -131,7 +131,7 @@ export default function CandidateInsights() {
         </div>
 
         <div className="space-y-6">
-          <div className="p-6 rounded-[2rem] bg-gradient-to-br from-purple-600/20 to-indigo-600/20 border border-purple-500/20">
+          <div className="p-6 rounded-[2rem] nova-glass-card border-purple-500/20 bg-gradient-to-br from-purple-600/10 to-transparent glow-uv">
             <h3 className="text-xs font-black text-white uppercase tracking-tight mb-2">Nova Pro Insights</h3>
             <p className="text-[10px] text-purple-200/60 leading-relaxed font-medium">
               Upgrade to Nova Professional for advanced salary predictions, competitor benchmarks, and priority job alerts.
