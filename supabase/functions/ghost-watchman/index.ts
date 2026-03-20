@@ -1,10 +1,11 @@
 // Version: 2.1.2 - Debugging Secret Injection
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
 
-const BRAIN_SYSTEM_PROMPT = `You are a Sovereign System Auditor for Aura OS (Malta 2026). 
+const BRAIN_SYSTEM_PROMPT = `You are a Sovereign System Auditor for Nova OS (Malta 2026). 
 Analyze the following HTTP Audit report for CSP, MIME, or 404 errors. 
 Provide a concise, one-sentence fix if an error is found. 
 If all is Sovereign, respond with: "FORTRESS_SECURE_V2.1.0"`;
+
 
 async function askTheBrain(reportData: string) {
   const groqKey = Deno.env.get("GROQ_API_KEY");
@@ -40,8 +41,8 @@ async function askTheBrain(reportData: string) {
         headers: { 
           "Authorization": `Bearer ${p.key}`, 
           "Content-Type": "application/json",
-          "HTTP-Referer": "https://aura-cloud-2026.vercel.app",
-          "X-Title": "Aura Ghost Watchman"
+          "HTTP-Referer": "https://project-nova.vercel.app",
+          "X-Title": "Nova Ghost Watchman"
         },
         body: JSON.stringify({ 
           model: p.model, 
@@ -68,9 +69,9 @@ async function askTheBrain(reportData: string) {
 
 serve(async (req) => {
   try {
-    const target = 'https://aura-cloud-2026.vercel.app/';
+    const target = 'https://project-nova.vercel.app/';
     const response = await fetch(target, {
-      headers: { 'User-Agent': 'Aura-Sovereign-Watchman/2.1' }
+      headers: { 'User-Agent': 'Nova-Sovereign-Watchman/2.1' }
     });
 
     const headers = Object.fromEntries(response.headers.entries());

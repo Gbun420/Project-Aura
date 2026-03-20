@@ -59,18 +59,22 @@ export default function Register() {
 
   if (success) {
     return (
-      <div className="min-h-screen bg-[#0F1114] flex items-center justify-center p-6 text-white">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_-20%,rgba(66,133,244,0.25),transparent_40%),radial-gradient(circle_at_85%_0%,rgba(155,114,203,0.2),transparent_35%)]" />
-        <div className="relative w-full max-w-md rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl p-8 shadow-2xl text-center">
-          <Logo className="mx-auto text-white" size={48} />
-          <h2 className="mt-4 text-2xl font-semibold tracking-tight">Check your email</h2>
-          <p className="mt-3 text-sm text-slate-400 leading-relaxed">
-            We've sent a verification link to <strong className="text-white">{formData.email}</strong>. 
-            Click the link to activate your account.
+      <div className="min-h-screen bg-nova-base flex items-center justify-center p-6 text-white selection:bg-nova-accent/30 selection:text-white relative overflow-hidden">
+        {/* Background Sovereign Ambience */}
+        <div className="fixed inset-0 z-0 bg-nova-mesh opacity-40 pointer-events-none" />
+        <div className="fixed inset-0 z-0 bg-[radial-gradient(circle_at_50%_0%,rgba(79,70,229,0.1),transparent_70%)] pointer-events-none" />
+        
+        <div className="relative z-10 w-full max-w-md nova-glass-card rounded-[2.5rem] p-10 shadow-2xl text-center overflow-hidden">
+          <div className="absolute top-0 right-0 w-32 h-32 bg-nova-accent/10 blur-3xl rounded-full" />
+          <Logo className="mx-auto text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]" size={56} />
+          <h2 className="mt-6 text-2xl font-black tracking-tight font-space uppercase">Check your email</h2>
+          <p className="mt-3 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 leading-relaxed">
+            Verification link dispatched to <strong className="text-white">{formData.email}</strong>. 
+            Activate your profile to proceed.
           </p>
           <button
             onClick={() => navigate('/login')}
-            className="mt-6 w-full rounded-xl bg-gradient-to-r from-[#4285F4] via-[#9B72CB] to-[#D96570] py-3 text-sm font-semibold text-white shadow-lg shadow-purple-500/20 transition hover:opacity-90"
+            className="mt-8 w-full rounded-2xl bg-white text-nova-base py-5 text-sm font-black uppercase tracking-[0.2em] shadow-lg hover:bg-slate-200 transition-all active:scale-95"
           >
             Go to Login
           </button>
@@ -80,24 +84,28 @@ export default function Register() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0F1114] flex items-center justify-center p-6 text-white">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_-20%,rgba(66,133,244,0.25),transparent_40%),radial-gradient(circle_at_85%_0%,rgba(155,114,203,0.2),transparent_35%)]" />
-      <div className="relative w-full max-w-md rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl p-8 shadow-2xl">
+    <div className="min-h-screen bg-nova-base flex items-center justify-center p-6 text-white selection:bg-nova-accent/30 selection:text-white relative overflow-hidden">
+      {/* Background Sovereign Ambience */}
+      <div className="fixed inset-0 z-0 bg-nova-mesh opacity-40 pointer-events-none" />
+      <div className="fixed inset-0 z-0 bg-[radial-gradient(circle_at_50%_0%,rgba(79,70,229,0.1),transparent_70%)] pointer-events-none" />
+      
+      <div className="relative z-10 w-full max-w-md nova-glass-card rounded-[2.5rem] p-10 shadow-2xl overflow-hidden group">
+        <div className="absolute top-0 left-0 w-32 h-32 bg-nova-accent/10 blur-3xl rounded-full" />
         <div className="text-center mb-8">
-          <Logo className="mx-auto text-white" size={48} />
-          <h2 className="mt-4 text-3xl font-semibold tracking-tight">Join Nova</h2>
-          <p className="mt-2 text-sm text-slate-400">Create your account to get started.</p>
+          <Logo className="mx-auto text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.2)] group-hover:scale-110 transition-transform" size={56} />
+          <h2 className="mt-6 text-3xl font-black tracking-tight font-space uppercase">Join Nova</h2>
+          <p className="mt-2 text-[10px] font-black uppercase tracking-[0.3em] text-slate-500">Initialize Operative Profile</p>
         </div>
 
         {/* Role Toggle */}
-        <div className="flex p-1 rounded-xl border border-white/10 bg-white/5 mb-6">
+        <div className="flex p-1.5 rounded-[1.25rem] border border-white/10 bg-black/20 mb-8">
           <button 
             type="button"
             onClick={() => setRole('candidate')} 
-            className={`flex-1 py-2.5 rounded-lg text-xs font-semibold transition-all ${
+            className={`flex-1 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${
               role === 'candidate' 
-                ? 'bg-[#4285F4] text-white shadow-md' 
-                : 'text-slate-400 hover:text-white'
+                ? 'bg-nova-accent text-white shadow-[0_0_20px_rgba(79,70,229,0.3)]' 
+                : 'text-slate-500 hover:text-white'
             }`}
           >
             Candidate
@@ -105,10 +113,10 @@ export default function Register() {
           <button 
             type="button"
             onClick={() => setRole('employer')} 
-            className={`flex-1 py-2.5 rounded-lg text-xs font-semibold transition-all ${
+            className={`flex-1 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${
               role === 'employer' 
-                ? 'bg-[#9B72CB] text-white shadow-md' 
-                : 'text-slate-400 hover:text-white'
+                ? 'bg-nova-accent text-white shadow-[0_0_20px_rgba(79,70,229,0.3)]' 
+                : 'text-slate-500 hover:text-white'
             }`}
           >
             Employer
@@ -124,8 +132,8 @@ export default function Register() {
               autoComplete="email"
               value={formData.email}
               onChange={e => setFormData({...formData, email: e.target.value})} 
-              className="mt-2 w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-[#9B72CB]"
-              placeholder="you@company.com"
+              className="nova-input mt-2 w-full rounded-2xl px-5 py-4 text-sm text-white placeholder:text-slate-600 focus:ring-2 focus:ring-nova-pulse/30"
+              placeholder="operator@nova.mt"
             />
           </label>
 
@@ -137,7 +145,7 @@ export default function Register() {
               autoComplete="new-password"
               value={formData.password}
               onChange={e => setFormData({...formData, password: e.target.value})} 
-              className="mt-2 w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-[#9B72CB]"
+              className="nova-input mt-2 w-full rounded-2xl px-5 py-4 text-sm text-white placeholder:text-slate-600 focus:ring-2 focus:ring-nova-pulse/30"
               placeholder="••••••••"
             />
             <span className="text-[10px] text-slate-500 ml-1 mt-1 block">
@@ -153,8 +161,8 @@ export default function Register() {
                 required 
                 value={formData.company}
                 onChange={e => setFormData({...formData, company: e.target.value})} 
-                className="mt-2 w-full rounded-xl border border-[#9B72CB]/30 bg-white/5 px-4 py-3 text-sm text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-[#9B72CB]"
-                placeholder="e.g. Nova Inc."
+                className="nova-input mt-2 w-full rounded-2xl px-5 py-4 text-sm text-white placeholder:text-slate-600 focus:ring-2 focus:ring-nova-pulse/30"
+                placeholder="Division / Entity Name"
               />
             </label>
           )}
@@ -168,16 +176,16 @@ export default function Register() {
           <button 
             type="submit"
             disabled={loading} 
-            className="w-full rounded-xl bg-gradient-to-r from-[#4285F4] via-[#9B72CB] to-[#D96570] py-3 text-sm font-semibold text-white shadow-lg shadow-purple-500/20 transition hover:opacity-90 disabled:opacity-60"
+            className="w-full mt-4 rounded-2xl bg-white text-nova-base py-5 text-sm font-black uppercase tracking-[0.2em] shadow-[0_0_30px_rgba(255,255,255,0.1)] hover:bg-slate-200 transition-all active:scale-95 disabled:opacity-60"
           >
-            {loading ? 'Creating Account…' : 'Create Account'}
+            {loading ? 'Initializing…' : 'Establish Profile'}
           </button>
         </form>
 
         <div className="mt-6 text-center text-xs text-slate-400">
-          <span>Already have an account?</span>{' '}
-          <Link to="/login" className="text-[#4285F4] font-bold hover:underline">
-            Sign in
+          <span>Already registered?</span>{' '}
+          <Link to="/login" className="text-nova-pulse font-black uppercase tracking-widest hover:underline">
+            Portal Access
           </Link>
         </div>
       </div>

@@ -1,4 +1,4 @@
--- Aura Financial Ledger for Fee Protection and Success Audits
+-- Nova Financial Ledger for Fee Protection and Success Audits
 create table if not exists public.ledger (
   id uuid default gen_random_uuid() primary key,
   application_id uuid references public.applications(id) on delete cascade not null,

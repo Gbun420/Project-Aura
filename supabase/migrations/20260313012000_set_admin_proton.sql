@@ -1,13 +1,13 @@
 -- Set the admin role for the proton email
 UPDATE public.profiles
 SET role = 'admin'
-WHERE email = 'aurajobs@proton.me';
+WHERE email = 'novajobs@proton.me';
 
 -- Ensure future signups with this email are automatically promoted
 CREATE OR REPLACE FUNCTION public.handle_admin_promotion()
 RETURNS TRIGGER AS $$
 BEGIN
-  IF NEW.email = 'aurajobs@proton.me' THEN
+  IF NEW.email = 'novajobs@proton.me' THEN
     NEW.role := 'admin';
   END IF;
   RETURN NEW;

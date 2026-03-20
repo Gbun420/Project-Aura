@@ -15,9 +15,9 @@ export default function PortalLayout() {
   const role = getRoleFromPath(location.pathname);
 
   return (
-    <div className="min-h-screen bg-[#050505] text-slate-200 font-manrope relative overflow-hidden flex">
+    <div className="min-h-screen bg-nova-base text-slate-200 font-manrope relative overflow-hidden flex selection:bg-nova-accent/30 selection:text-white">
       {/* Background Sovereign Ambience */}
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_-10%,rgba(79,70,229,0.08),transparent_40%),radial-gradient(circle_at_85%_0%,rgba(34,211,238,0.05),transparent_35%)]" />
+      <div className="fixed inset-0 z-0 bg-nova-mesh opacity-30 pointer-events-none" />
       
       <Sidebar role={role} />
       

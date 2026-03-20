@@ -15,8 +15,8 @@ export default function PortalHeader({ role }: { role: NovaRole }) {
   return (
     <header className="flex items-center justify-between px-8 py-4 border-b border-white/5 bg-transparent backdrop-blur-md">
       <div className="flex items-center gap-6">
-        <div className="hidden lg:flex items-center gap-2 rounded-2xl border border-white/5 bg-white/5 px-4 py-2 text-sm text-slate-300 w-80 focus-within:border-blue-500/30 transition-all group">
-          <Search size={14} className="text-slate-500 group-focus-within:text-blue-400" />
+        <div className="hidden lg:flex items-center gap-2 rounded-2xl border border-white/5 bg-white/5 px-4 py-2 text-sm text-slate-300 w-80 focus-within:border-nova-accent/30 transition-all group">
+          <Search size={14} className="text-slate-500 group-focus-within:text-nova-pulse" />
           <input
             placeholder="Search platform..."
             aria-label="Search platform"
@@ -33,7 +33,7 @@ export default function PortalHeader({ role }: { role: NovaRole }) {
         >
           <Bell size={18} />
           <span className="sr-only">View notifications</span>
-          <span className="absolute top-1.5 right-1.5 h-2 w-2 bg-blue-500 rounded-full border-2 border-[#050505] animate-pulse" />
+          <span className="absolute top-1.5 right-1.5 h-2 w-2 bg-nova-accent rounded-full border-2 border-nova-base animate-pulse" />
         </button>
         
         <div className="h-8 w-px bg-white/5" />
@@ -54,7 +54,7 @@ export default function PortalHeader({ role }: { role: NovaRole }) {
               aria-label="User profile menu"
               className="h-10 w-10 rounded-2xl border border-white/10 bg-blue-500 p-[1px] hover:scale-110 transition-transform"
             >
-              <div className="h-full w-full rounded-2xl bg-[#050505] flex items-center justify-center">
+              <div className="h-full w-full rounded-2xl bg-nova-base flex items-center justify-center">
                 <User size={18} className="text-white" />
                 <span className="sr-only">User profile menu</span>
               </div>

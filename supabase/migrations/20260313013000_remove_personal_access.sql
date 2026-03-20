@@ -24,7 +24,7 @@ $$ LANGUAGE plpgsql SECURITY DEFINER;
 
 -- 2. Execute removal for any potential previous personal emails 
 -- (Assuming the user will now use their personal email to register as employer)
--- We keep 'aurajobs@proton.me' as the permanent Admin.
+-- We keep 'novajobs@proton.me' as the permanent Admin.
 
 -- Note: We don't know the exact "personal" email, so we provide the tool 
 -- to the user to run if they have access to SQL, or we can try to guess 
@@ -33,4 +33,4 @@ $$ LANGUAGE plpgsql SECURITY DEFINER;
 -- However, if the user means they want to remove their current profile
 -- to start fresh, we can clear the profiles that are NOT the proton one.
 
--- DELETE FROM auth.users WHERE email != 'aurajobs@proton.me';
+-- DELETE FROM auth.users WHERE email != 'novajobs@proton.me';
