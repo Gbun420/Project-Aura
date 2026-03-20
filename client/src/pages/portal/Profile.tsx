@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { 
   User,
   Mail,
@@ -20,15 +20,7 @@ export default function Profile() {
   const [saved, setSaved] = useState(false);
   const [fullName, setFullName] = useState(profile?.full_name || '');
 
-  // Synchronize fullName with profile data when it loads
-  useState(() => {
-    if (profile?.full_name && !fullName) {
-      setFullName(profile.full_name);
-    }
-  });
-
   // Effect to sync fullName when profile changes (e.g., after initial load)
-  import { useEffect } from 'react';
   useEffect(() => {
     if (profile?.full_name && !isEditing) {
       setFullName(profile.full_name);

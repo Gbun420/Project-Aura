@@ -1,15 +1,63 @@
-import { Shield, FileText, AlertCircle, Upload, Download } from 'lucide-react';
+import { Shield, FileText, AlertCircle, Upload, Download, Loader2 } from 'lucide-react';
 import { useAuth } from '../../hooks/useAuth';
 import { ComplianceStatus } from '../../components/ComplianceStatus';
 import SEO from '../../components/SEO';
+import { useState, useRef } from 'react';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { collection, addDoc } from 'firebase/firestore';
+import { storage, db } from '../../lib/firebase';
 
 export default function ComplianceCenter() {
   const { user, role } = useAuth();
   const currentRole = role === 'platform_owner' ? 'admin' : (role || 'candidate');
+  const [uploading, setUploading] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleUploadClick = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file || !user) return;
+
+    setUploading(true);
+    try {
+      // 1. Upload to Firebase Storage
+      const storageRef = ref(storage, `compliance/${user.uid}/${Date.now()}_${file.name}`);
+      const snapshot = await uploadBytes(storageRef, file);
+      const downloadURL = await getDownloadURL(snapshot.ref);
+
+      // 2. Create document record in Firestore
+      await addDoc(collection(db, 'compliance_documents'), {
+        profile_id: user.uid,
+        document_type: 'Other', // Default, can be refined
+        file_url: downloadURL,
+        pulse_status: 'PENDING',
+        requires_manual_review: true,
+        created_at: new Date().toISOString()
+      });
+
+      alert('Document uploaded successfully for processing.');
+    } catch (error: any) {
+      console.error('Upload error:', error);
+      alert('Upload failed: ' + error.message);
+    } finally {
+      setUploading(false);
+      if (fileInputRef.current) fileInputRef.current.value = '';
+    }
+  };
 
   return (
     <div className="space-y-10 animate-in slide-in-from-bottom-6 duration-700">
       <SEO title="Compliance Center" noindex />
+      <input 
+        type="file" 
+        ref={fileInputRef} 
+        onChange={handleFileChange} 
+        className="hidden" 
+        accept=".pdf,.jpg,.jpeg,.png"
+      />
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
@@ -86,10 +134,18 @@ export default function ComplianceCenter() {
           <div className="space-y-3">
             <button 
               aria-label="Upload new compliance document"
-              className="w-full flex items-center justify-between px-7 py-5 bg-white/5 border border-white/5 rounded-[1.5rem] hover:bg-white/10 hover:border-white/10 transition-all group active:scale-[0.98]"
+              onClick={handleUploadClick}
+              disabled={uploading}
+              className="w-full flex items-center justify-between px-7 py-5 bg-white/5 border border-white/5 rounded-[1.5rem] hover:bg-white/10 hover:border-white/10 transition-all group active:scale-[0.98] disabled:opacity-50"
             >
-              <span className="text-[10px] font-black text-white uppercase tracking-[0.2em]">Upload Document</span>
-              <Upload size={14} className="text-slate-500 group-hover:text-nova-accent transition-colors" />
+              <span className="text-[10px] font-black text-white uppercase tracking-[0.2em]">
+                {uploading ? 'Processing_Payload...' : 'Upload Document'}
+              </span>
+              {uploading ? (
+                <Loader2 size={14} className="text-nova-accent animate-spin" />
+              ) : (
+                <Upload size={14} className="text-slate-500 group-hover:text-nova-accent transition-colors" />
+              )}
             </button>
             <button 
               aria-label="Generate audit report"
