@@ -89,8 +89,8 @@ export default function NeuralDashboard() {
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-black text-white tracking-tight flex items-center gap-3">
-            <Brain className="text-blue-400" size={32} />
+          <h1 className="text-3xl font-black text-white tracking-tight flex items-center gap-3 font-space uppercase">
+            <Brain className="text-nova-pulse" size={32} />
             Dashboard
           </h1>
           <p className="text-slate-400 font-medium mt-1 uppercase tracking-widest text-[10px]">
@@ -99,10 +99,10 @@ export default function NeuralDashboard() {
         </div>
         <button 
           onClick={fetchData}
-          className="flex items-center gap-2 px-4 py-2 bg-blue-500/10 border border-blue-500/20 text-blue-400 rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-blue-500/20 transition-all"
+          className="flex items-center gap-2 px-5 py-2.5 bg-nova-accent/10 border border-nova-accent/20 text-nova-accent rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-nova-accent/20 transition-all active:scale-95"
         >
           <RefreshCw size={14} />
-          Refresh
+          Sync System
         </button>
       </div>
 
@@ -110,16 +110,17 @@ export default function NeuralDashboard() {
       {stats.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {stats.map((stat) => (
-            <div key={stat.label} className="bg-white/5 border border-white/10 rounded-3xl p-6 backdrop-blur-xl hover:bg-white/10 transition-all group">
+            <div key={stat.label} className="nova-glass-card rounded-[2.5rem] p-8 hover:bg-white/10 transition-all group border border-white/5 relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-24 h-24 bg-nova-accent/5 blur-3xl rounded-full" />
               <div className="flex items-center gap-3 mb-4">
-                <div className="p-2 bg-blue-500/10 rounded-lg text-blue-400">
-                  <stat.icon size={16} />
+                <div className="p-2.5 bg-nova-pulse/10 rounded-xl text-nova-pulse">
+                  <stat.icon size={18} />
                 </div>
-                <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest">
+                <p className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em]">
                   {stat.label}
                 </p>
               </div>
-              <span className="text-3xl font-black text-white tracking-tighter group-hover:text-blue-400 transition-colors">
+              <span className="text-4xl font-black text-white tracking-tighter group-hover:text-nova-accent transition-colors block">
                 {stat.value}
               </span>
             </div>
@@ -133,13 +134,16 @@ export default function NeuralDashboard() {
 
       {/* Recent Activity */}
       <div className="grid lg:grid-cols-2 gap-8">
-        <div className="p-8 rounded-[2.5rem] bg-white/5 border border-white/10">
-          <h3 className="text-sm font-black text-white uppercase tracking-widest mb-6">Recent Activity</h3>
+        <div className="nova-glass-card p-10 rounded-[3rem] border border-white/5">
+          <h3 className="text-xs font-black text-white uppercase tracking-[0.3em] mb-8 flex items-center gap-2">
+            <span className="w-2 h-2 bg-nova-pulse rounded-full animate-pulse" />
+            Live Activity Feed
+          </h3>
           {recentActivity.length > 0 ? (
-            <div className="space-y-4">
+            <div className="space-y-6">
               {recentActivity.map((entry) => (
-                <div key={entry.id} className="flex items-start gap-4">
-                  <div className="p-2 bg-blue-500/10 rounded-lg text-blue-400 mt-0.5">
+                <div key={entry.id} className="flex items-start gap-5 group/item">
+                  <div className="p-2.5 bg-nova-pulse/10 rounded-xl text-nova-pulse mt-0.5 group-hover/item:bg-nova-pulse group-hover/item:text-white transition-all">
                     <Zap size={14} />
                   </div>
                   <div className="flex-1 min-w-0">
@@ -159,11 +163,12 @@ export default function NeuralDashboard() {
           )}
         </div>
         
-        <div className="p-8 rounded-[2.5rem] bg-gradient-to-br from-blue-500/5 to-purple-500/5 border border-white/10 flex flex-col justify-center items-center text-center">
-          <Brain size={48} className="text-blue-400 mb-6 animate-pulse" />
-          <h3 className="text-xl font-black text-white tracking-tight mb-2 uppercase">Nova Platform</h3>
-          <p className="text-xs text-slate-400 leading-relaxed max-w-xs">
-            Your intelligent recruitment command center. All metrics shown are live from your account data.
+        <div className="nova-glass-card p-10 rounded-[3rem] border border-white/5 flex flex-col justify-center items-center text-center relative overflow-hidden group">
+          <div className="absolute inset-0 bg-nova-mesh opacity-20 group-hover:opacity-30 transition-opacity" />
+          <Brain size={56} className="text-nova-pulse mb-8 relative z-10 drop-shadow-[0_0_15px_rgba(79,70,229,0.4)] animate-pulse" />
+          <h3 className="text-2xl font-black text-white tracking-tight mb-3 uppercase font-space relative z-10">Nova Core</h3>
+          <p className="text-[10px] text-slate-500 leading-relaxed max-w-xs font-black uppercase tracking-widest relative z-10">
+            Sovereign recruitment intelligence. Neural matching online.
           </p>
         </div>
       </div>
