@@ -4,19 +4,19 @@ import { Cookie, Check } from 'lucide-react';
 const CookieConsent: React.FC = () => {
   const [isVisible, setIsVisible] = useState(() => {
     if (typeof window !== 'undefined') {
-      return !localStorage.getItem('aura_cookie_consent');
+      return !localStorage.getItem('nova_cookie_consent');
     }
     return false;
   });
   const [showDetails, setShowDetails] = useState(false);
 
   const handleAccept = () => {
-    localStorage.setItem('aura_cookie_consent', 'accepted');
+    localStorage.setItem('nova_cookie_consent', 'accepted');
     setIsVisible(false);
   };
 
   const handleDecline = () => {
-    localStorage.setItem('aura_cookie_consent', 'declined');
+    localStorage.setItem('nova_cookie_consent', 'declined');
     setIsVisible(false);
   };
 
