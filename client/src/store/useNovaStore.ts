@@ -1,14 +1,14 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
-import { AURA_CONFIG } from '../config/auraConfig';
-import type { Sector, Job, PermitData } from '../types/aura';
+import { NOVA_CONFIG } from '../config/novaConfig';
+import type { Sector, Job, PermitData } from '../types/nova';
 
-// AURA SOVEREIGN CORE - NEURAL STORE v1.7.1
+// NOVA SOVEREIGN CORE - NEURAL STORE v1.7.1
 // Hardened with centralized config
 
 export type IdentityType = 'TCN' | 'CITIZEN';
 
-interface AuraState {
+interface NovaState {
   userId: string;
   identityType: IdentityType;
   isGhostMode: boolean;
@@ -20,7 +20,7 @@ interface AuraState {
   currentStepId: number;
   documents: Record<string, boolean>;
   jobs: Job[];
-  auraScore: number;
+  novaScore: number; // Renamed from auraScore
   activeManifests: { trackingId: string; jobId: string }[];
   permit: { status: 'IDLE' | 'GRANTED'; data: PermitData | null };
   isProductionReady: boolean;
@@ -39,12 +39,10 @@ interface AuraState {
   applyToJob: (jobId: string) => void;
 }
 
-
-
-const INITIAL_STATE: Omit<AuraState, 'setSector' | 'setIdentityType' | 'setGhostMode' | 'manifestIdentity' | 'uploadDoc' | 'setPermitStatus' | 'executeGoldenManifest' | 'completeInterview' | 'calculateSyncScore' | 'applyToJob'> = {
-  userId: `AURA-${Math.random().toString(36).substr(2, 9).toUpperCase()}`,
+const INITIAL_STATE: Omit<NovaState, 'setSector' | 'setIdentityType' | 'setGhostMode' | 'manifestIdentity' | 'uploadDoc' | 'setPermitStatus' | 'executeGoldenManifest' | 'completeInterview' | 'calculateSyncScore' | 'applyToJob'> = {
+  userId: `NOVA-${Math.random().toString(36).substr(2, 9).toUpperCase()}`,
   identityType: 'TCN',
-  isGhostMode: AURA_CONFIG.DYNAMICS.GHOST_MODE_DEFAULT,
+  isGhostMode: NOVA_CONFIG.DYNAMICS.GHOST_MODE_DEFAULT,
   userSector: null,
   profileStatus: 'UNVERIFIED',
   isSynced: false,
@@ -53,14 +51,14 @@ const INITIAL_STATE: Omit<AuraState, 'setSector' | 'setIdentityType' | 'setGhost
   currentStepId: 1,
   documents: { 'Passport': false, 'PDC_CERT': false, 'MGA_Compliance_CV': false },
   jobs: [],
-  auraScore: 70,
+  novaScore: 70,
   activeManifests: [],
   permit: { status: 'IDLE', data: null },
   isProductionReady: true,
   lastSync: new Date().toISOString(),
 };
 
-export const useAuraStore = create<AuraState>()(
+export const useNovaStore = create<NovaState>()(
   persist(
     (set, get) => ({
       ...INITIAL_STATE,
@@ -82,7 +80,7 @@ export const useAuraStore = create<AuraState>()(
         const newDocs = { ...state.documents, [type]: true };
         let newStep = state.currentStepId;
         let newProgress = state.stepProgress;
-        if (type === 'PDC_CERT' && AURA_CONFIG.DYNAMICS.PDC_GATE_ENABLED) { newStep = 3; newProgress = 45; }
+        if (type === 'PDC_CERT' && NOVA_CONFIG.DYNAMICS.PDC_GATE_ENABLED) { newStep = 3; newProgress = 45; }
         return { documents: newDocs, currentStepId: newStep, stepProgress: newProgress, lastSync: new Date().toISOString() };
       }),
 
@@ -102,9 +100,9 @@ export const useAuraStore = create<AuraState>()(
       })),
 
       completeInterview: (scoreIncrease) => set((state) => {
-        const newScore = Math.min(state.auraScore + scoreIncrease, 100);
+        const newScore = Math.min(state.novaScore + scoreIncrease, 100);
         return { 
-          auraScore: newScore,
+          novaScore: newScore,
           jobs: state.jobs.map(j => (newScore > 85 && j.sector === state.userSector) ? { ...j, isGoldenManifest: true } : j),
           lastSync: new Date().toISOString()
         };
@@ -113,8 +111,8 @@ export const useAuraStore = create<AuraState>()(
       calculateSyncScore: (jobId) => {
         const job = get().jobs.find(j => j.id === jobId);
         if (!job) return 0;
-        const matches = job.aura_req.filter(req => get().activeNodes.includes(req));
-        return Math.round((matches.length / job.aura_req.length) * 100);
+        const matches = job.nova_req.filter(req => get().activeNodes.includes(req));
+        return Math.round((matches.length / job.nova_req.length) * 100);
       },
 
       applyToJob: (jobId) => set((state) => ({
@@ -123,7 +121,7 @@ export const useAuraStore = create<AuraState>()(
       })),
     }),
     {
-      name: AURA_CONFIG.STORAGE_KEYS.SOVEREIGN_CORE,
+      name: NOVA_CONFIG.STORAGE_KEYS.SOVEREIGN_CORE,
       storage: createJSONStorage(() => localStorage),
       partialize: (state) => ({ 
         userId: state.userId,
@@ -136,7 +134,7 @@ export const useAuraStore = create<AuraState>()(
         stepProgress: state.stepProgress,
         currentStepId: state.currentStepId,
         documents: state.documents,
-        auraScore: state.auraScore,
+        novaScore: state.novaScore,
         permit: state.permit,
         activeManifests: state.activeManifests
       }),

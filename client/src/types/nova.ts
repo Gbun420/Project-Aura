@@ -1,6 +1,6 @@
 export type Sector = 'iGaming' | 'Fintech' | 'Healthcare' | 'GreenEnergy' | 'Aviation';
 
-export type Role = 'admin' | 'employer' | 'candidate';
+export type Role = 'admin' | 'employer' | 'candidate' | 'platform_owner';
 
 export interface Job {
   id: string;
@@ -9,7 +9,7 @@ export interface Job {
   company: string;
   salary_range: string;
   location: string;
-  aura_req: string[];
+  nova_req: string[]; // Renamed from aura_req
   permit_type: 'KEI' | 'SinglePermit' | 'EUBlueCard';
   velocity_score: number;
   isApplied?: boolean;
