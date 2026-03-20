@@ -7,7 +7,7 @@ export class AuditTrailService {
    * DIER-Standard 2026.
    */
   static async logEvent(type: 'HANDSHAKE' | 'RELEASE' | 'EXPORT', metadata: any) {
-    const salt = process.env.DIER_SALT || 'default-aura-salt-2026';
+    const salt = process.env.DIER_SALT || 'default-nova-salt-2026';
     const timestamp = new Date();
     
     const signature = crypto
@@ -24,6 +24,6 @@ export class AuditTrailService {
       }
     });
     
-    console.log(`[AURA_AUDIT] Event Logged: ${type} | Signature: ${signature.substring(0, 12)}...`);
+    console.log(`[NOVA_AUDIT] Event Logged: ${type} | Signature: ${signature.substring(0, 12)}...`);
   }
 }

@@ -43,7 +43,7 @@ async function main() {
     ]
   });
 
-  console.log('>>> SEEDING COMPLETE: AURA OS IS NOW PRIMED FOR PRESENTATION.');
+  console.log('>>> SEEDING COMPLETE: NOVA_OS IS NOW PRIMED FOR PRESENTATION.');
   console.log('--- 3 Jobs Seeded');
   console.log('--- 1 Critical Handshake (Marco Rossi)');
   console.log('--- 1 Released Manifest (Sarah Zammit)');
