@@ -42,11 +42,11 @@ export default function App() {
                 "@context": "https://schema.org",
                 "@type": "WebSite",
                 "name": "Nova",
-                "url": "https://project-aura-one.vercel.app/",
+                "url": "https://nova-sovereign.mt/",
                 "description": "2026 High-performance recruitment platform for Malta. Neural Matching and Compliance Vault integrated.",
                 "potentialAction": {
                   "@type": "SearchAction",
-                  "target": "https://project-aura-one.vercel.app/portal/candidate?q={search_term_string}",
+                  "target": "https://nova-sovereign.mt/portal/candidate?q={search_term_string}",
                   "query-input": "required name=search_term_string"
                 }
               }}
