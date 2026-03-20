@@ -1,0 +1,74 @@
+104:    <div className="min-h-screen bg-[#F8FAFC] text-slate-900">
+106:        <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+107:          <div className="flex items-center gap-3">
+109:            <div>
+121:          <div className="flex items-center gap-3">
+137:      <div className="bg-gradient-to-r from-[#4285F4]/10 via-[#9B72CB]/10 to-[#D96570]/10 border-b border-slate-200">
+138:        <div className="max-w-6xl mx-auto px-6 py-3">
+139:          <div className="flex items-center justify-center gap-2 text-sm">
+140:            <div className="flex items-center gap-2">
+154:          <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_-20%,rgba(66,133,244,0.2),transparent_45%),radial-gradient(circle_at_80%_0%,rgba(155,114,203,0.18),transparent_40%)]" />
+155:          <div className="relative max-w-6xl mx-auto px-6 pt-24 pb-20">
+156:            <div className="flex flex-col lg:flex-row items-start lg:items-center gap-16">
+157:              <div className="flex-1">
+158:                <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-xs font-semibold text-slate-600 shadow-sm">
+172:                <div className="mt-8 flex flex-wrap gap-4">
+187:                <div className="mt-10 flex items-center gap-6 text-xs font-semibold text-slate-500">
+193:              <div className="flex-1 w-full">
+194:                <div className="rounded-3xl border border-slate-200 bg-white/80 p-6 shadow-xl shadow-slate-200/60 backdrop-blur">
+197:                  <div className="mt-5 grid gap-3">
+204:                    <div className="grid sm:grid-cols-2 gap-3">
+239:                  <div className="mt-6 grid grid-cols-3 gap-4 text-xs text-slate-500">
+240:                    <div>
+244:                    <div>
+248:                    <div>
+259:            <section id="talent" className="max-w-6xl mx-auto px-6 py-16">            <div className="grid lg:grid-cols-3 gap-6">
+280:                <div key={title} className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm hover:shadow-md transition-shadow">
+281:                  <div className="flex items-start justify-between mb-4">
+282:                    <div className="h-12 w-12 rounded-2xl bg-slate-900 text-white flex items-center justify-center">
+297:            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+298:              <div className="text-center">
+299:                <div className="text-2xl font-bold text-slate-900">2,140</div>
+300:                <div className="text-sm text-slate-600">Active Roles</div>
+302:              <div className="text-center">
+303:                <div className="text-2xl font-bold text-slate-900">98%</div>
+304:                <div className="text-sm text-slate-600">Compliance Success</div>
+306:              <div className="text-center">
+307:                <div className="text-2xl font-bold text-slate-900">12 hrs</div>
+308:                <div className="text-sm text-slate-600">Median Match Time</div>
+310:              <div className="text-center">
+311:                <div className="text-2xl font-bold text-slate-900">87%</div>
+312:                <div className="text-sm text-slate-600">Neural Match Accuracy</div>
+318:            <div className="flex items-center justify-between">
+319:              <div>
+335:            <div className="mt-6 grid gap-4">
+337:                <div className="col-span-3">
+338:                  <div className="flex flex-col items-center justify-center py-10">
+339:                    <div className="w-8 h-8 border-3 border-blue-500/20 border-t-blue-500 rounded-full animate-spin"></div>
+344:                <div>
+346:                    <div key={job.title} className="rounded-2xl border border-slate-200 bg-white p-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 shadow-sm">
+347:                      <div className="flex-1">
+348:                        <div className="flex items-start justify-between">
+349:                          <div>
+354:                          <div className="flex items-center gap-2">
+355:                            <div className="text-right">
+356:                              <div className="text-xs text-slate-500">Neural Match</div>
+357:                              <div className="text-sm font-semibold text-[#4285F4]">
+366:                      <div className="mt-3 flex items-center gap-2">
+367:                        <div className="flex items-center gap-1 px-2 py-1 bg-green-50 rounded-full">
+375:                    <div className="flex items-center gap-3 text-sm text-slate-600">
+397:                  <div className="col-span-3 text-center py-10">
+407:            <div className="max-w-6xl mx-auto px-6 py-16 grid lg:grid-cols-[1.3fr_1fr] gap-10 items-center">
+408:              <div>
+414:                <div className="mt-6 flex flex-wrap gap-3">
+426:              <div className="rounded-3xl border border-slate-200 bg-gradient-to-br from-[#4285F4]/10 via-[#9B72CB]/10 to-[#D96570]/10 p-6">
+427:                <div className="rounded-2xl bg-white p-6 shadow-sm">
+443:            <div className="max-w-6xl mx-auto px-6">
+450:          <div className="max-w-6xl mx-auto px-6 py-12">
+451:            <div className="grid grid-cols-1 md:grid-cols-3 gap-12 text-xs text-slate-500 mb-8 border-b border-slate-100 pb-8">
+452:              <div>
+458:                <div className="mt-3 flex items-center gap-2">
+463:              <div>
+476:              <div>
+482:                <div className="text-xs text-slate-400">
+487:            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-[10px] text-slate-400 uppercase tracking-widest">
