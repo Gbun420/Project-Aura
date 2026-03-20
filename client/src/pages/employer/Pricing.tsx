@@ -1,14 +1,27 @@
-import { ShieldCheck, Zap, Lock, Sparkles, Check } from 'lucide-react';
+import { ShieldCheck, Zap, Lock, Sparkles, Check, Loader2 } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
+import { useState } from 'react';
 
 export default function Pricing() {
+  const [isLoading, setIsLoading] = useState(false);
+
   const handleUpgrade = async () => {
+    if (isLoading) return;
+    setIsLoading(true);
+
     try {
       const { data: sessionData } = await supabase.auth.getSession();
       const token = sessionData.session?.access_token;
 
-      // Call the Stripe checkout session creation endpoint
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/billing/create-checkout-session`, {
+      if (!token) {
+        alert("Please sign in to proceed with the upgrade.");
+        setIsLoading(false);
+        return;
+      }
+
+      // Robust API URL handling
+      const apiUrl = import.meta.env.VITE_API_URL || '';
+      const response = await fetch(`${apiUrl}/api/billing/create-checkout-session`, {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json',
@@ -29,9 +42,11 @@ export default function Pricing() {
         const errorData = await response.json();
         alert(errorData.error || "Failed to create checkout session");
       }
-    } catch (err) {
+    } catch (err: any) {
       console.error("Upgrade error:", err);
-      alert("An error occurred while processing your upgrade");
+      alert("An error occurred while processing your upgrade: " + (err.message || "Unknown error"));
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -116,9 +131,17 @@ export default function Pricing() {
             
             <button 
               onClick={handleUpgrade}
-              className="w-full py-5 rounded-2xl bg-gemini-gradient text-white font-black uppercase tracking-widest text-xs shadow-xl shadow-gemini-purple/20 hover:scale-[1.02] active:scale-95 transition-all"
+              disabled={isLoading}
+              className="w-full py-5 rounded-2xl bg-gemini-gradient text-white font-black uppercase tracking-widest text-xs shadow-xl shadow-gemini-purple/20 hover:scale-[1.02] active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
-              Unlock_Pioneer_Special
+              {isLoading ? (
+                <>
+                  <Loader2 size={16} className="animate-spin" />
+                  Processing...
+                </>
+              ) : (
+                "Unlock_Pioneer_Special"
+              )}
             </button>
             <p className="text-[10px] text-center text-slate-500 mt-4 font-bold uppercase tracking-widest">
               Cancel anytime. Identità Malta 2026 Compliance Ready.

@@ -160,7 +160,7 @@ app.post('/api/billing/create-checkout-session', authGuard as any, async (req, r
     }
 
     const stripe = new Stripe(stripeSecretKey, {
-      apiVersion: '2024-06-20', // Use a stable version
+      apiVersion: '2026-02-25.clover' as any,
     });
 
     const session = await stripe.checkout.sessions.create({
@@ -174,7 +174,7 @@ app.post('/api/billing/create-checkout-session', authGuard as any, async (req, r
       mode: 'subscription',
       success_url: (successUrl as string) || `${req.headers.origin}/portal/employer/applicants?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: (cancelUrl as string) || `${req.headers.origin}/portal/employer/pricing`,
-      client_reference_id: user?.id || undefined,
+      ...(user?.id ? { client_reference_id: user.id } : {}),
       metadata: {
         userId: user?.id || '',
       },

@@ -5,6 +5,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import rateLimit from 'express-rate-limit';
 import { createClient } from '@supabase/supabase-js';
+import Stripe from 'stripe';
 // Import Project Aura Hardened Subsystems
 import { db } from './core/database.js';
 import { SovereignVault } from './core/security/Vault.js';
@@ -110,6 +111,44 @@ app.post('/api/billing/finalize', authGuard, async (req, res) => {
     }
     catch (error) {
         res.status(400).json({ success: false, error: error.message });
+    }
+});
+// Create Stripe Checkout Session (Protected)
+app.post('/api/billing/create-checkout-session', authGuard, async (req, res) => {
+    try {
+        const { priceId, successUrl, cancelUrl } = req.body;
+        const user = req.user;
+        if (!priceId) {
+            return res.status(400).json({ error: "MISSING_PRICE_ID" });
+        }
+        const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
+        if (!stripeSecretKey) {
+            return res.status(500).json({ error: "PAYMENT_GATEWAY_NOT_CONFIGURED" });
+        }
+        const stripe = new Stripe(stripeSecretKey, {
+            apiVersion: '2026-02-25.clover',
+        });
+        const session = await stripe.checkout.sessions.create({
+            payment_method_types: ['card'],
+            line_items: [
+                {
+                    price: priceId,
+                    quantity: 1,
+                },
+            ],
+            mode: 'subscription',
+            success_url: successUrl || `${req.headers.origin}/portal/employer/applicants?session_id={CHECKOUT_SESSION_ID}`,
+            cancel_url: cancelUrl || `${req.headers.origin}/portal/employer/pricing`,
+            ...(user?.id ? { client_reference_id: user.id } : {}),
+            metadata: {
+                userId: user?.id || '',
+            },
+        });
+        res.json({ url: session.url });
+    }
+    catch (error) {
+        console.error("STRIPE_SESSION_ERR:", error);
+        res.status(500).json({ error: error.message });
     }
 });
 // Live Compliance Pulse (Protected)
