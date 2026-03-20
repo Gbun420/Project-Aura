@@ -35,7 +35,7 @@ export default function Sidebar({ role }: { role: Role }) {
   const base = `/portal/${role}`;
 
   // Common items
-  let navItems = [
+  const navItems: NavItemProps[] = [
     { label: 'Dashboard', icon: Brain, path: base },
     { label: 'Notifications', icon: Bell, path: `${base}/notifications` },
   ];

@@ -99,6 +99,8 @@ export default function AuraAssistant({ candidateContext, onClose, onUpgrade }: 
           />
           <button 
             onClick={handleSend}
+            title="Send message"
+            aria-label="Send message"
             className="bg-gemini-purple p-2 rounded-xl text-white hover:opacity-90 transition-all"
           >
             <Send size={16} />
