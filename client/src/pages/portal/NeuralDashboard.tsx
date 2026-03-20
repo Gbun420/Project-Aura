@@ -1,7 +1,8 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Brain, RefreshCw, Briefcase, Users, FileText, Zap, Clock } from 'lucide-react';
 import { useAuth } from '../../hooks/useAuth';
-import { supabase } from '../../lib/supabase';
+import { collection, query, where, getCountFromServer, getDocs, limit, orderBy } from 'firebase/firestore';
+import { db } from '../../lib/firebase';
 
 interface AuditEntry {
   id: string;
@@ -28,40 +29,60 @@ export default function NeuralDashboard() {
       const metrics: { label: string; value: string | number; icon: typeof Brain }[] = [];
 
       if (currentRole === 'candidate') {
-        const { count: appCount } = await supabase.from('applications').select('*', { count: 'exact', head: true }).eq('candidate_id', user.id);
-        const { count: jobCount } = await supabase.from('vacancies').select('*', { count: 'exact', head: true }).eq('status', 'published');
+        const appQuery = query(collection(db, 'applications'), where('candidate_id', '==', user.uid));
+        const jobQuery = query(collection(db, 'vacancies'), where('status', '==', 'published'));
+        
+        const [appSnap, jobSnap] = await Promise.all([
+          getCountFromServer(appQuery),
+          getCountFromServer(jobQuery)
+        ]);
+        
         metrics.push(
-          { label: 'My Applications', value: appCount || 0, icon: FileText },
-          { label: 'Available Jobs', value: jobCount || 0, icon: Briefcase },
+          { label: 'My Applications', value: appSnap.data().count || 0, icon: FileText },
+          { label: 'Available Jobs', value: jobSnap.data().count || 0, icon: Briefcase },
         );
       } else if (currentRole === 'employer') {
-        const { count: jobCount } = await supabase.from('vacancies').select('*', { count: 'exact', head: true }).eq('employer_id', user.id);
-        const { count: appCount } = await supabase.from('applications').select('*, vacancies!inner(*)', { count: 'exact', head: true }).eq('vacancies.employer_id', user.id);
+        const jobQuery = query(collection(db, 'vacancies'), where('employer_id', '==', user.uid));
+        // Note: Complex join queries like vacancies!inner are not directly supported in Firestore.
+        // For now, we perform a simpler count or would need flattened data.
+        const appQuery = query(collection(db, 'applications'), where('employer_id', '==', user.uid));
+        
+        const [jobSnap, appSnap] = await Promise.all([
+          getCountFromServer(jobQuery),
+          getCountFromServer(appQuery)
+        ]);
+        
         metrics.push(
-          { label: 'Active Jobs', value: jobCount || 0, icon: Briefcase },
-          { label: 'Total Applicants', value: appCount || 0, icon: Users },
+          { label: 'Active Jobs', value: jobSnap.data().count || 0, icon: Briefcase },
+          { label: 'Total Applicants', value: appSnap.data().count || 0, icon: Users },
         );
       } else if (currentRole === 'admin') {
-        const { count: userCount } = await supabase.from('profiles').select('*', { count: 'exact', head: true });
-        const { count: jobCount } = await supabase.from('vacancies').select('*', { count: 'exact', head: true });
-        const { count: appCount } = await supabase.from('applications').select('*', { count: 'exact', head: true });
+        const userSnap = await getCountFromServer(collection(db, 'profiles'));
+        const jobSnap = await getCountFromServer(collection(db, 'vacancies'));
+        const appSnap = await getCountFromServer(collection(db, 'applications'));
+        
         metrics.push(
-          { label: 'Total Users', value: userCount || 0, icon: Users },
-          { label: 'Total Jobs', value: jobCount || 0, icon: Briefcase },
-          { label: 'Total Applications', value: appCount || 0, icon: FileText },
+          { label: 'Total Users', value: userSnap.data().count || 0, icon: Users },
+          { label: 'Total Jobs', value: jobSnap.data().count || 0, icon: Briefcase },
+          { label: 'Total Applications', value: appSnap.data().count || 0, icon: FileText },
         );
       }
 
       setStats(metrics);
 
       // Fetch recent activity
-      const { data: activity } = await supabase
-        .from('audit_trails')
-        .select('id, action, entity_type, timestamp')
-        .order('timestamp', { ascending: false })
-        .limit(5);
+      const activityQuery = query(
+        collection(db, 'audit_trails'),
+        orderBy('timestamp', 'desc'),
+        limit(5)
+      );
+      const activitySnap = await getDocs(activityQuery);
+      const activityData = activitySnap.docs.map(doc => ({
+        ...doc.data(),
+        id: doc.id
+      })) as AuditEntry[];
 
-      if (activity) setRecentActivity(activity);
+      setRecentActivity(activityData);
     } catch (err) {
       console.error("METRIC_ERROR:", err);
     } finally {
