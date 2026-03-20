@@ -22,33 +22,53 @@ export const useAuth = () => {
   const [role, setRole] = useState<AuraRole>('candidate');
   const [profile, setProfile] = useState<Profile | null>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     let mounted = true;
 
+    // Check if Supabase is properly configured
+    const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+    const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+    if (!supabaseUrl || !supabaseKey) {
+      console.error('Auth disabled: Missing VITE_SUPABASE_URL or VITE_SUPABASE_ANON_KEY');
+      setError('AUTH_NOT_CONFIGURED');
+      setLoading(false);
+      return;
+    }
+
     const fetchProfile = async (userId: string) => {
       try {
-        const { data, error } = await supabase
+        const { data, error: fetchError } = await supabase
           .from('profiles')
           .select('*')
           .eq('id', userId)
           .single();
         
-        if (mounted && !error && data) {
+        if (mounted && !fetchError && data) {
           setProfile(data);
           if (data.role) setRole(normalizeRole(data.role));
-        } else if (error && mounted) {
-          console.error("fetchProfile error:", error.message);
+        } else if (fetchError && mounted) {
+          console.warn("fetchProfile error:", fetchError.message);
+          // Profile might not exist yet (new user) — not fatal
         }
       } catch (err) {
-        if (mounted) console.error("fetchProfile exception:", err);
+        if (mounted) console.warn("fetchProfile exception:", err);
       }
     };
 
     const syncSession = async () => {
       try {
-        const { data } = await supabase.auth.getSession();
+        const { data, error: sessionError } = await supabase.auth.getSession();
         if (!mounted) return;
+        
+        if (sessionError) {
+          console.error("getSession error:", sessionError.message);
+          setError(sessionError.message);
+          setLoading(false);
+          return;
+        }
+
         const session = data.session;
         setUser(session?.user ?? null);
         if (session?.user) {
@@ -56,11 +76,22 @@ export const useAuth = () => {
           await fetchProfile(session.user.id);
         }
       } catch (err) {
-        if (mounted) console.error("syncSession error:", err);
+        if (mounted) {
+          console.error("syncSession exception:", err);
+          setError('SESSION_SYNC_FAILED');
+        }
       } finally {
         if (mounted) setLoading(false);
       }
     };
+
+    // Add a safety timeout — if auth takes more than 8 seconds, stop loading
+    const timeout = setTimeout(() => {
+      if (mounted && loading) {
+        console.warn('Auth initialization timed out after 8s');
+        setLoading(false);
+      }
+    }, 8000);
 
     syncSession();
 
@@ -74,6 +105,7 @@ export const useAuth = () => {
           await fetchProfile(session.user.id);
         } else {
           setProfile(null);
+          setRole('candidate');
         }
       } catch (err) {
         if (mounted) console.error("onAuthStateChange error:", err);
@@ -84,9 +116,10 @@ export const useAuth = () => {
 
     return () => {
       mounted = false;
+      clearTimeout(timeout);
       subscription.subscription.unsubscribe();
     };
   }, []);
 
-  return { user, role, profile, loading };
+  return { user, role, profile, loading, error };
 };

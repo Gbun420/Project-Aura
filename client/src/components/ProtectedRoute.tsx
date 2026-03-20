@@ -6,18 +6,20 @@ interface ProtectedRouteProps {
 }
 
 export const ProtectedRoute = ({ allowedRoles }: ProtectedRouteProps) => {
-  const { user, role, loading } = useAuth();
+  const { user, role, loading, error } = useAuth();
   const location = useLocation();
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#0F1114] text-white flex items-center justify-center">
-        <div className="text-sm tracking-[0.3em] uppercase text-slate-400">Initializing Neural Link...</div>
+      <div className="min-h-screen bg-[#0F1114] text-white flex flex-col items-center justify-center gap-4">
+        <div className="w-8 h-8 border-2 border-indigo-500 border-t-transparent rounded-full animate-spin" />
+        <div className="text-sm tracking-wide text-slate-400">Loading your workspace...</div>
       </div>
     );
   }
 
-  if (!user) {
+  // If auth is misconfigured or errored, redirect to login
+  if (error || !user) {
     return <Navigate to="/login" state={{ from: location }} replace />;
   }
 
