@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 
 // This script can be expanded to fetch routes from a database or API
-const BASE_URL = 'https://project-aura-one.vercel.app';
+const BASE_URL = 'https://project-nova.vercel.app';
 const lastMod = new Date().toISOString().split('T')[0];
 
 const staticRoutes = [
@@ -25,7 +25,7 @@ ${staticRoutes.map(route => `  <url>
 
   const outputPath = path.resolve(process.cwd(), 'client/public/sitemap.xml');
   fs.writeFileSync(outputPath, xml);
-  console.log(`>>> AURA_SEO: Sitemap generated at ${outputPath}`);
+  console.log(`>>> NOVA_SEO: Sitemap generated at ${outputPath}`);
 }
 
 generateSitemap();
