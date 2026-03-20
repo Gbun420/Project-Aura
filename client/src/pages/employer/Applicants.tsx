@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 import NovaAssistant from '../../components/employer/NovaAssistant';
 import GoldenManifestCard from '../../components/employer/GoldenManifestCard';
+import { env } from '../../config/env';
 
 type Applicant = {
   id: string;
@@ -72,7 +73,7 @@ export default function EmployerApplicants() {
     try {
       const token = await user.getIdToken();
 
-      const response = await fetch('/api/hiring/hub', {
+      const response = await fetch(`${env.apiUrl}/api/hiring/hub`, {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json',
@@ -103,7 +104,7 @@ export default function EmployerApplicants() {
       if (!user) return;
       const token = await user.getIdToken();
       
-      const response = await fetch('/api/hiring/hub', {
+      const response = await fetch(`${env.apiUrl}/api/hiring/hub`, {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json',
@@ -133,7 +134,7 @@ export default function EmployerApplicants() {
       if (!user) return;
       const token = await user.getIdToken();
 
-      const response = await fetch('/api/hiring/hub', {
+      const response = await fetch(`${env.apiUrl}/api/hiring/hub`, {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json',
@@ -169,7 +170,7 @@ export default function EmployerApplicants() {
       if (!user) return;
       const token = await user.getIdToken();
 
-      const response = await fetch('/api/hiring/hub', {
+      const response = await fetch(`${env.apiUrl}/api/hiring/hub`, {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json',

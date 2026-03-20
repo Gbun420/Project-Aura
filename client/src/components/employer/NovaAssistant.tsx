@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Send, Sparkles, X } from 'lucide-react';
+import { env } from '../../config/env';
 
 type AssistantProps = {
   candidateContext: {
@@ -28,7 +29,7 @@ export default function NovaAssistant({ candidateContext, onClose, onUpgrade }: 
     setLoading(true);
 
     try {
-      const response = await fetch('/api/ai/neural', {
+      const response = await fetch(`${env.apiUrl}/api/ai/neural`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

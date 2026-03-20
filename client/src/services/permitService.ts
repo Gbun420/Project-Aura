@@ -1,6 +1,7 @@
 import { useNotificationStore } from '../store/useNotificationStore';
 import { NOVA_CONFIG } from '../config/novaConfig';
 import type { PermitData } from '../types/nova';
+import { env } from '../config/env';
 
 // NOVA PERMIT SERVICE v1.1
 // Simulated Identità Automated Approval via NOVA_CONFIG
@@ -9,7 +10,7 @@ export const finalizePermitGrant = async (trackingId: string, setPermitStatus: (
   const { addPing } = useNotificationStore.getState();
 
   try {
-    const response = await fetch('/api/compliance', {
+    const response = await fetch(`${env.apiUrl}/api/compliance`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ action: 'VERIFY_LICENSE', payload: { trackingId } })

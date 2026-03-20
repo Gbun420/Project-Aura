@@ -1,10 +1,11 @@
 import { doc, updateDoc } from 'firebase/firestore';
 import { auth, db } from '../lib/firebase';
+import { env } from '../config/env';
 
 export async function generateEmbedding(text: string, recordId: string, table: string) {
   const token = await auth.currentUser?.getIdToken();
   
-  const response = await fetch('/api/ai/neural', {
+  const response = await fetch(`${env.apiUrl}/api/ai/neural`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -41,7 +42,7 @@ export async function getMatchScore(profileId: string, jobId: string) {
   const token = await auth.currentUser?.getIdToken();
   
   try {
-    const response = await fetch('/api/neural/match', {
+    const response = await fetch(`${env.apiUrl}/api/neural/match`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

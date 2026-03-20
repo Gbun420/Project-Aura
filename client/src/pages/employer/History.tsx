@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Clock, Hash, CheckCircle2, AlertCircle } from 'lucide-react';
 import { useAuth } from '../../hooks/useAuth';
+import { env } from '../../config/env';
 
 interface LedgerEntry {
   hash: string;
@@ -27,7 +28,7 @@ export default function EmployerHistory() {
       setError(null);
       try {
         const token = await user.getIdToken();
-        const response = await fetch('/api/hiring/hub', {
+        const response = await fetch(`${env.apiUrl}/api/hiring/hub`, {
           method: 'POST',
           headers: { 
             'Content-Type': 'application/json',
