@@ -1,14 +1,16 @@
 import { Search, Bell, User, LogOut } from 'lucide-react';
 import { useAuth } from '../hooks/useAuth';
-import type { Role } from '../types/aura.js';
+import { useAuth } from '../hooks/useAuth';
+import type { NovaRole } from '../types/nova.js';
 
-const ROLE_LABEL: Record<Role, string> = {
+const ROLE_LABEL: Record<NovaRole, string> = {
   admin: 'Nova Admin',
   employer: 'Nova Employer',
   candidate: 'Candidate Profile',
+  platform_owner: 'Nova Owner',
 };
 
-export default function PortalHeader({ role }: { role: Role }) {
+export default function PortalHeader({ role }: { role: NovaRole }) {
   const { user } = useAuth();
 
   return (
