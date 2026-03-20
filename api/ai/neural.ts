@@ -108,9 +108,9 @@ Content: ${content}`;
       }
     }
 
-    if (action === "AURA_MATCH") {
+    if (action === "NOVA_MATCH") {
       return res.status(200).json({
-        status: "AURA_MATCH_READY",
+        status: "NOVA_MATCH_READY",
         message: "Neural matching engine online.",
       });
     }
