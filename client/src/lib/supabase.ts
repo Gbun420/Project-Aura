@@ -1,13 +1,9 @@
 import { createClient } from '@supabase/supabase-js';
+import { env } from '../config/env';
 
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL as string | undefined;
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined;
-
-if (!supabaseUrl || !supabaseAnonKey) {
-  console.warn('Supabase env vars missing: VITE_SUPABASE_URL or VITE_SUPABASE_ANON_KEY');
-}
-
-export const supabase = createClient(supabaseUrl ?? '', supabaseAnonKey ?? '', {
+// Due to our centralized env.ts guard, we are guaranteed 
+// these variables are strings if execution reaches here.
+export const supabase = createClient(env.supabaseUrl!, env.supabaseAnonKey!, {
   auth: {
     persistSession: true,
     autoRefreshToken: true,

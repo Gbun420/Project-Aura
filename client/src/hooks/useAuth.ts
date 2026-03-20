@@ -27,15 +27,7 @@ export const useAuth = () => {
   useEffect(() => {
     let mounted = true;
 
-    // Check if Supabase is properly configured
-    const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-    const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
-    if (!supabaseUrl || !supabaseKey) {
-      console.error('Auth disabled: Missing VITE_SUPABASE_URL or VITE_SUPABASE_ANON_KEY');
-      setError('AUTH_NOT_CONFIGURED');
-      setLoading(false);
-      return;
-    }
+    // Validated at the module level in env.ts; will trigger Error Boundary if missing
 
     const fetchProfile = async (userId: string) => {
       try {

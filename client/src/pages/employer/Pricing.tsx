@@ -1,5 +1,6 @@
 import { ShieldCheck, Zap, Lock, Sparkles, Check, Loader2 } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
+import { env } from '../../config/env';
 import { useState } from 'react';
 
 export default function Pricing() {
@@ -19,8 +20,8 @@ export default function Pricing() {
         return;
       }
 
-      // Robust API URL handling
-      const apiUrl = import.meta.env.VITE_API_URL || '';
+      // Robust API URL handling via central env
+      const apiUrl = env.apiUrl || '';
       const response = await fetch(`${apiUrl}/api/billing/create-checkout-session`, {
         method: 'POST',
         headers: { 
@@ -28,7 +29,7 @@ export default function Pricing() {
           'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify({ 
-          priceId: import.meta.env.VITE_STRIPE_PRICE_ID_PULSE_PRO,
+          priceId: env.stripePriceIdPro,
           successUrl: window.location.origin + '/portal/employer/applicants?session_id={CHECKOUT_SESSION_ID}',
           cancelUrl: window.location.origin + '/portal/employer/pricing'
         })
