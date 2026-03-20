@@ -33,7 +33,7 @@ export default function Pricing() {
           'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify({ 
-          priceId: env.stripePriceIdPro,
+          priceId: env.stripePriceIdPro || env.stripePriceIdPulsePro,
           successUrl: window.location.origin + '/portal/employer/applicants?session_id={CHECKOUT_SESSION_ID}',
           cancelUrl: window.location.origin + '/portal/employer/pricing'
         })

@@ -8,6 +8,7 @@ interface ComplianceDocument {
   pulse_status: string;
   expiry_date: string | null;
   days_until_expiry: number | null;
+  file_url?: string;
 }
 
 interface ComplianceStatusProps {
@@ -57,7 +58,19 @@ export function ComplianceStatus({ profileId }: ComplianceStatusProps) {
           return (
             <div key={doc.id} className="bg-white/5 border border-white/10 rounded-xl p-4 backdrop-blur-md transition-all hover:bg-white/10">
               <div className="flex justify-between items-center">
-                <span className="text-sm font-bold text-white tracking-tight">{doc.document_type}</span>
+                <div className="flex flex-col">
+                  <span className="text-sm font-bold text-white tracking-tight">{doc.document_type}</span>
+                  {doc.file_url && (
+                    <a 
+                      href={doc.file_url} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="text-[10px] text-nova-accent hover:underline mt-1 font-mono uppercase tracking-widest"
+                    >
+                      View_Original_Payload ↗
+                    </a>
+                  )}
+                </div>
                 <span className={`px-2 py-1 rounded text-[10px] font-mono border ${
                   isExpired ? 'bg-red-500/20 text-red-400 border-red-500/40' :
                   isWarning ? 'bg-yellow-500/20 text-yellow-400 border-yellow-500/40' :

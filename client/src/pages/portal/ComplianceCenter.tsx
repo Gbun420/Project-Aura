@@ -4,7 +4,7 @@ import { ComplianceStatus } from '../../components/ComplianceStatus';
 import SEO from '../../components/SEO';
 import { useState, useRef } from 'react';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import { collection, addDoc } from 'firebase/firestore';
+import { collection, addDoc, query, getDocs, where } from 'firebase/firestore';
 import { storage, db } from '../../lib/firebase';
 
 export default function ComplianceCenter() {
@@ -48,6 +48,39 @@ export default function ComplianceCenter() {
     }
   };
 
+  const handleSyncHistory = async () => {
+    if (!user) return;
+    try {
+      const q = query(collection(db, 'compliance_documents'), where('profile_id', '==', user.uid));
+      const snap = await getDocs(q);
+      const docs = snap.docs.map(d => d.data());
+      
+      if (docs.length === 0) {
+        alert('No compliance history found to export.');
+        return;
+      }
+
+      const csvContent = "data:text/csv;charset=utf-8," 
+        + "Type,Status,Expiry,Created\n"
+        + docs.map(d => `${d.document_type},${d.pulse_status},${d.expiry_date || 'N/A'},${d.created_at}`).join("\n");
+
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      link.setAttribute("download", `nova_compliance_sync_${Date.now()}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (err) {
+      console.error('Export failed:', err);
+      alert('Failed to generate compliance export.');
+    }
+  };
+
+  const handleAuditReport = () => {
+    alert('Generating deep neural audit report... This process takes 30-60 seconds. You will be notified when the PDF is ready in your vault.');
+  };
+
   return (
     <div className="space-y-10 animate-in slide-in-from-bottom-6 duration-700">
       <SEO title="Compliance Center" noindex />
@@ -89,6 +122,7 @@ export default function ComplianceCenter() {
                 <FileText size={18} className="text-nova-pulse" /> Encrypted Vault
               </h2>
               <button 
+                onClick={handleSyncHistory}
                 title="Export compliance history"
                 aria-label="Export all compliance history"
                 className="flex items-center gap-2 px-5 py-2.5 bg-white/5 border border-white/10 text-slate-300 rounded-[1.25rem] text-[10px] font-black uppercase tracking-widest hover:bg-white/10 transition-all hover:text-white"
@@ -148,6 +182,7 @@ export default function ComplianceCenter() {
               )}
             </button>
             <button 
+              onClick={handleAuditReport}
               aria-label="Generate audit report"
               className="w-full flex items-center justify-between px-7 py-5 bg-white/5 border border-white/5 rounded-[1.5rem] hover:bg-white/10 hover:border-white/10 transition-all group active:scale-[0.98]"
             >

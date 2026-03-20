@@ -160,7 +160,7 @@ app.post('/api/hiring/hub', authGuard as any, async (req, res) => {
     }
 
     if (action === "CREATE_VACANCY") {
-      const { title, description, complianceScore } = req.body;
+      const { title, description, complianceScore, requiresTCN, complianceMeta } = req.body;
       const score = Number(complianceScore ?? 0);
       const status = score >= 85 ? "published" : score > 0 ? "flagged" : "draft";
       const docRef = await firestore.collection("vacancies").add({
@@ -169,10 +169,30 @@ app.post('/api/hiring/hub', authGuard as any, async (req, res) => {
         description,
         compliance_score: score,
         status,
+        requires_tcn_compliance: !!requiresTCN,
+        compliance_meta: complianceMeta || {},
         created_at: new Date().toISOString(),
         last_activity_at: new Date().toISOString()
       });
       return res.json({ vacancy: { id: docRef.id } });
+    }
+
+    if (action === "GET_LEDGER_HISTORY") {
+      const snapshot = await firestore.collection("introduction_ledger")
+        .where("employerId", "==", auth.user?.id)
+        .orderBy("created_at", "desc")
+        .get();
+      
+      const history = snapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data(),
+        // Map backend fields to frontend expected fields if necessary
+        hash: doc.data().success_hash,
+        notified_at: doc.data().created_at,
+        fee_status: doc.data().feeStatus
+      }));
+      
+      return res.json({ history });
     }
 
     if (action === "LIST_APPLICANTS") {

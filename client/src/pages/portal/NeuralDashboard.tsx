@@ -62,9 +62,10 @@ export default function NeuralDashboard() {
 
       setStats(metrics);
 
-      // Fetch recent activity
+      // Fetch recent activity relevant to the current user
       const qActivity = query(
         collection(db, 'audit_trails'),
+        where('entity_id', 'in', [user.uid, 'SYSTEM_CORE', 'SYSTEM']),
         orderBy('timestamp', 'desc'),
         limit(5)
       );
