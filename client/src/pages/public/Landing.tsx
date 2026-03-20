@@ -106,8 +106,8 @@ export default function PublicLanding() {
           <div className="flex items-center gap-3">
             <Logo size={42} className="text-slate-900 drop-shadow-sm" />
             <div>
-              <p className="text-xs uppercase tracking-[0.3em] text-slate-400">Aura</p>
-              <p className="text-lg font-semibold">Talent</p>
+              <p className="text-xs uppercase tracking-[0.3em] text-slate-400">Careers</p>
+              <p className="text-lg font-semibold">.mt</p>
             </div>
           </div>
           <nav className="hidden md:flex items-center gap-8 text-sm text-slate-600 font-medium">
@@ -132,17 +132,17 @@ export default function PublicLanding() {
         </div>
       </header>
 
-      {/* Neural Suite Announcement */}
-      <div className="bg-gradient-to-r from-[#4285F4]/10 via-[#9B72CB]/10 to-[#D96570]/10 border-b border-slate-200">
+      {/* Update Announcement */}
+      <div className="bg-blue-50 border-b border-blue-100">
         <div className="max-w-6xl mx-auto px-6 py-3">
           <div className="flex items-center justify-center gap-2 text-sm">
             <div className="flex items-center gap-2">
-               <LandingBrain size={16} className="text-[#4285F4]" />
-              <span className="font-semibold text-slate-900">Neural Suite Active:</span>
-              <span className="text-slate-600">AI-powered matching & compliance automation now live</span>
+               <LandingSparkles size={16} className="text-blue-600" />
+              <span className="font-semibold text-blue-900">New specific jobs added:</span>
+              <span className="text-blue-800">Hundreds of exclusive Malta jobs are now live.</span>
             </div>
-            <Link to="/compliance" className="ml-4 text-xs font-semibold text-[#4285F4] hover:underline">
-              Learn more →
+            <Link to="/register" className="ml-4 text-xs font-semibold text-blue-700 hover:underline">
+              Find out more →
             </Link>
           </div>
         </div>
@@ -156,17 +156,17 @@ export default function PublicLanding() {
               <div className="flex-1">
                 <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-xs font-semibold text-slate-600 shadow-sm">
                    <LandingSparkles size={14} className="text-[#4285F4]" />
-                  Gemini Intelligence Active
+                  The Premier Malta Job Board
                 </div>
                 <h1 className="mt-6 text-5xl lg:text-6xl font-semibold tracking-tight text-slate-900 font-['Space_Grotesk']">
-                  Aura: The intelligence layer for recruitment.
-                  <span className="bg-gradient-to-r from-[#4285F4] via-[#9B72CB] to-[#D96570] bg-clip-text text-transparent">
-                    Built for the Maltese market.
+                  Careers.mt: Hire & find jobs
+                  <span className="text-[#4285F4] block mt-2">
+                    in Malta, faster.
                   </span>
                 </h1>
                 <p className="mt-6 text-lg text-slate-600 max-w-xl">
-                  Seamless hiring, automated compliance, and neural-backed talent matching for
-                  agencies and employers who need clarity, speed, and confidence.
+                  Seamless hiring and intelligent talent matching for
+                  agencies and employers who need clarity, speed, and confidence in the Maltese market.
                 </p>
                 <div className="mt-8 flex flex-wrap gap-4">
                   <Link
@@ -191,8 +191,8 @@ export default function PublicLanding() {
 
               <div className="flex-1 w-full">
                 <div className="rounded-3xl border border-slate-200 bg-white/80 p-6 shadow-xl shadow-slate-200/60 backdrop-blur">
-                  <h3 className="text-sm font-semibold text-slate-700">Neural Search</h3>
-                  <p className="text-xs text-slate-500 mt-1">Match roles and talent with Gemini-assisted ranking.</p>
+                  <h3 className="text-sm font-semibold text-slate-700">Quick Job Search</h3>
+                  <p className="text-xs text-slate-500 mt-1">Match roles and talent with advanced filters.</p>
                   <div className="mt-5 grid gap-3">
                     <input
                       className="w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-[#4285F4]/20"
@@ -222,7 +222,7 @@ export default function PublicLanding() {
                     <button 
                       onClick={handleSearch}
                       disabled={isSearching}
-                      className="w-full rounded-2xl bg-gradient-to-r from-[#4285F4] via-[#9B72CB] to-[#D96570] px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-purple-200/40"
+                      className="w-full rounded-2xl bg-blue-600 hover:bg-blue-700 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-200/40 transition"
                     >
                       {isSearching ? 'Searching...' : 'Search Opportunities'}
                     </button>
@@ -245,8 +245,8 @@ export default function PublicLanding() {
                       <p>Compliance success</p>
                     </div>
                     <div>
-                      <p className="text-lg font-semibold text-slate-900">12 hrs</p>
-                      <p>Median match time</p>
+                      <p className="text-lg font-semibold text-slate-900">48 hrs</p>
+                      <p>Avg. hire time</p>
                     </div>
                   </div>
                 </div>
@@ -265,15 +265,15 @@ export default function PublicLanding() {
                 },
                 { 
                    icon: LandingUsers,
-                  title: 'Talent Intelligence', 
-                  copy: 'Gemini surfaces the best-fit candidates with clear match signals.',
-                  badge: 'Neural Matching Active'
+                  title: 'Talent Network', 
+                  copy: 'Connect directly with the best-fit candidates with clear match signals.',
+                  badge: 'Smart Matching'
                 },
                 { 
                    icon: LandingWand2, 
                   title: 'Workflow Automation', 
-                  copy: 'From intake to offer, every step is orchestrated inside Aura.',
-                  badge: 'AI-Powered'
+                  copy: 'From intake to offer, every step is orchestrated inside Careers.mt.',
+                  badge: 'Powerful Tools'
                 },
               ].map(({ icon: Icon, title, copy, badge }) => (
                 <div key={title} className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm hover:shadow-md transition-shadow">
@@ -303,12 +303,12 @@ export default function PublicLanding() {
                 <div className="text-sm text-slate-600">Compliance Success</div>
               </div>
               <div className="text-center">
-                <div className="text-2xl font-bold text-slate-900">12 hrs</div>
-                <div className="text-sm text-slate-600">Median Match Time</div>
+                <div className="text-2xl font-bold text-slate-900">48 hrs</div>
+                <div className="text-sm text-slate-600">Avg Hire Time</div>
               </div>
               <div className="text-center">
                 <div className="text-2xl font-bold text-slate-900">87%</div>
-                <div className="text-sm text-slate-600">Neural Match Accuracy</div>
+                <div className="text-sm text-slate-600">Match Accuracy</div>
               </div>
             </div>
           </section>
@@ -319,12 +319,12 @@ export default function PublicLanding() {
                 <h2 className="text-2xl font-semibold text-slate-900 font-['Space_Grotesk']">
                   Live opportunities
                   <span className="ml-3 inline-flex items-center gap-1 text-sm font-normal text-[#4285F4]">
-                     <LandingBrain size={14} />
-                    Neural Matching Active
+                     <LandingSparkles size={14} />
+                    Actively Hiring
                   </span>
                 </h2>
                 <p className="text-sm text-slate-600 mt-1">
-                  High-signal roles curated by Aura intelligence with AI-powered match scores.
+                  High-signal roles curated by Careers.mt with deep local insights.
                 </p>
               </div>
               <Link to="/portal?role=candidate" className="text-sm font-semibold text-[#4285F4] hover:text-[#2f6fe0]">
@@ -349,15 +349,15 @@ export default function PublicLanding() {
                             <h3 className="text-lg font-semibold text-slate-900">{job.title}</h3>
                             <p className="text-sm text-slate-600">{job.company} • {job.location}</p>
                           </div>
-                          {/* Neural Match Score */}
+                          {/* Match Score */}
                           <div className="flex items-center gap-2">
                             <div className="text-right">
-                              <div className="text-xs text-slate-500">Neural Match</div>
+                              <div className="text-xs text-slate-500">Match Score</div>
                               <div className="text-sm font-semibold text-[#4285F4]">
                                 {job.matchScore}%
                               </div>
                             </div>
-                             <LandingBrain size={16} className="text-[#9B72CB]" />
+                             <LandingSparkles size={16} className="text-blue-500" />
                           </div>
                         </div>
                       
@@ -407,7 +407,7 @@ export default function PublicLanding() {
               <div>
                 <h2 className="text-3xl font-semibold text-slate-900 font-['Space_Grotesk']">One portal. Three command centers.</h2>
                 <p className="mt-4 text-slate-600">
-                  Aura keeps candidates, employers, and administrators in sync with a single secure workspace.
+                  Careers.mt keeps candidates, employers, and administrators in sync with a single secure workspace.
                   Roles automatically route to the correct dashboard without manual switching.
                 </p>
                 <div className="mt-6 flex flex-wrap gap-3">
@@ -422,12 +422,12 @@ export default function PublicLanding() {
                   </Link>
                 </div>
               </div>
-              <div className="rounded-3xl border border-slate-200 bg-gradient-to-br from-[#4285F4]/10 via-[#9B72CB]/10 to-[#D96570]/10 p-6">
+              <div className="rounded-3xl border border-slate-200 bg-blue-50 p-6">
                 <div className="rounded-2xl bg-white p-6 shadow-sm">
-                  <p className="text-xs uppercase tracking-[0.3em] text-slate-400">Aura Pulse</p>
+                  <p className="text-xs uppercase tracking-[0.3em] text-slate-400">Careers.mt</p>
                   <h3 className="mt-3 text-xl font-semibold text-slate-900">Unified hiring intelligence</h3>
                   <p className="mt-2 text-sm text-slate-600">
-                    AI-augmented compliance, audit trails, and talent analytics ready for production-scale teams.
+                    Built for scale with smart compliance, audit trails, and talent analytics.
                   </p>
                   <button className="mt-5 inline-flex items-center gap-2 rounded-2xl bg-slate-900 px-4 py-2 text-sm font-semibold text-white">
                     Book a Demo
@@ -449,14 +449,14 @@ export default function PublicLanding() {
           <div className="max-w-6xl mx-auto px-6 py-12">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-12 text-xs text-slate-500 mb-8 border-b border-slate-100 pb-8">
               <div>
-                <h4 className="font-bold text-slate-900 uppercase tracking-widest mb-4">Aura Talent Infrastructure</h4>
+                <h4 className="font-bold text-slate-900 uppercase tracking-widest mb-4">Careers.mt Platform</h4>
                 <p className="leading-relaxed">
-                  Sovereign recruitment platform with Neural AI matching, calibrated for the 2026 Maltese labor market. 
+                  The premier recruitment platform calibrated for the Maltese labor market. 
                   Built for agencies and employers who prioritize compliance and speed.
                 </p>
                 <div className="mt-3 flex items-center gap-2">
-                   <LandingBrain size={12} className="text-[#4285F4]" />
-                  <span className="text-xs font-semibold">Neural Suite v1.4.0 Active</span>
+                   <LandingSparkles size={12} className="text-[#4285F4]" />
+                  <span className="text-xs font-semibold">Careers Platform Active</span>
                 </div>
               </div>
               <div>
@@ -473,19 +473,19 @@ export default function PublicLanding() {
                 </ul>
               </div>
               <div>
-                <h4 className="font-bold text-slate-900 uppercase tracking-widest mb-4">Data Protection & Neural AI</h4>
+                <h4 className="font-bold text-slate-900 uppercase tracking-widest mb-4">Data Protection</h4>
                 <p className="leading-relaxed mb-2">
-                  GDPR Article 13/14 Compliant. Neural embeddings processed locally via Supabase Edge Functions.
+                  GDPR Article 13/14 Compliant. All secure candidate data processed locally.
                 </p>
-                <p className="italic mb-2">Data Controller: Aura Jobs</p>
+                <p className="italic mb-2">Data Controller: Careers.mt</p>
                 <div className="text-xs text-slate-400">
-                  <span className="font-semibold">AI Models:</span> MiniLM-L6-v2 • Donut OCR
+                  <span className="font-semibold">Security:</span> AES-256 Encryption
                 </div>
               </div>
             </div>
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-[10px] text-slate-400 uppercase tracking-widest">
-              <span>Aura Talent • Malta 2026 • All rights reserved</span>
-              <span>Compliance-ready. Gemini-assisted. Built for scale.</span>
+              <span>Careers.mt • Malta • All rights reserved</span>
+              <span>Compliance-ready. Built for scale.</span>
             </div>
           </div>
           </footer>

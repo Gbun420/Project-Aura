@@ -35,7 +35,7 @@ export default function Sidebar({ role }: { role: Role }) {
   const base = `/portal/${role}`;
 
   const navItems = [
-    { label: 'Neural Dashboard', icon: Brain, path: base },
+    { label: 'Dashboard', icon: Brain, path: base },
     { label: 'Compliance Center', icon: Shield, path: `${base}/compliance`, badge: role === 'admin' ? '3' : undefined },
     { label: 'Notifications', icon: Bell, path: `${base}/notifications`, badge: '12' },
     { label: 'Profile', icon: User, path: `${base}/profile` },
@@ -60,7 +60,7 @@ export default function Sidebar({ role }: { role: Role }) {
             <Logo size={42} className="relative z-10 drop-shadow-[0_0_10px_rgba(79,70,229,0.5)] text-white" />
           </div>
           <div>
-            <p className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500">Aura</p>
+            <p className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500">Careers.mt</p>
             <p className="text-xs font-black text-white uppercase tracking-widest">{currentPortal.label}</p>
           </div>
         </div>
@@ -79,18 +79,17 @@ export default function Sidebar({ role }: { role: Role }) {
         ))}
       </nav>
 
-      {/* Neural Status */}
+      {/* System Status */}
       <div className="p-6 mt-auto border-t border-white/5">
-        <div className="p-5 bg-gradient-to-br from-blue-500/5 to-purple-500/5 rounded-[2rem] border border-white/5">
+        <div className="p-5 bg-gradient-to-br from-blue-500/5 to-blue-400/5 rounded-[2rem] border border-white/5">
           <div className="flex items-center gap-2 text-xs">
-            <Brain size={16} className="text-blue-400" />
-            <span className="font-black text-white uppercase tracking-widest">Neural Suite</span>
+            <span className="font-black text-white uppercase tracking-widest">System Status</span>
             <span className="ml-auto text-[9px] bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded border border-emerald-500/30 font-mono">
-              ACTIVE
+              ONLINE
             </span>
           </div>
           <p className="text-[10px] text-slate-500 mt-3 leading-relaxed font-mono uppercase tracking-tighter">
-            Matching: 98%_ACCURACY_SCORE
+            Platform operational
           </p>
         </div>
       </div>

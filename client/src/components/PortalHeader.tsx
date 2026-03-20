@@ -3,8 +3,8 @@ import { useAuth } from '../hooks/useAuth';
 import type { Role } from '../types/aura.js';
 
 const ROLE_LABEL: Record<Role, string> = {
-  admin: 'Aura Command Center',
-  employer: 'Aura Hiring Suite',
+  admin: 'Careers.mt Admin',
+  employer: 'Careers.mt Employer',
   candidate: 'Candidate Profile',
 };
 
@@ -17,8 +17,8 @@ export default function PortalHeader({ role }: { role: Role }) {
         <div className="hidden lg:flex items-center gap-2 rounded-2xl border border-white/5 bg-white/5 px-4 py-2 text-sm text-slate-300 w-80 focus-within:border-blue-500/30 transition-all group">
           <Search size={14} className="text-slate-500 group-focus-within:text-blue-400" />
           <input
-            placeholder="Neural search system..."
-            aria-label="Neural search system"
+            placeholder="Search platform..."
+            aria-label="Search platform"
             className="bg-transparent outline-none placeholder:text-slate-600 text-xs font-mono uppercase tracking-widest w-full"
           />
         </div>
@@ -40,7 +40,7 @@ export default function PortalHeader({ role }: { role: Role }) {
         <div className="flex items-center gap-4">
           <div className="text-right hidden sm:block">
             <p className="text-[10px] font-black text-white uppercase tracking-widest">
-              {user?.email?.split('@')[0] || 'Aura User'}
+              {user?.email?.split('@')[0] || 'User'}
             </p>
             <p className="text-[9px] font-mono text-slate-500 uppercase tracking-tighter">
               {ROLE_LABEL[role]}
@@ -51,7 +51,7 @@ export default function PortalHeader({ role }: { role: Role }) {
             <button 
               title="User profile menu"
               aria-label="User profile menu"
-              className="h-10 w-10 rounded-2xl border border-white/10 bg-gradient-to-br from-[#4285F4] via-[#9B72CB] to-[#D96570] p-[1px] hover:scale-110 transition-transform"
+              className="h-10 w-10 rounded-2xl border border-white/10 bg-blue-500 p-[1px] hover:scale-110 transition-transform"
             >
               <div className="h-full w-full rounded-2xl bg-[#050505] flex items-center justify-center">
                 <User size={18} className="text-white" />
