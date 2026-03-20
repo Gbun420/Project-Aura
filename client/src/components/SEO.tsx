@@ -17,13 +17,13 @@ interface SEOProps {
 const SEO = ({
   title,
   description = "The intelligent talent network for Malta. Discover the future of hiring with Nova.",
-  canonical = "https://project-nova-one.vercel.app/",
+  canonical = "https://talentvault-446214.web.app/",
   ogTitle,
   ogDescription,
-  ogImage = "https://project-nova-one.vercel.app/og-image.png",
+  ogImage = "https://talentvault-446214.web.app/og-image.png",
   twitterTitle,
   twitterDescription,
-  twitterImage = "https://project-nova-one.vercel.app/og-image.png",
+  twitterImage = "https://talentvault-446214.web.app/og-image.png",
   jsonLd,
   noindex = false,
 }: SEOProps) => {
