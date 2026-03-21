@@ -66,7 +66,7 @@ export default function EmployerApplicants() {
     navigate('/portal/employer/pricing');
   };
 
-  const loadApplicants = async (jobId: string) => {
+  const loadApplicants = useCallback(async (jobId: string) => {
     if (!user) return;
     setLoading(true);
     setError(null);
@@ -108,7 +108,7 @@ export default function EmployerApplicants() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [user]);
 
   useEffect(() => {
     const loadVacancies = async () => {
@@ -148,7 +148,7 @@ export default function EmployerApplicants() {
       }
     };
     loadVacancies();
-  }, [user]);
+  }, [user, loadApplicants]);
 
   const handleHire = async (app: Applicant) => {
     const salary = prompt("Enter Final Agreed Salary (€) for Ledger Sync:", "45000");
