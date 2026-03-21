@@ -3,12 +3,18 @@ import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, sendPasswordResetEmail } from 'firebase/auth';
 import { auth } from '../../lib/firebase';
 import { useAuth } from '../../hooks/useAuth';
+import { env } from '../../config/env';
 import { Logo } from '../../components/Logo';
 
 export default function Login() {
   const { user, role } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
+
+  // Logging Firebase Context for debugging
+  if (env.isDev) {
+    console.log("[NOVA_DEBUG] Authentication target project:", env.firebase.projectId);
+  }
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
