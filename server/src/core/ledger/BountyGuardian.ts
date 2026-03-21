@@ -13,23 +13,32 @@ export class BountyGuardian {
   /**
    * Logs a high-integrity handshake in the introduction ledger.
    */
-  static async logHandshake(db: any, employerId: string, candidateId: string) {
+  static async logHandshake(db: any, employerId: string, candidateId: string, finalSalary?: string | number) {
     const timestamp = Date.now().toString();
     const firestore = admin.firestore();
     const signature = crypto.createHmac('sha256', this.dierSalt)
-                            .update(`${employerId}-${candidateId}-${timestamp}`)
+                            .update(`${employerId}-${candidateId}-${timestamp}-${finalSalary || ''}`)
                             .digest('hex');
 
-    await firestore.collection('introduction_ledger').doc(signature).set({
+    const ledgerData = {
       hash: signature,
       employerId: employerId,
       candidateId: candidateId,
+      finalSalary: finalSalary || null,
       notifiedAt: new Date().toISOString(),
-      feeStatus: 'LOCKED'
-    });
+      feeStatus: finalSalary ? 'RELEASED' : 'LOCKED',
+      created_at: new Date().toISOString() // Compatibility field
+    };
+
+    await firestore.collection('introduction_ledger').doc(signature).set(ledgerData);
 
     // Log to Immutable Audit Trail
-    await AuditTrailService.logEvent('HANDSHAKE', { employerId, candidateId, signature });
+    await AuditTrailService.logEvent(finalSalary ? 'RELEASE' : 'HANDSHAKE', { 
+      employerId, 
+      candidateId, 
+      signature,
+      finalSalary 
+    });
 
     return signature;
   }

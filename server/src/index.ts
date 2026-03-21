@@ -10,11 +10,7 @@ import crypto from 'crypto';
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
 // Import Nova Hardened Subsystems
-import { SovereignVault } from './core/security/Vault.js';
 import { BountyGuardian } from './core/ledger/BountyGuardian.js';
-import { ManifestGenerator } from './services/novaOS/ManifestGenerator.js';
-import { PulseAggregator } from './services/novaOS/PulseAggregator.js';
-import { AuditExportService } from './services/novaOS/AuditExportService.js';
 import { AuditTrailService } from './core/audit/AuditTrailService.js';
 import { attachPilot } from './core/communications/SuccessPilot.js';
 import { ShadowMonitor } from './workers/ShadowMonitor.js';
@@ -107,9 +103,10 @@ app.post('/api/billing/webhook', express.raw({ type: 'application/json' }), asyn
       }
     }
     res.status(200).json({ received: true });
-  } catch (err: any) {
-    console.error("WEBHOOK_ERR:", err.message);
-    res.status(400).send(`Webhook Error: ${err.message}`);
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : String(err);
+    console.error("WEBHOOK_ERR:", message);
+    res.status(400).send(`Webhook Error: ${message}`);
   }
 });
 
@@ -266,18 +263,24 @@ app.post('/api/hiring/hub', authGuard as any, async (req, res) => {
 
     if (action === "COMMIT_TO_LEDGER") {
       const appSnap = await firestore.collection("applications").doc(applicationId).get();
-      const successHash = crypto.createHash('sha256').update(`${applicationId}${finalSalary}${Date.now()}`).digest('hex');
-      await firestore.collection("introduction_ledger").add({
-        applicationId, employerId: auth.user?.id, candidateId: appSnap.data()?.candidate_id,
-        final_salary: finalSalary, success_hash: successHash, feeStatus: 'RELEASED',
-        created_at: new Date().toISOString()
+      if (!appSnap.exists) return res.status(404).json({ error: "APPLICATION_NOT_FOUND" });
+      const candidateId = appSnap.data()?.candidate_id;
+      
+      const signature = await BountyGuardian.logHandshake(firestore, auth.user?.id!, candidateId, finalSalary);
+      
+      // Update application status
+      await firestore.collection("applications").doc(applicationId).update({ 
+        status: 'HIRED', 
+        updated_at: new Date().toISOString() 
       });
-      return res.json({ status: 'COMMITTED', hash: successHash });
+      
+      return res.json({ status: 'COMMITTED', hash: signature });
     }
 
     res.status(400).json({ error: "INVALID_ACTION" });
-  } catch (err: any) {
-    res.status(500).json({ error: err.message });
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : "Internal Server Error";
+    res.status(500).json({ error: message });
   }
 });
 
@@ -327,8 +330,9 @@ app.post('/api/ai/neural', authGuard as any, async (req, res) => {
     }
 
     res.status(400).json({ error: "INVALID_ACTION" });
-  } catch (err: any) {
-    res.status(500).json({ error: err.message });
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : "Internal Server Error";
+    res.status(500).json({ error: message });
   }
 });
 
@@ -343,8 +347,9 @@ app.post('/api/compliance', authGuard as any, async (req, res) => {
       return res.json(snap.data());
     }
     res.status(400).json({ error: "INVALID_ACTION" });
-  } catch (err: any) {
-    res.status(500).json({ error: err.message });
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : "Internal Server Error";
+    res.status(500).json({ error: message });
   }
 });
 
@@ -373,9 +378,10 @@ app.post('/api/billing/create-checkout-session', authGuard as any, async (req, r
     } as Stripe.Checkout.SessionCreateParams);
 
     res.json({ url: session.url });
-  } catch (err: any) {
-    console.error("STRIPE_ERR:", err.message);
-    res.status(500).json({ error: err.message });
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : "Internal Server Error";
+    console.error("STRIPE_ERR:", message);
+    res.status(500).json({ error: message });
   }
 });
 
